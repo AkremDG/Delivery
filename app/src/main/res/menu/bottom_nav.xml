@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+     <item android:id="@+id/home"
+         android:title="Home"
+         android:icon="@drawable/filled_home_icon"/>
+
+     <item android:id="@+id/document"
+         android:title="Les missions"
+         android:icon="@drawable/empty_mission_icon"/>
+
+     <item android:id="@+id/buy"
+         android:title="Panier"
+         android:icon="@drawable/empty_panier_icon"/>
+
+     <item android:id="@+id/profile"
+         android:title="Profil"
+         android:icon="@drawable/empty_profile_icon"/>
+</menu>
