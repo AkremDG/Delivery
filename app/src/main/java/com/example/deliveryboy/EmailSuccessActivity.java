@@ -11,11 +11,10 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
-import org.w3c.dom.Text;
-
 public class EmailSuccessActivity extends AppCompatActivity {
  TextView redirect_Tv;
  MaterialButton return_auth_btn;
+ ImageView arrow_Iv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +30,8 @@ public class EmailSuccessActivity extends AppCompatActivity {
 
         redirect_Tv=findViewById(R.id.redirect_Tv);
         return_auth_btn=findViewById(R.id.return_auth_btn);
+                arrow_Iv=findViewById(R.id.arrow_Iv);
+
     }
 
     public void clickHandler(){
@@ -41,11 +42,17 @@ public class EmailSuccessActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        arrow_Iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),ResetPassword.class);
+                startActivity(intent);
+            }
+        });
         return_auth_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(EmailSuccessActivity.this,login.class);
+                Intent intent = new Intent(EmailSuccessActivity.this, activity_Splash_Login.class);
                 startActivity(intent);
             }
         });

@@ -1,14 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Menu.DocumentFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="DOCUMENZEZEZEZEZET" />
 
-</FrameLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/avatar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/user_Iv"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="22dp"
+        />
+    <TextView
+        android:id="@+id/bonjour_Tv"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bonjour !"
+        android:fontFamily="@font/exo"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/user_Iv"
+        app:layout_constraintTop_toTopOf="@id/user_Iv"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:textColor="@color/black"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:src="@drawable/loc_icon"
+        android:id="@+id/location_Iv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/user_Iv"
+        app:layout_constraintBottom_toBottomOf="@id/user_Iv"
+        android:layout_marginRight="22dp"/>
+    <TextView
+        android:id="@+id/type_user_Tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Livreur !"
+        android:fontFamily="@font/exo"
+        app:layout_constraintStart_toEndOf="@id/user_Iv"
+        app:layout_constraintTop_toBottomOf="@id/bonjour_Tv"
+        android:layout_marginLeft="5dp"
+        android:textColor="@color/input_text_color"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Liste des commandes"
+        app:layout_constraintTop_toBottomOf="@id/user_Iv"
+        android:fontFamily="@font/exo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="20dp"
+        android:textColor="@color/se_con_col"
+        android:textStyle="bold"
+        android:layout_marginTop="30dp"
+
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

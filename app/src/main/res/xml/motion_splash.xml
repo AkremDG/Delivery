@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:autoTransition="animateToEnd"
+        motion:constraintSetEnd="@layout/activity_login"
+        motion:constraintSetStart="@layout/activity_splash"
+        motion:duration="1500">
+
+        <KeyFrameSet>
+
+            <KeyAttribute
+                motion:motionTarget="@id/user_Iv"
+                android:alpha="1"
+                motion:framePosition="0" />
+
+            <KeyAttribute
+                motion:motionTarget="@id/user_Iv"
+                android:alpha="0"
+                motion:framePosition="40" />
+
+            <KeyAttribute
+                motion:motionTarget="@id/form_Ll"
+                android:alpha="1"
+                motion:framePosition="65" />
+
+        </KeyFrameSet>
+
+    </Transition>
+
+</MotionScene>

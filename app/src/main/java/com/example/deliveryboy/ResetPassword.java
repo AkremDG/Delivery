@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import com.google.android.material.button.MaterialButton;
 
 public class ResetPassword extends AppCompatActivity {
-    ImageView arrow_Iv;
 
     MaterialButton envoyer_email_btn;
     @Override
@@ -27,17 +26,10 @@ public class ResetPassword extends AppCompatActivity {
 
     public void bindViews(){
         envoyer_email_btn=findViewById(R.id.envoyer_email_btn);
-        arrow_Iv=findViewById(R.id.arrow_Iv);
     }
 
     public void clicksHandler(){
-        arrow_Iv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(ResetPassword.this,login.class);
-                startActivity(intent);
-            }
-        });
+
         envoyer_email_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
