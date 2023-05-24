@@ -1,31 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:scrollbars="none"
+    app:layoutDescription="@xml/motion_splash"
+
     tools:context=".activity_Splash_Login">
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        app:layoutDescription="@xml/motion_splash"
-        android:id="@+id/constraint"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
 
         <ImageView
             android:id="@+id/login_Iv"
             android:layout_width="0dp"
             android:layout_height="0dp"
-
             app:layout_constraintStart_toStartOf="@id/poweredby_login_txt"
-            android:layout_marginHorizontal="20dp"
             android:src="@drawable/app_logo"
             app:layout_constraintTop_toTopOf="@id/guideline_top"
-            android:elevation="20dp"
             app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
             app:layout_constraintEnd_toEndOf="@id/login_logo_digid"
             />
@@ -65,10 +59,10 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/login_Iv"
+            app:layout_constraintTop_toTopOf="parent"
             android:orientation="vertical"
-            app:layout_constraintVertical_bias="0.4"
-            app:layout_constraintBottom_toTopOf="@id/login_logo_digid"
+            app:layout_constraintVertical_bias="0.55"
+            app:layout_constraintBottom_toBottomOf="parent"
             >
             <TextView
                 android:id="@+id/seconecter_Tv"
@@ -198,7 +192,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.1"
+            app:layout_constraintGuide_percent="0.04"
             />
 
         <androidx.constraintlayout.widget.Guideline
@@ -215,6 +209,5 @@
 
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,19 +8,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.deliveryboy.Menu.BuyFragment;
-import com.example.deliveryboy.Menu.DocumentFragment;
-import com.example.deliveryboy.Menu.HomeFragment;
-import com.example.deliveryboy.Menu.ProfileFragment;
+import com.example.deliveryboy.Menu.CommandesFragment;
+import com.example.deliveryboy.Menu.ClientsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.android.material.navigation.NavigationView;
 
 public class BottomNagContainer extends AppCompatActivity {
-    HomeFragment homeFragment;
-    DocumentFragment documentFragment;
-    BuyFragment buyFragment;
-    ProfileFragment profileFragment;
+    CommandesFragment commandesFragment;
+    ClientsFragment clientsFragment;
 
    BottomNavigationView bottom_nav_view;
     @Override
@@ -37,6 +32,9 @@ public class BottomNagContainer extends AppCompatActivity {
         bindFragments();
 
 
+        commandesFragment = new CommandesFragment();
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, commandesFragment).commit();
 
         bottom_nav_view.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -47,43 +45,39 @@ public class BottomNagContainer extends AppCompatActivity {
                     MenuItem menuItem = menu.getItem(i);
                     if (menuItem.getItemId() != item.getItemId()) {
                         switch (menuItem.getItemId()) {
-                            case R.id.home:
-                                menuItem.setIcon(getResources().getDrawable(R.drawable.empty_home_icon));
-                                break;
-                            case R.id.document:
-                                menuItem.setIcon(getResources().getDrawable(R.drawable.empty_mission_icon));
-                                break;
-                            case R.id.buy:
+
+                            case R.id.cmds:
+
                                 menuItem.setIcon(getResources().getDrawable(R.drawable.empty_panier_icon));
                                 break;
-                            case R.id.profile:
-                                menuItem.setIcon(getResources().getDrawable(R.drawable.empty_profile_icon));
+
+                            case R.id.clients:
+
+                                menuItem.setIcon(getResources().getDrawable(R.drawable.filled_clients_icon));
                                 break;
                         }
                     }
                 }
 
                 switch (item.getItemId()) {
-                    case R.id.home:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
-                        item.setIcon(getResources().getDrawable(R.drawable.filled_home_icon));
-                        return true;
-                    case R.id.document:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, documentFragment).commit();
-                        item.setIcon(getResources().getDrawable(R.drawable.filled_document_icon));
-                        return true;
-                    case R.id.buy:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, buyFragment).commit();
+
+                    case R.id.cmds:
+                        commandesFragment = new CommandesFragment();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container, commandesFragment).commit();
                         item.setIcon(getResources().getDrawable(R.drawable.filled_buy_icon));
                         return true;
-                    case R.id.profile:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, profileFragment).commit();
+
+                    case R.id.clients:
+                        clientsFragment = new ClientsFragment();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container, clientsFragment).commit();
                         item.setIcon(getResources().getDrawable(R.drawable.filled_profile_icon));
                         return true;
+
                 }
                 return false;
             }
         });
+
 
     }
     public void bindViews(){
@@ -91,13 +85,9 @@ public class BottomNagContainer extends AppCompatActivity {
     }
     public void bindFragments(){
 
-         homeFragment = new HomeFragment();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
 
-         documentFragment = new DocumentFragment();
-         buyFragment = new BuyFragment();
-         profileFragment = new ProfileFragment();
+
     }
 
 }

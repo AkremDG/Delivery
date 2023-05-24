@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Menu.DocumentFragment">
+    tools:context=".Menu.CommandesFragment">
 
 
     <ImageView
@@ -14,7 +14,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/user_Iv"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="22dp"
         />
     <TextView
@@ -37,9 +37,10 @@
         android:src="@drawable/loc_icon"
         android:id="@+id/location_Iv"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/user_Iv"
-        app:layout_constraintBottom_toBottomOf="@id/user_Iv"
-        android:layout_marginRight="22dp"/>
+        app:layout_constraintTop_toTopOf="@id/bonjour_Tv"
+        app:layout_constraintBottom_toBottomOf="@id/type_user_Tv"
+        android:layout_marginRight="22dp"
+        android:layout_marginVertical="5dp"/>
     <TextView
         android:id="@+id/type_user_Tv"
         android:layout_width="wrap_content"
@@ -52,6 +53,7 @@
         android:textColor="@color/input_text_color"/>
 
     <TextView
+        android:id="@+id/listeCmd_Tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Liste des commandes"
@@ -63,8 +65,55 @@
         android:textColor="@color/se_con_col"
         android:textStyle="bold"
         android:layout_marginTop="30dp"
-
         />
+
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/cmds_Tl"
+        android:layout_marginTop="18dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabSelectedTextColor="@color/orange_btn_color"
+        app:tabTextColor="@color/black"
+        app:tabIndicatorColor="#F8981D"
+        app:layout_constraintTop_toBottomOf="@+id/listeCmd_Tv"
+>
+
+        <com.google.android.material.tabs.TabItem
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tous(10)"/>
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Livrés(4)"/>
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A traiter(4)"/>
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Non Livrés(2)"/>
+
+
+
+
+
+    </com.google.android.material.tabs.TabLayout>
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/cmdsVp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cmds_Tl"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
