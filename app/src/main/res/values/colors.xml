@@ -15,6 +15,10 @@
     <color name="orange_btn_color">#F8981D</color>
     <color name="blue_reset_password">#218EE8</color>
     <color name="grid_color">#3BF8981D</color>
-    <color name="card_txt_color">#A3282F39</color>F7501E
+    <color name="card_txt_color">#A3282F39</color>
     <color name="error_red">#F7501E</color>
+    <color name="start_icon_color">#FF282F39</color>
+    <color name="background_rv_item">#F3F3F3</color>
+    <color name="search_bg_color">#FEF0DD</color>
+
 </resources>

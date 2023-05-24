@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:motion="http://schemas.android.com/apk/res-auto">
-
     <Transition
         motion:autoTransition="animateToEnd"
         motion:constraintSetEnd="@layout/activity_login"
         motion:constraintSetStart="@layout/activity_splash"
         motion:duration="2500">
-
         <KeyFrameSet>
-
 
             <KeyPosition
                 motion:framePosition="75"
@@ -17,6 +14,24 @@
                 motion:motionTarget="@+id/login_Iv"
                 motion:percentX="0"
                 motion:percentY="0" />
+
+            <KeyAttribute
+                motion:motionTarget="@+id/login_logo_digid"
+                android:alpha="1"
+                motion:framePosition="85"/>
+            <KeyAttribute
+                motion:motionTarget="@+id/login_logo_digid"
+                android:alpha="0"
+                motion:framePosition="85"/>
+
+            <KeyAttribute
+                motion:motionTarget="@+id/poweredby_login_txt"
+                android:alpha="1"
+                motion:framePosition="85"/>
+            <KeyAttribute
+                motion:motionTarget="@+id/poweredby_login_txt"
+                android:alpha="0"
+                motion:framePosition="85"/>
 
             <KeyAttribute
                 motion:motionTarget="@+id/form_Ll"
@@ -27,10 +42,6 @@
                 android:alpha="0"
                 motion:framePosition="85"/>
 
-
-
-
         </KeyFrameSet>
-
     </Transition>
 </MotionScene>

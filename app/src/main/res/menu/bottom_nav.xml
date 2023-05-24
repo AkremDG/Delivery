@@ -4,9 +4,9 @@
 
 
 
-     <item android:id="@+id/cmds"
-         android:title="Les commandes"
-         android:icon="@drawable/empty_panier_icon"/>
+     <item android:id="@+id/Missions"
+         android:title="Les Missions"
+         android:icon="@drawable/empty_missions_icon"/>
 
      <item android:id="@+id/clients"
          android:title="Les clients"

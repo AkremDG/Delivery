@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:layout_margin="5dp"
+    android:background="@drawable/bg_rv_item"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/Uuser_name_visite_Tv"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Foulen Ben Foulen"
+        android:fontFamily="@font/exo"
+        android:textStyle="bold"
+        android:textColor="@color/se_con_col"
+        android:textSize="20sp"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/zone_items_icon"
+        app:layout_constraintEnd_toStartOf="@+id/zone_Tv"
+        app:layout_constraintBottom_toBottomOf="@id/zone_Tv"
+        app:layout_constraintTop_toTopOf="@+id/zone_Tv"
+        android:layout_marginRight="10dp"
+        app:layout_constraintVertical_bias="0.6"/>
+
+
+
+    <TextView
+        android:id="@+id/type_visite_Tv"
+        app:layout_constraintTop_toBottomOf="@+id/Uuser_name_visite_Tv"
+        android:layout_marginLeft="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Visite de réactiviation"
+        android:fontFamily="@font/exo"
+
+        android:textColor="@color/se_con_col"
+        />
+
+
+
+
+
+
+
+    <TextView
+        android:id="@+id/zone_Tv"
+        app:layout_constraintBottom_toBottomOf="@id/type_visite_Tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Zone A"
+        android:layout_marginRight="5dp"
+        android:fontFamily="@font/exo"
+        android:textColor="@color/blue_reset_password"
+        android:textSize="20sp"
+
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

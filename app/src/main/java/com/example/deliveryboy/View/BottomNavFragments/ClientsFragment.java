@@ -1,4 +1,4 @@
-package com.example.deliveryboy.MenuCommandes;
+package com.example.deliveryboy.View.BottomNavFragments;
 
 import android.os.Bundle;
 
@@ -12,10 +12,10 @@ import com.example.deliveryboy.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link AtraiterFragment#newInstance} factory method to
+ * Use the {@link ClientsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AtraiterFragment extends Fragment {
+public class ClientsFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class AtraiterFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public AtraiterFragment() {
+    public ClientsFragment() {
         // Required empty public constructor
     }
 
@@ -36,11 +36,11 @@ public class AtraiterFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment AlivresFragment.
+     * @return A new instance of fragment ProfileFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AtraiterFragment newInstance(String param1, String param2) {
-        AtraiterFragment fragment = new AtraiterFragment();
+    public static ClientsFragment newInstance(String param1, String param2) {
+        ClientsFragment fragment = new ClientsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class AtraiterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_alivres, container, false);
+        return inflater.inflate(R.layout.fragment_clients, container, false);
     }
 }

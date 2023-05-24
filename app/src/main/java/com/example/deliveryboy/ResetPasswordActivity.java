@@ -6,11 +6,10 @@ import androidx.core.content.ContextCompat;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.google.android.material.button.MaterialButton;
 
-public class ResetPassword extends AppCompatActivity {
+public class ResetPasswordActivity extends AppCompatActivity {
 
     MaterialButton envoyer_email_btn;
     @Override
@@ -19,7 +18,7 @@ public class ResetPassword extends AppCompatActivity {
         setContentView(R.layout.activity_reset_password);
 
         //White status bar
-        getWindow().setStatusBarColor(ContextCompat.getColor(ResetPassword.this,R.color.white));
+        getWindow().setStatusBarColor(ContextCompat.getColor(ResetPasswordActivity.this,R.color.white));
         bindViews();
         clicksHandler();
     }
@@ -33,7 +32,7 @@ public class ResetPassword extends AppCompatActivity {
         envoyer_email_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(ResetPassword.this,EmailSuccessActivity.class);
+                Intent intent=new Intent(ResetPasswordActivity.this,EmailSuccessActivity.class);
                 startActivity(intent);
             }
         });

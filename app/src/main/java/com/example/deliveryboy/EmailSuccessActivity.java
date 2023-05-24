@@ -38,21 +38,21 @@ public class EmailSuccessActivity extends AppCompatActivity {
         redirect_Tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(EmailSuccessActivity.this,ResetPassword.class);
+                Intent intent = new Intent(EmailSuccessActivity.this, ResetPasswordActivity.class);
                 startActivity(intent);
             }
         });
         arrow_Iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),ResetPassword.class);
+                Intent intent = new Intent(getApplicationContext(), ResetPasswordActivity.class);
                 startActivity(intent);
             }
         });
         return_auth_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(EmailSuccessActivity.this, activity_Splash_Login.class);
+                Intent intent = new Intent(EmailSuccessActivity.this, SplashLoginActivity.class);
                 startActivity(intent);
             }
         });

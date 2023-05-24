@@ -1,4 +1,4 @@
-package com.example.deliveryboy.MenuCommandes;
+package com.example.deliveryboy.View.MissionsFragment;
 
 import android.os.Bundle;
 
@@ -12,10 +12,10 @@ import com.example.deliveryboy.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link TousFragment#newInstance} factory method to
+ * Use the {@link GrossisteFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TousFragment extends Fragment {
+public class GrossisteFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class TousFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public TousFragment() {
+    public GrossisteFragment() {
         // Required empty public constructor
     }
 
@@ -36,11 +36,11 @@ public class TousFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment TousFragment.
+     * @return A new instance of fragment NonLivresFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TousFragment newInstance(String param1, String param2) {
-        TousFragment fragment = new TousFragment();
+    public static GrossisteFragment newInstance(String param1, String param2) {
+        GrossisteFragment fragment = new GrossisteFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class TousFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tous, container, false);
+        return inflater.inflate(R.layout.fragment_non_livres, container, false);
     }
 }

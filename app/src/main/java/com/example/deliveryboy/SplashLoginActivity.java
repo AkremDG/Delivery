@@ -7,6 +7,8 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -15,8 +17,11 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 
-public class activity_Splash_Login extends AppCompatActivity {
+public class SplashLoginActivity extends AppCompatActivity {
+    boolean res=false;
+
     ConstraintLayout constraint;
+
    TextView mdp_oublie_Tv;
    MaterialButton connect_btn;
    ImageView login_Iv;
@@ -28,7 +33,7 @@ public class activity_Splash_Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_login);
-        getWindow().setStatusBarColor(ContextCompat.getColor(activity_Splash_Login.this,R.color.white));
+        getWindow().setStatusBarColor(ContextCompat.getColor(SplashLoginActivity.this,R.color.white));
         bindViews();
         clicksHandler();
     }
@@ -54,25 +59,27 @@ public class activity_Splash_Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent=new Intent(activity_Splash_Login.this,ResetPassword.class);
+                Intent intent=new Intent(SplashLoginActivity.this, ResetPasswordActivity.class);
                 startActivity(intent);
             }
         });
+
         connect_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!isEmptyInputs())
                 {
-                    Intent intent=new Intent(activity_Splash_Login.this,BottomNagContainer.class);
+                    Intent intent=new Intent(SplashLoginActivity.this, BottomNagContainerActivity.class);
                     startActivity(intent);
                 }
 
             }
         });
+
     }
 
     public Boolean isEmptyInputs(){
-        boolean res=false;
+
         if(username_Til.getEditText().getText().toString().isEmpty()){
             username_Til.setError("Vérifier votre téléphone");
             username_Til.setStartIconTintList(getResources().getColorStateList(R.color.error_red));
@@ -83,9 +90,64 @@ public class activity_Splash_Login extends AppCompatActivity {
             password_Til.setStartIconTintList(getResources().getColorStateList(R.color.error_red));
             res=true;
         }
+
+        username_Et.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!username_Et.getText().toString().isEmpty()){
+                    username_Til.setError(null);
+                    username_Til.setStartIconTintList(getResources().getColorStateList(R.color.start_icon_color));
+                    res=false;
+
+                }else
+                {
+                    username_Til.setError("Vérifier votre téléphone");
+                    username_Til.setStartIconTintList(getResources().getColorStateList(R.color.error_red));
+                    res=true;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+        password_Et.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!password_Et.getText().toString().isEmpty()){
+                    password_Til.setError(null);
+                    password_Til.setStartIconTintList(getResources().getColorStateList(R.color.start_icon_color));
+                    res=false;
+
+                }else
+                {
+                    password_Til.setError("Vérifier votre téléphone");
+                    password_Til.setStartIconTintList(getResources().getColorStateList(R.color.error_red));
+                    res=true;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         return res;
     }
-
     }
 
 

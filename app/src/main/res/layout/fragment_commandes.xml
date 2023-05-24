@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Menu.CommandesFragment">
+    tools:context=".View.BottomNavFragments.MissionsFragment">
 
 
     <ImageView
@@ -45,7 +45,7 @@
         android:id="@+id/type_user_Tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Livreur !"
+        android:text="Commercial"
         android:fontFamily="@font/exo"
         app:layout_constraintStart_toEndOf="@id/user_Iv"
         app:layout_constraintTop_toBottomOf="@id/bonjour_Tv"
@@ -56,7 +56,7 @@
         android:id="@+id/listeCmd_Tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Liste des commandes"
+        android:text="Liste des missions des visite"
         app:layout_constraintTop_toBottomOf="@id/user_Iv"
         android:fontFamily="@font/exo"
         app:layout_constraintStart_toStartOf="parent"
@@ -77,30 +77,21 @@
         app:tabSelectedTextColor="@color/orange_btn_color"
         app:tabTextColor="@color/black"
         app:tabIndicatorColor="#F8981D"
-        app:layout_constraintTop_toBottomOf="@+id/listeCmd_Tv"
->
+        app:layout_constraintTop_toBottomOf="@+id/listeCmd_Tv">
+
 
         <com.google.android.material.tabs.TabItem
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tous(10)"/>
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Livrés(4)"/>
+            android:text="Grossistes(4)"/>
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="A traiter(4)"/>
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Non Livrés(2)"/>
-
-
-
-
+            android:text="Détaillants(4)"/>
 
     </com.google.android.material.tabs.TabLayout>
 
@@ -113,6 +104,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cmds_Tl"
         app:layout_constraintBottom_toBottomOf="parent"/>
+
 
 
 

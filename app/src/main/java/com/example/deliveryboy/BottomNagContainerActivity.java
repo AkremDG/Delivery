@@ -8,13 +8,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.deliveryboy.Menu.CommandesFragment;
-import com.example.deliveryboy.Menu.ClientsFragment;
+import com.example.deliveryboy.View.BottomNavFragments.MissionsFragment;
+import com.example.deliveryboy.View.BottomNavFragments.ClientsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-public class BottomNagContainer extends AppCompatActivity {
-    CommandesFragment commandesFragment;
+public class BottomNagContainerActivity extends AppCompatActivity {
+    MissionsFragment missionsFragment;
     ClientsFragment clientsFragment;
 
    BottomNavigationView bottom_nav_view;
@@ -26,15 +26,15 @@ public class BottomNagContainer extends AppCompatActivity {
 
 
         //White status bar
-        getWindow().setStatusBarColor(ContextCompat.getColor(BottomNagContainer.this,R.color.white));
+        getWindow().setStatusBarColor(ContextCompat.getColor(BottomNagContainerActivity.this,R.color.white));
 
         bindViews();
         bindFragments();
 
 
-        commandesFragment = new CommandesFragment();
+        missionsFragment = new MissionsFragment();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, commandesFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, missionsFragment).commit();
 
         bottom_nav_view.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -46,14 +46,13 @@ public class BottomNagContainer extends AppCompatActivity {
                     if (menuItem.getItemId() != item.getItemId()) {
                         switch (menuItem.getItemId()) {
 
-                            case R.id.cmds:
-
+                            case R.id.Missions:
                                 menuItem.setIcon(getResources().getDrawable(R.drawable.empty_panier_icon));
                                 break;
 
                             case R.id.clients:
 
-                                menuItem.setIcon(getResources().getDrawable(R.drawable.filled_clients_icon));
+                                menuItem.setIcon(getResources().getDrawable(R.drawable.empty_clients_icon));
                                 break;
                         }
                     }
@@ -61,16 +60,16 @@ public class BottomNagContainer extends AppCompatActivity {
 
                 switch (item.getItemId()) {
 
-                    case R.id.cmds:
-                        commandesFragment = new CommandesFragment();
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, commandesFragment).commit();
-                        item.setIcon(getResources().getDrawable(R.drawable.filled_buy_icon));
+                    case R.id.Missions:
+                        missionsFragment = new MissionsFragment();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container, missionsFragment).commit();
+                        item.setIcon(getResources().getDrawable(R.drawable.filled_missions_icon));
                         return true;
 
                     case R.id.clients:
                         clientsFragment = new ClientsFragment();
                         getSupportFragmentManager().beginTransaction().replace(R.id.container, clientsFragment).commit();
-                        item.setIcon(getResources().getDrawable(R.drawable.filled_profile_icon));
+                        item.setIcon(getResources().getDrawable(R.drawable.filled_clients_icon));
                         return true;
 
                 }

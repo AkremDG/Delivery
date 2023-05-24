@@ -1,4 +1,4 @@
-package com.example.deliveryboy.Menu;
+package com.example.deliveryboy.View.BottomNavFragments;
 
 import android.os.Bundle;
 
@@ -9,16 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.deliveryboy.Adapters.CmdsVpAdapter;
+import com.example.deliveryboy.Adapters.MissionsVpAdapter;
 import com.example.deliveryboy.R;
 import com.google.android.material.tabs.TabLayout;
 
 
-public class CommandesFragment extends Fragment {
+public class MissionsFragment extends Fragment {
 
     TabLayout tabLayout;
     ViewPager2 viewPager2;
-    CmdsVpAdapter cmdsVpAdapter;
+    MissionsVpAdapter missionsVpAdapter;
     View view;
 
     @Override
@@ -28,8 +28,8 @@ public class CommandesFragment extends Fragment {
 
         bindViews();
 
-        cmdsVpAdapter = new CmdsVpAdapter(CommandesFragment.this);
-        viewPager2.setAdapter(cmdsVpAdapter);
+        missionsVpAdapter = new MissionsVpAdapter(MissionsFragment.this);
+        viewPager2.setAdapter(missionsVpAdapter);
 
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
