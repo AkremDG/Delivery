@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.deliveryboy.Model.Produit;
-import com.example.deliveryboy.Model.Visite;
 import com.example.deliveryboy.R;
 
 import java.util.List;
@@ -19,11 +18,14 @@ import java.util.List;
 public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.ProduitVh> {
     Context context;
     List<Produit> produitList;
+    private final RvInterface rvInterface;
 
 
-    public ProduitRvAdapter(Context context, List<Produit> produitList) {
+
+    public ProduitRvAdapter(Context context, List<Produit> produitList, RvInterface rvInterface) {
         this.context = context;
         this.produitList = produitList;
+        this.rvInterface = rvInterface;
     }
 
     @NonNull
@@ -32,7 +34,7 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
         LayoutInflater inflater = LayoutInflater.from(this.context);
         View view = inflater.inflate(R.layout.produit_rv_item,parent,false);
 
-        return new ProduitRvAdapter.ProduitVh(view);
+        return new ProduitRvAdapter.ProduitVh(view,this.rvInterface);
     }
 
     @Override
@@ -50,10 +52,12 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
     }
 
     public static class ProduitVh extends RecyclerView.ViewHolder {
+        Context context;
         ImageView produit_Iv,moins_Iv,plus_Iv;
         TextView pack_Tv,qte_surSomme_Tv,nomProduit_Tv,promotion_Tv,prix_Tv,qte_Tv;
+        int i =0;
 
-        public ProduitVh(@NonNull View itemView) {
+        public ProduitVh(@NonNull View itemView, RvInterface rvInterface) {
             super(itemView);
             produit_Iv=itemView.findViewById(R.id.produit_Iv);
             moins_Iv=itemView.findViewById(R.id.moins_Iv);
@@ -64,7 +68,38 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
             promotion_Tv=itemView.findViewById(R.id.promotion_Tv);
             prix_Tv=itemView.findViewById(R.id.prix_Tv);
             qte_Tv=itemView.findViewById(R.id.qte_Tv);
+            this.context=context;
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(rvInterface != null){
+                        int pos= getAdapterPosition();
+                        if(pos!=RecyclerView.NO_POSITION){
+                            rvInterface.onItemClick(pos);
+                        }
+                    }
+                }
+            });
 
+            plus_Iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    i++;
+                    qte_Tv.setText(String.valueOf(i));
+                }
+            });
+
+            moins_Iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    i--;
+                    qte_Tv.setText(String.valueOf(i));
+                    if(i<1){
+                        i=0;
+                        qte_Tv.setText("0");
+                    }
+                }
+            });
         }
     }
 

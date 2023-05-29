@@ -6,13 +6,23 @@ public class Produit {
     private double prixProduit;
     private int quantiteProduit;
     private String typePromotion;
+    private Boolean dispProduit;
 
-    public Produit(int imageProduit, String nomProduit, double prixProduit, int quantiteProduit, String typePromotoin) {
+    public Produit(int imageProduit, String nomProduit, double prixProduit, int quantiteProduit, String typePromotoin, Boolean dispProduit) {
         this.imageProduit = imageProduit;
         this.nomProduit = nomProduit;
         this.prixProduit = prixProduit;
         this.quantiteProduit = quantiteProduit;
         this.typePromotion = typePromotoin;
+        this.dispProduit=dispProduit;
+    }
+
+    public Boolean getDispProduit() {
+        return dispProduit;
+    }
+
+    public void setDispProduit(Boolean dispProduit) {
+        this.dispProduit = dispProduit;
     }
 
     public int getImageProduit() {

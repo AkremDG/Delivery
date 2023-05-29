@@ -87,7 +87,6 @@
         android:focusable="false"
 
         app:layout_constraintTop_toBottomOf="@+id/typeCmd_Rv"
-
         app:iconifiedByDefault="false"/>
 
 
