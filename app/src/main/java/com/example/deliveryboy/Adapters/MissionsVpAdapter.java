@@ -14,6 +14,7 @@ public class MissionsVpAdapter extends FragmentStateAdapter {
 
     public MissionsVpAdapter(@NonNull MissionsFragment fragmentActivity) {
         super(fragmentActivity);
+
     }
 
     @NonNull

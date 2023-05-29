@@ -8,8 +8,8 @@
          android:title="Les Missions"
          android:icon="@drawable/empty_missions_icon"/>
 
-     <item android:id="@+id/clients"
-         android:title="Les clients"
-         android:icon="@drawable/clients_icon"/>
+     <item android:id="@+id/historique"
+         android:title="L'historique"
+         android:icon="@drawable/empty_historique_icon"/>
 
 </menu>

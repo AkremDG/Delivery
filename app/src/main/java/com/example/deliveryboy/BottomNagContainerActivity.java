@@ -9,13 +9,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.deliveryboy.View.BottomNavFragments.MissionsFragment;
-import com.example.deliveryboy.View.BottomNavFragments.ClientsFragment;
+import com.example.deliveryboy.View.BottomNavFragments.HistoriqueFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class BottomNagContainerActivity extends AppCompatActivity {
     MissionsFragment missionsFragment;
-    ClientsFragment clientsFragment;
+    HistoriqueFragment historiqueFragment;
 
    BottomNavigationView bottom_nav_view;
     @Override
@@ -47,12 +47,12 @@ public class BottomNagContainerActivity extends AppCompatActivity {
                         switch (menuItem.getItemId()) {
 
                             case R.id.Missions:
-                                menuItem.setIcon(getResources().getDrawable(R.drawable.empty_panier_icon));
+                                menuItem.setIcon(getResources().getDrawable(R.drawable.empty_mission_icon));
                                 break;
 
-                            case R.id.clients:
+                            case R.id.historique:
 
-                                menuItem.setIcon(getResources().getDrawable(R.drawable.empty_clients_icon));
+                                menuItem.setIcon(getResources().getDrawable(R.drawable.empty_historique_icon));
                                 break;
                         }
                     }
@@ -66,10 +66,10 @@ public class BottomNagContainerActivity extends AppCompatActivity {
                         item.setIcon(getResources().getDrawable(R.drawable.filled_missions_icon));
                         return true;
 
-                    case R.id.clients:
-                        clientsFragment = new ClientsFragment();
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, clientsFragment).commit();
-                        item.setIcon(getResources().getDrawable(R.drawable.filled_clients_icon));
+                    case R.id.historique:
+                        historiqueFragment = new HistoriqueFragment();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container, historiqueFragment).commit();
+                        item.setIcon(getResources().getDrawable(R.drawable.filled_historique_icon));
                         return true;
 
                 }

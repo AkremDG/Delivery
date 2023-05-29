@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="10dp">
+
+    <ImageView
+
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/soda_img"
+        android:id="@+id/typeCmd_Iv"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/type_Tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Liquides"
+        app:layout_constraintTop_toBottomOf="@+id/typeCmd_Iv"
+        app:layout_constraintEnd_toEndOf="@+id/typeCmd_Iv"
+        app:layout_constraintStart_toStartOf="@id/typeCmd_Iv"
+        android:layout_marginRight="10dp"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
