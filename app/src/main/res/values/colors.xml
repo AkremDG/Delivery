@@ -20,5 +20,5 @@
     <color name="start_icon_color">#FF282F39</color>
     <color name="background_rv_item">#F3F3F3</color>
     <color name="search_bg_color">#FEF0DD</color>
-
+    <color name="green">#49968C</color>
 </resources>

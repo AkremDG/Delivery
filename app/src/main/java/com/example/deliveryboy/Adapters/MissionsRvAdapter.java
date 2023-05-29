@@ -64,11 +64,9 @@ public class MissionsRvAdapter extends RecyclerView.Adapter<MissionsRvAdapter.Co
 
     @Override
     public void onBindViewHolder(@NonNull CommandesVh holder, int position) {
-
         holder.Uuser_name_visite_Tv.setText(visiteList.get(position).getUser().getNameUser());
         holder.type_visite_Tv.setText(visiteList.get(position).getTypeVisite());
         holder.zone_Tv.setText(String.valueOf(visiteList.get(position).getZone()));
-
     }
 
     @Override

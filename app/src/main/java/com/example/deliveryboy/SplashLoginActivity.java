@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,6 +37,10 @@ public class SplashLoginActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(ContextCompat.getColor(SplashLoginActivity.this,R.color.white));
         bindViews();
         clicksHandler();
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
+
     }
     public void bindViews()
     {
