@@ -3,32 +3,27 @@ package com.example.deliveryboy.View.MissionsFragment;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.deliveryboy.Adapters.MissionsRvAdapter;
 import com.example.deliveryboy.Adapters.RvInterface;
-import com.example.deliveryboy.Model.Commande;
+import com.example.deliveryboy.Model.Produit;
 import com.example.deliveryboy.Model.User;
 import com.example.deliveryboy.Model.Visite;
-import com.example.deliveryboy.PassCommandeActivity;
+import com.example.deliveryboy.View.PassCommandeActivity;
 import com.example.deliveryboy.R;
 
 import java.util.ArrayList;
@@ -130,4 +125,6 @@ public class TousFragment extends Fragment implements RvInterface {
 
 
     }
+
+
 }

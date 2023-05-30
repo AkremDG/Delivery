@@ -1,4 +1,4 @@
-package com.example.deliveryboy;
+package com.example.deliveryboy.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.deliveryboy.R;
 import com.example.deliveryboy.View.BottomNavFragments.MissionsFragment;
 import com.example.deliveryboy.View.BottomNavFragments.HistoriqueFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;

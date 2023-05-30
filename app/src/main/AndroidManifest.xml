@@ -12,19 +12,22 @@
         android:theme="@style/Theme.DELIVERYBOY"
         tools:targetApi="31">
         <activity
-            android:name=".PassCommandeActivity"
+            android:name=".View.PanierActivity"
             android:exported="false" />
         <activity
-            android:name=".BottomNagContainerActivity"
+            android:name=".View.PassCommandeActivity"
             android:exported="false" />
         <activity
-            android:name=".EmailSuccessActivity"
+            android:name=".View.BottomNagContainerActivity"
             android:exported="false" />
         <activity
-            android:name=".ResetPasswordActivity"
+            android:name=".View.EmailSuccessActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashLoginActivity"
+            android:name=".View.ResetPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".View.SplashLoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,6 +1,8 @@
 package com.example.deliveryboy.Model;
 
-public class Produit {
+import java.io.Serializable;
+
+public class Produit implements Serializable {
     private int imageProduit;
     private String nomProduit;
     private double prixProduit;
@@ -8,13 +10,26 @@ public class Produit {
     private String typePromotion;
     private Boolean dispProduit;
 
-    public Produit(int imageProduit, String nomProduit, double prixProduit, int quantiteProduit, String typePromotoin, Boolean dispProduit) {
+    private double totalPrix;
+
+
+    public Produit(int imageProduit, String nomProduit, double prixProduit, int quantiteProduit, String typePromotoin, Boolean dispProduit, double
+                   totalPrix) {
         this.imageProduit = imageProduit;
         this.nomProduit = nomProduit;
         this.prixProduit = prixProduit;
         this.quantiteProduit = quantiteProduit;
         this.typePromotion = typePromotoin;
         this.dispProduit=dispProduit;
+        this.totalPrix=totalPrix;
+    }
+
+    public double getTotalPrix() {
+        return totalPrix;
+    }
+
+    public void setTotalPrix(double totalPrix) {
+        this.totalPrix = totalPrix;
     }
 
     public Boolean getDispProduit() {

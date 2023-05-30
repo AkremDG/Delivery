@@ -19,13 +19,15 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
     Context context;
     List<Produit> produitList;
     private final RvInterface rvInterface;
+    private final quantiteInterface quantiteInterface;
 
 
 
-    public ProduitRvAdapter(Context context, List<Produit> produitList, RvInterface rvInterface) {
+    public ProduitRvAdapter(Context context, List<Produit> produitList, RvInterface rvInterface, quantiteInterface quantiteInterface) {
         this.context = context;
         this.produitList = produitList;
         this.rvInterface = rvInterface;
+        this.quantiteInterface=quantiteInterface;
     }
 
     @NonNull
@@ -34,7 +36,7 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
         LayoutInflater inflater = LayoutInflater.from(this.context);
         View view = inflater.inflate(R.layout.produit_rv_item,parent,false);
 
-        return new ProduitRvAdapter.ProduitVh(view,this.rvInterface);
+        return new ProduitRvAdapter.ProduitVh(view,this.rvInterface, this.quantiteInterface);
     }
 
     @Override
@@ -42,7 +44,7 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
         holder.nomProduit_Tv.setText(produitList.get(position).getNomProduit());
         holder.produit_Iv.setImageResource(produitList.get(position).getImageProduit());
         holder.promotion_Tv.setText(produitList.get(position).getTypePromotion());
-        holder.prix_Tv.setText(String.valueOf(produitList.get(position).getPrixProduit()));
+        holder.prix_Tv.setText(String.valueOf(produitList.get(position).getPrixProduit())+" dt");
         holder.qte_Tv.setText(String.valueOf(produitList.get(position).getQuantiteProduit()));
     }
 
@@ -55,9 +57,9 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
         Context context;
         ImageView produit_Iv,moins_Iv,plus_Iv;
         TextView pack_Tv,qte_surSomme_Tv,nomProduit_Tv,promotion_Tv,prix_Tv,qte_Tv;
-        int i =0;
+        int i=1 ;
 
-        public ProduitVh(@NonNull View itemView, RvInterface rvInterface) {
+        public ProduitVh(@NonNull View itemView, RvInterface rvInterface, quantiteInterface quantiteInterface) {
             super(itemView);
             produit_Iv=itemView.findViewById(R.id.produit_Iv);
             moins_Iv=itemView.findViewById(R.id.moins_Iv);
@@ -78,6 +80,8 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
                             rvInterface.onItemClick(pos);
                         }
                     }
+
+
                 }
             });
 
@@ -86,20 +90,29 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
                 public void onClick(View v) {
                     i++;
                     qte_Tv.setText(String.valueOf(i));
+
+                    quantiteInterface.onValidQte(i);
+
                 }
             });
+            quantiteInterface.onValidQte(i);
 
             moins_Iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     i--;
                     qte_Tv.setText(String.valueOf(i));
+                    quantiteInterface.onValidQte(i);
+
                     if(i<1){
                         i=0;
                         qte_Tv.setText("0");
                     }
+
                 }
             });
+
+
         }
     }
 

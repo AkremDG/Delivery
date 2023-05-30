@@ -1,5 +1,6 @@
-package com.example.deliveryboy;
+package com.example.deliveryboy.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -11,36 +12,41 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.deliveryboy.Adapters.MissionsRvAdapter;
 import com.example.deliveryboy.Adapters.ProduitRvAdapter;
 import com.example.deliveryboy.Adapters.RvInterface;
 import com.example.deliveryboy.Adapters.TypeCmdRvAdapter;
+import com.example.deliveryboy.Adapters.quantiteInterface;
 import com.example.deliveryboy.Model.Produit;
 import com.example.deliveryboy.Model.TypeCommande;
-import com.example.deliveryboy.Model.Visite;
-import com.example.deliveryboy.View.MissionsFragment.TousFragment;
+import com.example.deliveryboy.R;
+import com.google.android.material.button.MaterialButton;
 
-import org.w3c.dom.Text;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PassCommandeActivity extends AppCompatActivity implements RvInterface  {
+public class PassCommandeActivity extends AppCompatActivity implements  RvInterface, quantiteInterface {
     RecyclerView typeCmd_Rv,produids_rv;
     List<TypeCommande> typeCommandeList ;
 
+    ImageView panier_pass_cmd_Iv;
     List<Produit> listProduits ;
 
+    List<Produit> selectedProduits;
+
+    double totalPrixProduit;
     int i;
+    int quantite;
 
 
     @Override
@@ -53,8 +59,10 @@ public class PassCommandeActivity extends AppCompatActivity implements RvInterfa
 
 
         bindViews();
-
+        onClickHandler();
         typeCommandeList=new ArrayList<>();
+
+        selectedProduits=new ArrayList<>();
 
         TypeCommande typeCommande = new TypeCommande(R.drawable.soda_img,"Liquides");
         TypeCommande typeCommande2 = new TypeCommande(R.drawable.fish_img,"Fish");
@@ -74,10 +82,10 @@ public class PassCommandeActivity extends AppCompatActivity implements RvInterfa
         //////////////////////////////////// RV PRODUITS
         listProduits= new ArrayList<>();
 
-        Produit produit = new Produit(R.drawable.lait_img,"Lait demi ecrémée",200,5,"Promotion Type",true);
-        Produit produit2 = new Produit(R.drawable.bread_img,"Pain complet",10,1,"Promotion gratuité",false);
-        Produit produit3= new Produit(R.drawable.fish_img,"Poisson",15,1,"Promotion gratuité",true);
-        Produit produit4= new Produit(R.drawable.fish_img,"Poisson",15,1,"Promotion gratuité",true);
+        Produit produit = new Produit(R.drawable.lait_img,"Lait demi ecrémée",200,5,"Promotion Type",true,0);
+        Produit produit2 = new Produit(R.drawable.bread_img,"Pain complet",10,1,"Promotion gratuité",false,0);
+        Produit produit3= new Produit(R.drawable.fish_img,"Poisson",15,1,"Promotion gratuité",true,0);
+        Produit produit4= new Produit(R.drawable.fish_img,"Poisson",15,1,"Promotion gratuité",true,0);
 
 
         listProduits.add(produit2);
@@ -97,13 +105,7 @@ public class PassCommandeActivity extends AppCompatActivity implements RvInterfa
 
 
 
-        produids_rv.setAdapter(new ProduitRvAdapter(getApplicationContext(),listProduits,this));
-
-
-
-
-
-
+        produids_rv.setAdapter(new ProduitRvAdapter(getApplicationContext(),listProduits,this,this));
 
 
     }
@@ -111,8 +113,19 @@ public class PassCommandeActivity extends AppCompatActivity implements RvInterfa
     public void bindViews(){
         typeCmd_Rv=findViewById(R.id.typeCmd_Rv);
         produids_rv=findViewById(R.id.produids_rv);
+        panier_pass_cmd_Iv=findViewById(R.id.panier_pass_cmd_Iv);
     }
 
+    public void onClickHandler(){
+        panier_pass_cmd_Iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PassCommandeActivity.this,PanierActivity.class);
+                intent.putExtra("lista", (Serializable) selectedProduits);
+                startActivity(intent);
+            }
+        });
+    }
     @Override
     public void onItemClick(int position) {
         showAlert(position);
@@ -143,33 +156,48 @@ public class PassCommandeActivity extends AppCompatActivity implements RvInterfa
         imageProduit.setImageResource(listProduits.get(pos).getImageProduit());
 
         TextView prixUnitaire = dialog.findViewById(R.id.prix_val_Tv);
-        prixUnitaire.setText(String.valueOf(listProduits.get(pos).getPrixProduit()));
+        prixUnitaire.setText(String.valueOf(listProduits.get(pos).getPrixProduit())+" dt");
 
 
         ImageView plus=dialog.findViewById(R.id.plus_Iv);
         ImageView moins=dialog.findViewById(R.id.moins_Iv);
 
+
         TextView qte_Tv=dialog.findViewById(R.id.qte_Tv);
+        qte_Tv.setText(String.valueOf(quantite));
 
-        plus.setOnClickListener(new View.OnClickListener() {
+
+        MaterialButton btn = dialog.findViewById(R.id.aj_panier_btn);
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                i++;
-                qte_Tv.setText(String.valueOf(i));
-            }
-        });
+                try {
 
-        moins.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                i--;
-                qte_Tv.setText(String.valueOf(i));
-                if(i<1){
-                    i=0;
-                    qte_Tv.setText("0");
+
+                  double totl=  quantite*listProduits.get(pos).getPrixProduit();
+
+
+                    Produit produit = new Produit(listProduits.get(pos).getImageProduit(),
+                            listProduits.get(pos).getNomProduit(),
+                            listProduits.get(pos).getPrixProduit(),
+                            quantite,
+                            listProduits.get(pos).getTypePromotion(),
+                            listProduits.get(pos).getDispProduit(),totl);
+
+                    selectedProduits.add(produit);
+
+                    Toast.makeText(PassCommandeActivity.this, "Bien ajouté !", Toast.LENGTH_SHORT).show();
+
+
+                }catch (Exception e)
+                {
+                    Toast.makeText(PassCommandeActivity.this, "Erreur", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
+
+
 
 
 
@@ -182,5 +210,12 @@ public class PassCommandeActivity extends AppCompatActivity implements RvInterfa
 
     }
 
+    @Override
+    public void onValidQte(int qte) {
+        quantite=qte;
+        Toast.makeText(this, String.valueOf(qte), Toast.LENGTH_SHORT).show();
+
     }
+
+}
 

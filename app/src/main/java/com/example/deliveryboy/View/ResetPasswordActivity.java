@@ -1,4 +1,4 @@
-package com.example.deliveryboy;
+package com.example.deliveryboy.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.deliveryboy.R;
 import com.google.android.material.button.MaterialButton;
 
 public class ResetPasswordActivity extends AppCompatActivity {

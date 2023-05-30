@@ -4,7 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.PassCommandeActivity">
+    tools:context=".View.PanierActivity">
+
+
+    <TextView
+        android:id="@+id/title_Tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/exo"
+        android:text="Panier"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/arrow_pass_cmd_Iv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/arrow_pass_cmd_Iv" />
 
 
     <ImageView
@@ -18,19 +33,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/title_Tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/exo"
-        android:text="passer une commande"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/arrow_pass_cmd_Iv"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/arrow_pass_cmd_Iv" />
 
 
     <TextView
@@ -63,61 +65,46 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_Tv" />
 
-    <ImageView
-        android:id="@+id/panier_pass_cmd_Iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
-        android:clickable="true"
-        android:src="@drawable/empty_panier_icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchBar_pass_cmd"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="5dp"
-        android:background="@drawable/search_view_stroke_gray"
-        android:layout_marginTop="10dp"
-        app:queryHint="Rechercher..."
-        android:focusable="false"
-
-        app:layout_constraintTop_toBottomOf="@+id/typeCmd_Rv"
-        app:iconifiedByDefault="false"/>
-
-
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/typeCmd_Rv"
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/client_Tv"
-        app:layout_constraintStart_toStartOf="parent"
-        android:orientation="horizontal"
-        />
-
-
-
-
-
-    <androidx.recyclerview.widget.RecyclerView
-
         android:layout_marginTop="5dp"
-        android:id="@+id/produids_rv"
+        android:id="@+id/panier_produids_rv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="5dp"
-        app:layout_constraintTop_toBottomOf="@+id/searchBar_pass_cmd"
+        app:layout_constraintTop_toBottomOf="@+id/client_Tv"
         app:layout_constraintHeight_default="wrap"
         app:layout_constraintVertical_bias="0"
         />
 
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/exo"
+        app:layout_constraintTop_toBottomOf="@id/panier_produids_rv"
+        android:text="Total panier :"
+        android:textColor="@color/black"
+        android:layout_marginRight="5dp"
+
+        android:textStyle="bold"
+        android:layout_marginTop="50dp"
+        app:layout_constraintEnd_toStartOf="@id/totalVal_Tv"
+
+        />
+
+    <TextView
+        android:id="@+id/totalVal_Tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/exo"
+        app:layout_constraintTop_toBottomOf="@id/panier_produids_rv"
+        android:text="50"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/blue_reset_password"
+        android:textStyle="bold"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="50dp"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

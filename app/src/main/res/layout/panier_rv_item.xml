@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="10dp">
+
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/lait_img"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/panier_produit_Iv"/>
+
+    <TextView
+        android:id="@+id/nomProdPanier_Tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lait demi écrémé"
+        app:layout_constraintStart_toEndOf="@+id/panier_produit_Iv"
+        android:layout_marginLeft="5dp"
+        android:fontFamily="@font/exo"
+        android:textStyle="bold"
+        android:textColor="@color/blue_reset_password"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/promoPanier_tv"
+        android:layout_width="59dp"
+        android:layout_height="24dp"
+        android:text="Promotion"
+        android:textColor="@color/green"
+        app:layout_constraintStart_toStartOf="@id/nomProdPanier_Tv"
+        app:layout_constraintTop_toBottomOf="@+id/nomProdPanier_Tv" />
+
+    <TextView
+        android:id="@+id/promoPanierVal_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gratuité"
+        app:layout_constraintTop_toBottomOf="@+id/nomProdPanier_Tv"
+        app:layout_constraintStart_toEndOf="@id/promoPanier_tv"
+        android:textColor="@color/green"
+        />
+
+
+    <TextView
+        android:id="@+id/total_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total :"
+        app:layout_constraintTop_toBottomOf="@+id/promoPanier_tv"
+        app:layout_constraintStart_toStartOf="@id/nomProdPanier_Tv"
+        android:textColor="@color/black"
+        />
+
+
+    <TextView
+        android:id="@+id/totalVal_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="6.500 dt"
+        app:layout_constraintStart_toEndOf="@id/total_tv"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/promoPanier_tv"
+        android:textStyle="bold"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bg_choix_qte"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="2dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:id="@+id/moins_Iv"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/moins_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:clickable="true"
+            android:layout_marginHorizontal="15dp"
+            app:layout_constraintEnd_toStartOf="@id/qte_Tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/qte_Tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textColor="@color/black"
+            android:textSize="18dp"
+            android:layout_marginHorizontal="15dp"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/plus_Iv"
+            app:layout_constraintStart_toEndOf="@id/moins_Iv"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/plus_Iv"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:layout_marginHorizontal="15dp"
+
+            android:src="@drawable/plus_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/qte_Tv"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
