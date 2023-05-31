@@ -26,6 +26,7 @@ import com.example.deliveryboy.Model.Visite;
 import com.example.deliveryboy.View.PassCommandeActivity;
 import com.example.deliveryboy.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,32 +44,22 @@ public class TousFragment extends Fragment implements RvInterface {
 
 
         visiteList = new ArrayList<>();
+
         User user = new User(0,"Akrem BEN DHIA");
         Visite visite = new Visite("VISITE 01","visite de réactivation",user
         ,"Tunis");
 
 
-        User user2 = new User(1,"Raslen");
-        Visite visite2 = new Visite("VISITE 02","autre visite",user
-                ,"Marsa");
-
-
-        User user3 = new User(1,"Karim");
-        Visite visite3 = new Visite("VISITE 02","autre visite",user
-                ,"Marsa");
-
-
-        User user4 = new User(2,"Raslen");
-        Visite visite4 = new Visite("VISITE 01","autre visite",user
-                ,"Ariana");
+        User raslen = new User(0,"Raslen");
+        Visite visiteralen = new Visite("VISITE 01","Autre visite",raslen
+                ,"Tunis");
 
 
 
 
         visiteList.add(visite);
-        visiteList.add(visite2);
-        visiteList.add(visite3);
-        visiteList.add(visite4);
+        visiteList.add(visiteralen);
+
 
         listCmds_Rv.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -88,9 +79,10 @@ public class TousFragment extends Fragment implements RvInterface {
     @Override
     public void onItemClick(int position) {
 
-        showAlert();
+        showAlert(visiteList.get(position).getUser());
+
     }
-    public void showAlert(){
+    public void showAlert(User user){
         final Dialog dialog = new Dialog(getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.bottom_sheet_layout);
@@ -103,6 +95,8 @@ public class TousFragment extends Fragment implements RvInterface {
             public void onClick(View v) {
                 generatrive_tv.setTextColor(getResources().getColor(R.color.blue_reset_password));
                 Intent intent = new Intent(getContext(), PassCommandeActivity.class);
+                intent.putExtra("user", (Serializable) user);
+
                 startActivity(intent);
             }
         });

@@ -80,8 +80,6 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
                             rvInterface.onItemClick(pos);
                         }
                     }
-
-
                 }
             });
 
@@ -103,12 +101,10 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
                     i--;
                     qte_Tv.setText(String.valueOf(i));
                     quantiteInterface.onValidQte(i);
-
                     if(i<1){
                         i=0;
                         qte_Tv.setText("0");
                     }
-
                 }
             });
 

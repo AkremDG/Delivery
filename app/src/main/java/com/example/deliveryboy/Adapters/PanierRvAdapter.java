@@ -19,10 +19,14 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
 
     Context context;
     List<Produit> listProduit;
+    quantiteInterface quantiteInterface;
+    int quantite;
 
-    public PanierRvAdapter(Context context, List<Produit> listProduit) {
+
+    public PanierRvAdapter(Context context, List<Produit> listProduit,quantiteInterface quantiteInterface) {
         this.context = context;
         this.listProduit = listProduit;
+        this.quantiteInterface=quantiteInterface;
     }
 
     @NonNull
@@ -31,7 +35,11 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
         LayoutInflater inflater = LayoutInflater.from(this.context);
         View view = inflater.inflate(R.layout.panier_rv_item,parent,false);
 
-        return new PanierRvAdapter.PanierVH(view);
+        return new PanierRvAdapter.PanierVH(view, this.quantiteInterface);
+    }
+
+    public int getQuantite() {
+        return quantite;
     }
 
     @Override
@@ -39,8 +47,10 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
         holder.panier_produit_Iv.setImageResource(listProduit.get(position).getImageProduit());
         holder.nomProdPanier_Tv.setText(listProduit.get(position).getNomProduit());
         holder.promoPanier_tv.setText(listProduit.get(position).getTypePromotion());
+        holder.totalVal_tv.setText(String.valueOf(listProduit.get(position).getTotalPrix())+ " dt");
+        holder.qte_Tv.setText(String.valueOf(listProduit.get(position).getQuantiteProduit()));
 
-
+        quantite = listProduit.get(position).getQuantiteProduit();
     }
 
     @Override
@@ -48,23 +58,50 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
         return listProduit.size();
     }
 
-
     public static class PanierVH extends RecyclerView.ViewHolder {
-        Context context;
         ImageView panier_produit_Iv;
         TextView nomProdPanier_Tv, promoPanier_tv, totalVal_tv, qte_Tv;
-        int i;
+        ImageView moins_Iv,plus_Iv;
+        int i=1;
 
-        public PanierVH(@NonNull View itemView) {
+        public PanierVH(@NonNull View itemView, com.example.deliveryboy.Adapters.quantiteInterface quantiteInterface) {
             super(itemView);
-
             panier_produit_Iv = itemView.findViewById(R.id.panier_produit_Iv);
-
             nomProdPanier_Tv = itemView.findViewById(R.id.nomProdPanier_Tv);
             promoPanier_tv = itemView.findViewById(R.id.promoPanier_tv);
             totalVal_tv = itemView.findViewById(R.id.totalVal_tv);
             qte_Tv = itemView.findViewById(R.id.qte_Tv);
 
+            moins_Iv = itemView.findViewById(R.id.moins_Iv);
+            plus_Iv = itemView.findViewById(R.id.plus_Iv);
+
+
+
+            plus_Iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    i++;
+                    qte_Tv.setText(String.valueOf(i));
+
+
+                    quantiteInterface.onValidQte(i);
+
+                }
+            });
+            quantiteInterface.onValidQte(i);
+
+            moins_Iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    i--;
+                    qte_Tv.setText(String.valueOf(i));
+                    if(i<2){
+                        i=1;
+                        qte_Tv.setText("1");
+                        quantiteInterface.onValidQte(i);
+                    }
+                }
+            });
         }
     }
 
