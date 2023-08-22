@@ -27,7 +27,7 @@ public class BottomNagContainerActivity extends AppCompatActivity {
 
 
         //White status bar
-        getWindow().setStatusBarColor(ContextCompat.getColor(BottomNagContainerActivity.this,R.color.white));
+        getWindow().setStatusBarColor(ContextCompat.getColor(BottomNagContainerActivity.this,R.color.search_bg_color));
 
         bindViews();
         bindFragments();

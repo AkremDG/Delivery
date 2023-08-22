@@ -2,15 +2,18 @@ package com.example.deliveryboy.View.BottomNavFragments;
 
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 
 import com.example.deliveryboy.Adapters.MissionsVpAdapter;
 import com.example.deliveryboy.R;
+import com.example.deliveryboy.View.PassCommandeActivity;
 import com.google.android.material.tabs.TabLayout;
 
 
@@ -25,6 +28,10 @@ public class MissionsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_commandes, container, false);
+
+
+        Window window = requireActivity().getWindow();
+        window.setStatusBarColor(ContextCompat.getColor(requireContext(), R.color.search_bg_color));
 
         bindViews();
 

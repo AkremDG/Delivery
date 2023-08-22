@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
+    android:background="@drawable/gradient_background"
+
     android:scrollbars="none"
     tools:context=".View.SplashLoginActivity">
 
@@ -85,7 +87,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Se connecter"
-                            android:textSize="21sp"
+                            style="@style/TextAppearance.MaterialComponents.Headline6"
+
                             android:textStyle="bold"
                             android:textColor="@color/se_con_col"
                             android:fontFamily="@font/exo"
@@ -133,7 +136,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/black"
-                                    android:textSize="16dp" />
+                                    android:inputType="number"
+                                />
                         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -143,45 +147,35 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
-
                             android:hint="Mot de passe"
-
-
                             app:boxCornerRadiusBottomEnd="10dp"
                             app:boxCornerRadiusTopEnd="10dp"
                             app:boxCornerRadiusBottomStart="10dp"
                             app:boxCornerRadiusTopStart="10dp"
-
                             android:layout_marginHorizontal="20dp"
                             app:boxBackgroundMode="filled"
                             app:boxStrokeColor="@color/input_stroke_color"
                             app:hintTextColor="@color/black"
-
-
-                            app:endIconMode="password_toggle"
                             app:boxBackgroundColor="@color/input_backgroud_color"
                             app:boxStrokeWidth="2dp"
                             app:endIconTint="@color/se_con_col"
                             android:textColorHint="@color/input_text_color"
 
-
-
+                            app:endIconMode="password_toggle"
                             app:errorTextColor="@color/error_red"
                             app:boxStrokeErrorColor="@color/error_red"
                             app:errorIconTint="@color/error_red"
 
-
                             app:startIconDrawable="@drawable/password_start_icon"
                             >
-
-
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/password_Et"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+
                                     android:inputType="textPassword"
                                     android:textColor="@color/black"
-                                    android:textSize="16dp" />
+                                  />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.button.MaterialButton
@@ -190,7 +184,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
                             android:text="Se connecter"
-                            android:textSize="16sp"
                             app:cornerRadius="10dp"
                             android:fontFamily="@font/exo"
                             android:paddingVertical="11sp"
@@ -203,7 +196,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Mot de passe oublié"
-                            android:textSize="14sp"
+                            android:visibility="gone"
                             android:layout_marginTop="5dp"
                             android:textColor="@color/orange_btn_color"
                             android:layout_gravity="center"

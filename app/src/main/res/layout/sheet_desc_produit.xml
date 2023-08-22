@@ -1,37 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg_alert"
-    android:padding="20dp"
-    >
+    android:fillViewport="true"
+   >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:background="@drawable/bg_alert"
+>
+
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/disponibilite_Tv"
+        app:layout_constraintGuide_percent="0.4" />
 
     <TextView
-
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/disponibilite_Tv"
         android:text="Disponible"
-        android:background="@drawable/bg_disponibilite"
+        android:background="@drawable/bg_pack_green"
         android:paddingHorizontal="20dp"
         android:textColor="@color/white"
+
         android:fontFamily="@font/exo"
         android:paddingVertical="2dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/produit_Iv"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
         android:id="@+id/produit_Iv"
-        android:layout_width="120dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:src="@drawable/bread_img"
         app:layout_constraintTop_toBottomOf="@+id/disponibilite_Tv"
-        app:layout_constraintBottom_toBottomOf="@id/constraint"
-        android:layout_marginTop="50dp"
-        android:paddingRight="20dp"
-        android:layout_marginLeft="10dp"
+        app:layout_constraintBottom_toTopOf="@id/aj_panier_btn"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_bottom"
+        android:layout_marginLeft="5dp"
         app:layout_constraintStart_toStartOf="parent"/>
 
 
@@ -43,11 +60,10 @@
         android:fontFamily="@font/exo"
         android:text="Lait demi-ecrémé"
         android:textColor="@color/black"
-        android:textSize="17sp"
-        android:textStyle="bold"
-        android:layout_marginTop="-10dp"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
         app:layout_constraintTop_toTopOf="@+id/produit_Iv"
         app:layout_constraintStart_toEndOf="@+id/produit_Iv"
+        android:layout_marginLeft="10dp"
      />
 
 
@@ -56,12 +72,11 @@
         android:id="@+id/promo_Tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Promotion : "
-        app:layout_constraintStart_toEndOf="@+id/produit_Iv"
+        android:text=""
+        app:layout_constraintStart_toStartOf="@+id/nomProduit_Tv"
         app:layout_constraintTop_toBottomOf="@+id/nomProduit_Tv"
         android:textColor="@color/green"
         android:fontFamily="@font/exo"
-        android:textSize="17sp"
         android:layout_marginTop="5dp"
        />
 
@@ -69,7 +84,7 @@
         android:id="@+id/promo_val_Tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=" gratuité"
+        android:text=""
         app:layout_constraintStart_toEndOf="@+id/promo_Tv"
         app:layout_constraintTop_toBottomOf="@+id/nomProduit_Tv"
         android:textColor="@color/green"
@@ -84,7 +99,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Conditionnement : "
-        app:layout_constraintStart_toEndOf="@+id/produit_Iv"
+        app:layout_constraintStart_toStartOf="@+id/nomProduit_Tv"
         app:layout_constraintTop_toBottomOf="@+id/promo_val_Tv"
         android:textColor="@color/black"
         android:fontFamily="@font/exo"
@@ -100,7 +115,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Prix unitaire "
-        app:layout_constraintStart_toStartOf="@id/conditionn_Tv"
+        app:layout_constraintStart_toStartOf="@id/nomProduit_Tv"
         app:layout_constraintTop_toBottomOf="@+id/conditionn_Tv"
         android:textColor="@color/black"
         android:fontFamily="@font/exo"
@@ -143,26 +158,24 @@
         android:id="@+id/constraint"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="10dp"
         android:background="@drawable/bg_choix_qte"
         android:padding="5dp"
-
-        app:layout_constraintEnd_toEndOf="@id/conditionn_Tv"
-        app:layout_constraintStart_toStartOf="@id/conditionn_Tv"
+        android:layout_marginTop="15dp"
+        app:layout_constraintBottom_toTopOf="@id/aj_panier_btn"
+        app:layout_constraintEnd_toEndOf="@id/conditionn_val_Tv"
+        app:layout_constraintStart_toStartOf="@id/guideline_bottom"
         app:layout_constraintTop_toBottomOf="@id/prix_Tv">
 
         <ImageView
             android:id="@+id/moins_Iv"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:clickable="true"
             android:src="@drawable/moins_icon"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:clickable="true"
             app:layout_constraintEnd_toStartOf="@id/qte_Tv"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/qte_Tv"
@@ -187,21 +200,30 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/qte_Tv"
             app:layout_constraintTop_toTopOf="parent" />
+
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/aj_panier_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:text="Ajouter au panier"
         app:cornerRadius="5dp"
+        android:layout_marginVertical="20dp"
         android:fontFamily="@font/exo"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/constraint"
         app:backgroundTint="@color/orange_btn_color"
-        app:layout_constraintStart_toStartOf="@id/conditionn_Tv"
+        app:layout_constraintStart_toStartOf="@id/guideline_bottom"
         />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</ScrollView>

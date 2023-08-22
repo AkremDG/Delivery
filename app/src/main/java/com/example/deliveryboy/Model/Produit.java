@@ -12,9 +12,11 @@ public class Produit implements Serializable {
 
     private double totalPrix;
 
+    private String Categorie;
+
 
     public Produit(int imageProduit, String nomProduit, double prixProduit, int quantiteProduit, String typePromotoin, Boolean dispProduit, double
-                   totalPrix) {
+                   totalPrix, String Categorie) {
         this.imageProduit = imageProduit;
         this.nomProduit = nomProduit;
         this.prixProduit = prixProduit;
@@ -22,6 +24,7 @@ public class Produit implements Serializable {
         this.typePromotion = typePromotoin;
         this.dispProduit=dispProduit;
         this.totalPrix=totalPrix;
+        this.Categorie=Categorie;
     }
 
     public double getTotalPrix() {
@@ -80,6 +83,14 @@ public class Produit implements Serializable {
         this.typePromotion = typePromotion;
     }
 
+    public String getCategorie() {
+        return Categorie;
+    }
+
+    public void setCategorie(String categorie) {
+        Categorie = categorie;
+    }
+
     @Override
     public String toString() {
         return "Produit{" +
@@ -88,6 +99,9 @@ public class Produit implements Serializable {
                 ", prixProduit=" + prixProduit +
                 ", quantiteProduit=" + quantiteProduit +
                 ", typePromotion='" + typePromotion + '\'' +
+                ", dispProduit=" + dispProduit +
+                ", totalPrix=" + totalPrix +
+                ", Categorie='" + Categorie + '\'' +
                 '}';
     }
 }

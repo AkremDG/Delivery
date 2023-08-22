@@ -3,26 +3,46 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="10dp">
 
-    <ImageView
 
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/soda_img"
-        android:id="@+id/typeCmd_Iv"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+    android:layout_marginVertical="8dp"
+    android:layout_marginHorizontal="4dp"
+  >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bg"
+        android:background="@drawable/round_bg"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="60dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="60dp"
+            android:padding="10dp"
+            android:src="@drawable/drink_icon"
+            android:id="@+id/typeCmd_Iv"
+        />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
     <TextView
         android:id="@+id/type_Tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Liquides"
-        app:layout_constraintTop_toBottomOf="@+id/typeCmd_Iv"
-        app:layout_constraintEnd_toEndOf="@+id/typeCmd_Iv"
-        app:layout_constraintStart_toStartOf="@id/typeCmd_Iv"
-        android:layout_marginRight="10dp"/>
+        android:textColor="@color/black"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/exo"
+        app:layout_constraintTop_toBottomOf="@+id/bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+      />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -58,6 +58,7 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
         ImageView produit_Iv,moins_Iv,plus_Iv;
         TextView pack_Tv,qte_surSomme_Tv,nomProduit_Tv,promotion_Tv,prix_Tv,qte_Tv;
         int i=1 ;
+        int pos;
 
         public ProduitVh(@NonNull View itemView, RvInterface rvInterface, quantiteInterface quantiteInterface) {
             super(itemView);
@@ -75,7 +76,7 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
                 @Override
                 public void onClick(View v) {
                     if(rvInterface != null){
-                        int pos= getAdapterPosition();
+                         pos= getAdapterPosition();
                         if(pos!=RecyclerView.NO_POSITION){
                             rvInterface.onItemClick(pos);
                         }
@@ -88,6 +89,7 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
                 public void onClick(View v) {
                     i++;
                     qte_Tv.setText(String.valueOf(i));
+
 
                     quantiteInterface.onValidQte(i);
 

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".View.BottomNavFragments.MissionsFragment">
 
@@ -19,7 +20,6 @@
         />
     <TextView
         android:id="@+id/bonjour_Tv"
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Bonjour !"
@@ -31,16 +31,7 @@
         android:layout_marginLeft="5dp"
         android:textColor="@color/black"/>
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:src="@drawable/loc_icon"
-        android:id="@+id/location_Iv"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/bonjour_Tv"
-        app:layout_constraintBottom_toBottomOf="@id/type_user_Tv"
-        android:layout_marginRight="22dp"
-        android:layout_marginVertical="5dp"/>
+
     <TextView
         android:id="@+id/type_user_Tv"
         android:layout_width="wrap_content"
@@ -56,27 +47,28 @@
         android:id="@+id/listeCmd_Tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Liste des missions des visite"
+        android:text="Liste des missions des visites"
         app:layout_constraintTop_toBottomOf="@id/user_Iv"
         android:fontFamily="@font/exo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="20dp"
         android:textColor="@color/se_con_col"
         android:textStyle="bold"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         />
 
 
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/cmds_Tl"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tabSelectedTextColor="@color/orange_btn_color"
         app:tabTextColor="@color/black"
         app:tabIndicatorColor="#F8981D"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
+        android:background="@drawable/gradient_background"
         app:layout_constraintTop_toBottomOf="@+id/listeCmd_Tv">
 
 
@@ -104,8 +96,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cmds_Tl"
         app:layout_constraintBottom_toBottomOf="parent"/>
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

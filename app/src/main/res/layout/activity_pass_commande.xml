@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
     tools:context=".View.PassCommandeActivity">
 
 
@@ -16,32 +17,32 @@
         android:clickable="true"
         android:src="@drawable/arrow_back_icon"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
 
     <TextView
         android:id="@+id/title_Tv"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:fontFamily="@font/exo"
         android:text="passer une commande"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textAlignment="center"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/arrow_pass_cmd_Iv"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/panier_pass_cmd_Iv"
+        app:layout_constraintStart_toEndOf="@+id/arrow_pass_cmd_Iv"
         app:layout_constraintTop_toTopOf="@+id/arrow_pass_cmd_Iv" />
-
 
     <TextView
         android:id="@+id/nomClient_Tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:fontFamily="@font/exo"
         android:text="Akrem ben dhia"
         android:textColor="@color/black"
-        android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -52,11 +53,10 @@
         android:id="@+id/client_Tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:fontFamily="@font/exo"
         android:text="Client : "
         android:textColor="@color/black"
-        android:textSize="15sp"
         app:layout_constraintEnd_toStartOf="@+id/nomClient_Tv"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
@@ -81,9 +81,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="5dp"
-        android:background="@drawable/search_view_stroke_gray"
         android:layout_marginTop="10dp"
-        app:queryHint="Rechercher..."
+        android:background="@drawable/search_view_stroke"
+        app:queryHint="Vous cherchez quoi ? "
         android:focusable="false"
 
         app:layout_constraintTop_toBottomOf="@+id/typeCmd_Rv"
@@ -108,7 +108,9 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="10dp"
+        app:layout_goneMarginTop="10dp"
         android:layout_marginTop="5dp"
         android:id="@+id/produids_rv"
         android:layout_width="match_parent"
