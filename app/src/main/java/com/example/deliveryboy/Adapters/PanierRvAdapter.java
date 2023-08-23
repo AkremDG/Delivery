@@ -82,8 +82,6 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
                 public void onClick(View v) {
                     i++;
                     qte_Tv.setText(String.valueOf(i));
-
-
                     quantiteInterface.onValidQte(i);
 
                 }

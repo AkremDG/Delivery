@@ -177,7 +177,6 @@ public class PassCommandeActivity extends AppCompatActivity implements  RvInterf
              else {
                  boolean dataFound = false;
 
-
                  if(isFilterClicked==false) {
 
                      produitList.clear();
@@ -303,8 +302,7 @@ public class PassCommandeActivity extends AppCompatActivity implements  RvInterf
                           products.get(pos).getPrixProduit(),
                             quantite,
                           products.get(pos).getTypePromotion(),
-                          products.get(pos).getDispProduit(),totl
-                  ,         products.get(pos).getCategorie());
+                          products.get(pos).getDispProduit(),totl,products.get(pos).getCategorie());
 
                     selectedProduits.add(produit);
 
