@@ -3,8 +3,9 @@ package com.example.deliveryboy.Model;
 import com.google.gson.annotations.SerializedName;
 
 public class Client {
-    @SerializedName("2317")
+    @SerializedName("id")
     private Integer clientId;
+
     @SerializedName("CT_Num")
     private String  CT_Num;
     @SerializedName("CT_Intitule")

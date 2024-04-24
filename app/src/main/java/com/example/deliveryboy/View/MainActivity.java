@@ -21,15 +21,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.spone);
 
 
-
-
-
-        if( SessionManager.getInstance().getToken(MainActivity.this).isEmpty() || UiUtils.isSessionExpired(getApplicationContext())){
+        if (SessionManager.getInstance().getToken(MainActivity.this).isEmpty() || UiUtils.isSessionExpired(getApplicationContext())) {
 
             Intent intent = new Intent(MainActivity.this, SplashLoginActivity.class);
             startActivity(intent);
 
-        }else{
+        } else {
 
             new android.os.Handler().postDelayed(new Runnable() {
                 @Override

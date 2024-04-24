@@ -16,10 +16,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class BottomNagContainerActivity extends AppCompatActivity {
-    MissionsFragment missionsFragment;
-    HistoriqueFragment historiqueFragment;
+    private MissionsFragment missionsFragment;
+    private HistoriqueFragment historiqueFragment;
 
-   BottomNavigationView bottom_nav_view;
+    private BottomNavigationView bottom_nav_view;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,12 +29,22 @@ public class BottomNagContainerActivity extends AppCompatActivity {
 
         bindViews();
         bindFragments();
+        uiListeners();
+        uiSetup();
 
 
+
+
+
+    }
+
+    private void uiSetup() {
         missionsFragment = new MissionsFragment();
-
         getSupportFragmentManager().beginTransaction().replace(R.id.container, missionsFragment).commit();
 
+    }
+
+    private void uiListeners() {
         bottom_nav_view.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -75,14 +86,13 @@ public class BottomNagContainerActivity extends AppCompatActivity {
             }
         });
 
-
     }
-    public void bindViews(){
-        bottom_nav_view=findViewById(R.id.bottom_nav_view);
+
+    public void bindViews() {
+        bottom_nav_view = findViewById(R.id.bottom_nav_view);
     }
-    public void bindFragments(){
 
-
+    public void bindFragments() {
 
 
     }

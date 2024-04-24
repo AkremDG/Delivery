@@ -13,9 +13,10 @@ import com.example.deliveryboy.R;
 import com.google.android.material.button.MaterialButton;
 
 public class EmailSuccessActivity extends AppCompatActivity {
- TextView redirect_Tv;
- MaterialButton return_auth_btn;
- ImageView arrow_Iv;
+    private TextView redirect_Tv;
+    private MaterialButton return_auth_btn;
+    private ImageView arrow_Iv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,18 +24,19 @@ public class EmailSuccessActivity extends AppCompatActivity {
 
 
         bindViews();
-        clickHandler();
-
-    }
-    public void bindViews(){
-
-        redirect_Tv=findViewById(R.id.redirect_Tv);
-        return_auth_btn=findViewById(R.id.return_auth_btn);
-                arrow_Iv=findViewById(R.id.arrow_Iv);
+        uiListeners();
 
     }
 
-    public void clickHandler(){
+    public void bindViews() {
+
+        redirect_Tv = findViewById(R.id.redirect_Tv);
+        return_auth_btn = findViewById(R.id.return_auth_btn);
+        arrow_Iv = findViewById(R.id.arrow_Iv);
+
+    }
+
+    public void uiListeners() {
         redirect_Tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

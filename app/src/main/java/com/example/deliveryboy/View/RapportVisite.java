@@ -21,7 +21,7 @@ public class RapportVisite extends AppCompatActivity {
 
     private ImageView arrow_pass_cmd_Iv;
     private List<String> raisonsList = new ArrayList<>();
-    private ArrayAdapter adapter ;
+    private ArrayAdapter adapter;
     private AutoCompleteTextView autoCompleteTextView;
 
     @Override
@@ -31,7 +31,7 @@ public class RapportVisite extends AppCompatActivity {
 
         bindViews();
         DisplayData();
-        HandleEvents();
+        uiListeners();
 
     }
 
@@ -42,17 +42,18 @@ public class RapportVisite extends AppCompatActivity {
         raisonsList.add("Raison13");
         raisonsList.add("Raison15");
 
-        adapter = new ArrayAdapter(RapportVisite.this,   android.R.layout.simple_spinner_item,raisonsList);
+        adapter = new ArrayAdapter(RapportVisite.this, android.R.layout.simple_spinner_item, raisonsList);
         autoCompleteTextView.setAdapter(adapter);
     }
 
     private void bindViews() {
-        getWindow().setStatusBarColor(ContextCompat.getColor(RapportVisite.this,R.color.search_bg_color));
-        arrow_pass_cmd_Iv=findViewById(R.id.arrow_pass_cmd_Iv);
+        getWindow().setStatusBarColor(ContextCompat.getColor(RapportVisite.this, R.color.search_bg_color));
+        arrow_pass_cmd_Iv = findViewById(R.id.arrow_pass_cmd_Iv);
         autoCompleteTextView = findViewById(R.id.raison_Actv);
 
     }
-    private void HandleEvents(){
+
+    private void uiListeners() {
         arrow_pass_cmd_Iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,7 +64,7 @@ public class RapportVisite extends AppCompatActivity {
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("SELECTED",parent.getItemAtPosition(position).toString());
+                Log.i("SELECTED", parent.getItemAtPosition(position).toString());
             }
         });
     }

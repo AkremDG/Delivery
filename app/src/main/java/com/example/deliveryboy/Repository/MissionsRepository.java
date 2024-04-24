@@ -41,7 +41,6 @@ public class MissionsRepository {
             @Override
             public void onResponse(Call<List<Mission>> call, Response<List<Mission>> response) {
 
-                Log.i("SSSSSSSSSSSSSS", String.valueOf(response.body().size()));
 
                 if(response.isSuccessful()){
 

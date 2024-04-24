@@ -51,37 +51,40 @@ import java.util.Locale;
 
 public class Courantes extends Fragment implements RvInterface {
 
-    private boolean isRefreshed=false;
+    private boolean isRefreshed = false;
     private List<Mission> missionList = new ArrayList<>();
     private RecyclerView listCmds_Rv;
     private View view;
-    private List<Visite> visiteList ;
+    private List<Visite> visiteList;
     private SearchView searchBar_tt;
     private MissionsViewModel missionsViewModel;
 
     private MaterialToolbar toolbar;
-    TabLayout cmds_Tl;
+    private TabLayout cmds_Tl;
 
-    ProgressBar progressBar;
-    MissionsRvAdapter adapter;
+    private ProgressBar progressBar;
+    private MissionsRvAdapter adapter;
 
-    FloatingActionButton addClient_fab;
+    private FloatingActionButton addClient_fab;
 
-    ImageView closeIv;
+    private ImageView closeIv;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view =  inflater.inflate(R.layout.fragment_courantes, container, false);
+        view = inflater.inflate(R.layout.fragment_courantes, container, false);
+
+
         bindViews();
         uiSetup();
         DisplayData(visiteList);
-        listeners();
+        uiListeners();
         //scrollllllllllll show bar searchhhhhh
         //HandleEvents();
         return view;
     }
 
-    private void listeners() {
+    private void uiListeners() {
         addClient_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,17 +93,18 @@ public class Courantes extends Fragment implements RvInterface {
         });
     }
 
+
     private void uiSetup() {
         progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(view.getContext(), R.color.orange_btn_color),
                 PorterDuff.Mode.SRC_IN);
 
-        adapter = new MissionsRvAdapter(getContext(), missionList, Courantes.this );
+        adapter = new MissionsRvAdapter(getContext(), missionList, Courantes.this);
         listCmds_Rv.setLayoutManager(new LinearLayoutManager(getContext()));
         listCmds_Rv.setAdapter(adapter);
     }
 
-    private void HandleEvents() {
-        listCmds_Rv.setOnScrollChangeListener(new View.OnScrollChangeListener()     {
+    private void scrollHandling() {
+        listCmds_Rv.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             private int scrollThreshold = 20;
             private boolean scrolledDown = false;
             private int oldScrollY = 0;
@@ -160,10 +164,9 @@ public class Courantes extends Fragment implements RvInterface {
                 List<Visite> listVisists = new ArrayList<>();
                 boolean dataFound = false;
 
-                if (newText.length()==0) {
+                if (newText.length() == 0) {
                     DisplayData(visiteList);
-                }
-                else{
+                } else {
 
                     for (Visite visite : visiteList) {
                         if (visite.getTypeVisite().toLowerCase(Locale.ROOT).contains(newText) || visite.getZone().toLowerCase().contains(newText) || visite.getUser().getEmail().toLowerCase(Locale.ROOT).contains(newText)) {
@@ -192,21 +195,19 @@ public class Courantes extends Fragment implements RvInterface {
         missionsViewModel = new MissionsViewModel();
         progressBar.setVisibility(View.VISIBLE);
 
-        if(InternetChecker.isConnected(getContext())){
+        if (InternetChecker.isConnected(getContext())) {
 
             missionsViewModel.getMissionsApi(getContext()).observe(Courantes.this, new Observer<Boolean>() {
                 @Override
                 public void onChanged(Boolean aBoolean) {
-                        getAndDisplayLocalMissions();
+                    getAndDisplayLocalMissions();
                 }
             });
 
-        }else {
+        } else {
 
             getAndDisplayLocalMissions();
         }
-
-
 
 
     }
@@ -217,28 +218,28 @@ public class Courantes extends Fragment implements RvInterface {
             @Override
             public void onChanged(List<Mission> missions) {
 
-                if(missions!=null){
+                if (missions != null) {
 
-                    if(missions.size()>0){
+                    if (missions.size() > 0) {
 
                         List<Mission> resultMissionsFiltration = new ArrayList<>();
 
-                        resultMissionsFiltration =  filterCurrentWeekMissions(missions);
+                        resultMissionsFiltration = filterCurrentWeekMissions(missions);
 
-                            progressBar.setVisibility(View.INVISIBLE);
-                            missionList.clear();
-                            missionList.addAll(resultMissionsFiltration);
-                            adapter.notifyDataSetChanged();
-                            progressBar.setVisibility(View.INVISIBLE);
+                        progressBar.setVisibility(View.INVISIBLE);
+                        missionList.clear();
+                        missionList.addAll(resultMissionsFiltration);
+                        adapter.notifyDataSetChanged();
+                        progressBar.setVisibility(View.INVISIBLE);
 
 
-                    }else {
+                    } else {
                         progressBar.setVisibility(View.VISIBLE);
 
                     }
 
 
-                }else {
+                } else {
                     progressBar.setVisibility(View.VISIBLE);
 
                 }
@@ -249,8 +250,8 @@ public class Courantes extends Fragment implements RvInterface {
 
     }
 
-    public void bindViews(){
-        listCmds_Rv=view.findViewById(R.id.listCmds_Rv);
+    public void bindViews() {
+        listCmds_Rv = view.findViewById(R.id.listCmds_Rv);
         searchBar_tt = view.findViewById(R.id.searchBar_tt);
         toolbar = view.findViewById(R.id.toolbar);
         progressBar = view.findViewById(R.id.progressBar);
@@ -265,6 +266,7 @@ public class Courantes extends Fragment implements RvInterface {
         startActivity(intent);
 
     }
+
     private List<Mission> filterCurrentWeekMissions(List<Mission> missionList) {
 
         List<Mission> filtredMissionList = new ArrayList<>();
@@ -273,8 +275,7 @@ public class Courantes extends Fragment implements RvInterface {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
 
-        for(Mission mission : missionList){
-
+        for (Mission mission : missionList) {
 
 
             try {
@@ -288,11 +289,11 @@ public class Courantes extends Fragment implements RvInterface {
                 Date formattedCurrentDate = dateFormat.parse(currentDateStr);
 
                 if (formattedCurrentDate.compareTo(startDate) >= 0 && formattedCurrentDate.compareTo(endDate) <= 0) {
-                    Log.i("THIS WEEK", "TRUE"+mission.getStartOn() + " ends in : "+ mission.getEndsOn());
+                    Log.i("THIS WEEK", "TRUE" + mission.getStartOn() + " ends in : " + mission.getEndsOn());
 
                     filtredMissionList.add(mission);
                 } else {
-                    Log.i("HORS", "TRUE"+mission.getStartOn() + " ends in : "+ mission.getEndsOn());
+                    Log.i("HORS", "TRUE" + mission.getStartOn() + " ends in : " + mission.getEndsOn());
 
 
                 }
@@ -302,17 +303,15 @@ public class Courantes extends Fragment implements RvInterface {
             }
 
 
-
         }
-
-
 
 
         return filtredMissionList;
 
 
     }
-    public void showAlert(){
+
+    public void showAlert() {
         final Dialog dialog = new Dialog(getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.bottom_sheet_layout);

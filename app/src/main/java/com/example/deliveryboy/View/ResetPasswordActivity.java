@@ -12,21 +12,21 @@ import com.google.android.material.button.MaterialButton;
 
 public class ResetPasswordActivity extends AppCompatActivity {
 
-    MaterialButton envoyer_email_btn;
+    private MaterialButton envoyer_email_btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
 
         bindViews();
-        clicksHandler();
+        uiListeners();
     }
 
     public void bindViews(){
         envoyer_email_btn=findViewById(R.id.envoyer_email_btn);
     }
 
-    public void clicksHandler(){
+    public void uiListeners(){
 
         envoyer_email_btn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -62,12 +62,12 @@ public class TousFragment extends Fragment implements RvInterface {
     private MissionsViewModel missionsViewModel;
 
     private MaterialToolbar toolbar;
-    TabLayout cmds_Tl;
+    private TabLayout cmds_Tl;
 
-    ProgressBar progressBar;
-    MissionsRvAdapter adapter;
+   private ProgressBar progressBar;
+    private MissionsRvAdapter adapter;
 
-    FloatingActionButton addClient_fab;
+    private FloatingActionButton addClient_fab;
 
 
     @Override
@@ -79,13 +79,13 @@ public class TousFragment extends Fragment implements RvInterface {
         bindViews();
         uiSetup();
         DisplayData(visiteList);
-        listeners();
+        uiListeners();
         //scrollllllllllll show bar searchhhhhh
         //HandleEvents();
 
         return view;
     }
-    private void listeners() {
+    private void uiListeners() {
         addClient_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -261,8 +261,8 @@ public class TousFragment extends Fragment implements RvInterface {
     @Override
     public void onItemClick(int position) {
 
-        Toast.makeText(getContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();
-
+        Intent intent = new Intent(getActivity(), MissionDetails.class);
+        startActivity(intent);
     }
     public void showAlert(){
         final Dialog dialog = new Dialog(getContext());

@@ -16,7 +16,6 @@ public class Mission {
     @SerializedName("id")
     private Integer missionId;
 
-
     @ColumnInfo(name = "userId")
     @SerializedName("vendeur")
     private Integer userId;

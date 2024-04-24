@@ -36,25 +36,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class PassCommandeActivity extends AppCompatActivity implements  RvInterface, quantiteInterface, TypeProduitInterface {
+public class PassCommandeActivity extends AppCompatActivity implements RvInterface, quantiteInterface, TypeProduitInterface {
 
     private Produit produit;
     private SearchView searchBar_pass_cmd;
-    private Boolean isFilterClicked=false;
-    private List<Produit> filtredProducts=new ArrayList<>();
+    private Boolean isFilterClicked = false;
+    private List<Produit> filtredProducts = new ArrayList<>();
     private String typeProduit;
-    private RecyclerView typeCmd_Rv,produids_rv;
-    private List<TypeCommande> typeCommandeList ;
+    private RecyclerView typeCmd_Rv, produids_rv;
+    private List<TypeCommande> typeCommandeList;
 
     private ImageView panier_pass_cmd_Iv;
-    private List<Produit> listProduits ;
+    private List<Produit> listProduits;
 
     private List<Produit> selectedProduits = new ArrayList<>();
 
 
     private ImageView arrow_pass_cmd_Iv;
     private TextView nomClient_Tv;
-    private int quantite=1;
+    private int quantite = 1;
     private User user;
     private int itemCickedPos;
 
@@ -66,19 +66,19 @@ public class PassCommandeActivity extends AppCompatActivity implements  RvInterf
         bindViews();
         fakeProductsData();
         DisplayData(listProduits);
-        HandleEvents();
+        uiListeners();
     }
 
-    public void bindViews(){
-        typeCmd_Rv=findViewById(R.id.typeCmd_Rv);
-        produids_rv=findViewById(R.id.produids_rv);
-        panier_pass_cmd_Iv=findViewById(R.id.panier_pass_cmd_Iv);
-        nomClient_Tv=findViewById(R.id.nomClient_Tv);
-        searchBar_pass_cmd=findViewById(R.id.searchBar_pass_cmd);
-        arrow_pass_cmd_Iv=findViewById(R.id.arrow_pass_cmd_Iv);
+    public void bindViews() {
+        typeCmd_Rv = findViewById(R.id.typeCmd_Rv);
+        produids_rv = findViewById(R.id.produids_rv);
+        panier_pass_cmd_Iv = findViewById(R.id.panier_pass_cmd_Iv);
+        nomClient_Tv = findViewById(R.id.nomClient_Tv);
+        searchBar_pass_cmd = findViewById(R.id.searchBar_pass_cmd);
+        arrow_pass_cmd_Iv = findViewById(R.id.arrow_pass_cmd_Iv);
     }
 
-    public void HandleEvents(){
+    public void uiListeners() {
         arrow_pass_cmd_Iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,9 +89,9 @@ public class PassCommandeActivity extends AppCompatActivity implements  RvInterf
         panier_pass_cmd_Iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PassCommandeActivity.this,PanierActivity.class);
+                Intent intent = new Intent(PassCommandeActivity.this, PanierActivity.class);
                 intent.putExtra("lista", (Serializable) selectedProduits);
-                intent.putExtra("user",user);
+                intent.putExtra("user", user);
                 startActivity(intent);
             }
         });
@@ -147,88 +147,86 @@ public class PassCommandeActivity extends AppCompatActivity implements  RvInterf
         List<Produit> produitList = new ArrayList<>();
 
         searchBar_pass_cmd.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-         @Override
-         public boolean onQueryTextSubmit(String query) {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
 
-             return false;
-         }
-         @Override
-         public boolean onQueryTextChange(String newText) {
+                return false;
+            }
 
-             if(newText.length()==0){
-                 //SEARCH EMPTY
-                 if(isFilterClicked==false){
-                     DisplayData(listProduits);
+            @Override
+            public boolean onQueryTextChange(String newText) {
 
-                 }else if(isFilterClicked==true) {
+                if (newText.length() == 0) {
+                    //SEARCH EMPTY
+                    if (isFilterClicked == false) {
+                        DisplayData(listProduits);
 
-                         DisplayData(filtredProducts);
+                    } else if (isFilterClicked == true) {
 
-                 }
+                        DisplayData(filtredProducts);
 
-             }
+                    }
 
-             else {
-                 boolean dataFound = false;
+                } else {
+                    boolean dataFound = false;
 
-                 if(isFilterClicked==false) {
+                    if (isFilterClicked == false) {
 
-                     produitList.clear();
+                        produitList.clear();
 
-                     for (Produit produit : listProduits) {
-                         if (produit.getNomProduit().toLowerCase(Locale.ROOT).contains(newText)) {
-                             produitList.add(produit);
-                             //DisplayData(produitList);
-                             dataFound = true ;
+                        for (Produit produit : listProduits) {
+                            if (produit.getNomProduit().toLowerCase(Locale.ROOT).contains(newText)) {
+                                produitList.add(produit);
+                                //DisplayData(produitList);
+                                dataFound = true;
 
-                         }
-                     }
-                     if (dataFound) {
-                         DisplayData(produitList);
-                     } else {
-                         produids_rv.setAdapter(null);
-                     }
-
+                            }
+                        }
+                        if (dataFound) {
+                            DisplayData(produitList);
+                        } else {
+                            produids_rv.setAdapter(null);
+                        }
 
 
-                 }else if(isFilterClicked==true) {
+                    } else if (isFilterClicked == true) {
 
-                     produitList.clear();
+                        produitList.clear();
 
-                     for (Produit produit : filtredProducts) {
-                         if (produit.getNomProduit().contains(newText)) {
-                             produitList.add(produit);
-                            // DisplayData(produitList);
-                             dataFound = true;
-                         }
-                     }
-                     if (dataFound) {
-                         DisplayData(produitList);
-                     } else {
-                         produids_rv.setAdapter(null);
-                     }
-                 }
+                        for (Produit produit : filtredProducts) {
+                            if (produit.getNomProduit().contains(newText)) {
+                                produitList.add(produit);
+                                // DisplayData(produitList);
+                                dataFound = true;
+                            }
+                        }
+                        if (dataFound) {
+                            DisplayData(produitList);
+                        } else {
+                            produids_rv.setAdapter(null);
+                        }
+                    }
 
 
-             }
-             return false;
-         }
-     });
+                }
+                return false;
+            }
+        });
     }
+
     @Override
     public void onItemClick(int position) {
-        quantite=0;
+        quantite = 0;
 
-        if(isFilterClicked==true) {
+        if (isFilterClicked == true) {
             showAlert(filtredProducts, position);
-        }else
+        } else
             showAlert(listProduits, position);
 
     }
 
 
-
-    public void showAlert(List<Produit> products, int pos){
+    public void showAlert(List<Produit> products, int pos) {
 
         final Dialog dialog = new Dialog(PassCommandeActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -236,7 +234,7 @@ public class PassCommandeActivity extends AppCompatActivity implements  RvInterf
 
         TextView disponibiliteTv = dialog.findViewById(R.id.disponibilite_Tv);
 
-        if(products.get(pos).getDispProduit()==false){
+        if (products.get(pos).getDispProduit() == false) {
             disponibiliteTv.setText(String.valueOf("epuisé"));
             disponibiliteTv.setBackgroundColor(getResources().getColor(R.color.error_red));
         }
@@ -253,17 +251,15 @@ public class PassCommandeActivity extends AppCompatActivity implements  RvInterf
         imageProduit.setImageResource(products.get(pos).getImageProduit());
 
         TextView prixUnitaire = dialog.findViewById(R.id.prix_val_Tv);
-        prixUnitaire.setText(String.valueOf(products.get(pos).getPrixProduit())+" dt");
+        prixUnitaire.setText(String.valueOf(products.get(pos).getPrixProduit()) + " dt");
 
 
-        ImageView plus=dialog.findViewById(R.id.plus_Iv);
-        ImageView moins=dialog.findViewById(R.id.moins_Iv);
+        ImageView plus = dialog.findViewById(R.id.plus_Iv);
+        ImageView moins = dialog.findViewById(R.id.moins_Iv);
 
 
-
-        TextView qte_Tv=dialog.findViewById(R.id.qte_Tv);
+        TextView qte_Tv = dialog.findViewById(R.id.qte_Tv);
         qte_Tv.setText(String.valueOf(quantite));
-
 
 
         plus.setOnClickListener(new View.OnClickListener() {
@@ -289,21 +285,20 @@ public class PassCommandeActivity extends AppCompatActivity implements  RvInterf
             public void onClick(View v) {
                 try {
 
-                  double totl=  quantite*products.get(pos).getPrixProduit();
+                    double totl = quantite * products.get(pos).getPrixProduit();
 
-                   produit = new Produit(products.get(pos).getImageProduit(),
-                          products.get(pos).getNomProduit(),
-                          products.get(pos).getPrixProduit(),
+                    produit = new Produit(products.get(pos).getImageProduit(),
+                            products.get(pos).getNomProduit(),
+                            products.get(pos).getPrixProduit(),
                             quantite,
-                          products.get(pos).getTypePromotion(),
-                          products.get(pos).getDispProduit(),totl,products.get(pos).getCategorie());
+                            products.get(pos).getTypePromotion(),
+                            products.get(pos).getDispProduit(), totl, products.get(pos).getCategorie());
 
                     selectedProduits.add(produit);
 
                     Toast.makeText(PassCommandeActivity.this, "Bien ajouté !", Toast.LENGTH_SHORT).show();
 
-                }catch (Exception e)
-                {
+                } catch (Exception e) {
                     Toast.makeText(PassCommandeActivity.this, "Erreur", Toast.LENGTH_SHORT).show();
                 }
 
@@ -324,16 +319,17 @@ public class PassCommandeActivity extends AppCompatActivity implements  RvInterf
 
      */
     }
-    public void DisplayData(List<Produit> listProd){
+
+    public void DisplayData(List<Produit> listProd) {
 
         Intent intent = getIntent();
-        user = (User)  intent.getSerializableExtra("user");
-        typeCommandeList=new ArrayList<>();
+        user = (User) intent.getSerializableExtra("user");
+        typeCommandeList = new ArrayList<>();
 
-        TypeCommande eeeeeee = new TypeCommande(R.drawable.drink_icon,"Liquides");
-        TypeCommande typezCommande2 = new TypeCommande(R.drawable.fish_icon,"Fish");
-        TypeCommande typeComdmande3 = new TypeCommande(R.drawable.bread_icon,"Breads");
-        TypeCommande fromage = new TypeCommande(R.drawable.fromage,"Fromages");
+        TypeCommande eeeeeee = new TypeCommande(R.drawable.drink_icon, "Liquides");
+        TypeCommande typezCommande2 = new TypeCommande(R.drawable.fish_icon, "Fish");
+        TypeCommande typeComdmande3 = new TypeCommande(R.drawable.bread_icon, "Breads");
+        TypeCommande fromage = new TypeCommande(R.drawable.fromage, "Fromages");
 
         typeCommandeList.add(eeeeeee);
         typeCommandeList.add(typezCommande2);
@@ -342,11 +338,11 @@ public class PassCommandeActivity extends AppCompatActivity implements  RvInterf
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         typeCmd_Rv.setLayoutManager(layoutManager);
-        typeCmd_Rv.setAdapter(new TypeCmdRvAdapter(getApplicationContext(), typeCommandeList,this));
+        typeCmd_Rv.setAdapter(new TypeCmdRvAdapter(getApplicationContext(), typeCommandeList, this));
 
         //////////////////////////////////// RV PRODUITS
-        produids_rv.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
-        produids_rv.setAdapter(new ProduitRvAdapter(getApplicationContext(),listProd,this,this));
+        produids_rv.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+        produids_rv.setAdapter(new ProduitRvAdapter(getApplicationContext(), listProd, this, this));
         nomClient_Tv.setText(user.getEmail());
     }
 
@@ -354,33 +350,33 @@ public class PassCommandeActivity extends AppCompatActivity implements  RvInterf
     public void onTypeItemClick(int position) {
         itemCickedPos = position;
         filtredProducts.clear();
-        isFilterClicked=true;
+        isFilterClicked = true;
 
 
+        if (position == 0)
+            typeProduit = "Liquids";
+        if (position == 1)
+            typeProduit = "Fish";
+        if (position == 2)
+            typeProduit = "Breads";
 
-        if(position==0)
-            typeProduit="Liquids";
-        if(position==1)
-            typeProduit="Fish";
-        if(position==2)
-            typeProduit="Breads";
-
-            DisplayData(filtredProducts);
+        DisplayData(filtredProducts);
     }
-    public void fakeProductsData(){
-        listProduits= new ArrayList<>();
-        //DRINKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK
-        Produit coke = new Produit(R.drawable.cok1,"COKA COLA",2,1,
-                "Promotion Type",true,0,"Liquids");
-        Produit seven = new Produit(R.drawable.seven,"SEVEN UP",2.5,1,
-                "Promotion Type",true,0,"Liquids");
-        Produit FANTA = new Produit(R.drawable.fanta,"FANTA",2.2,1,
-                "Promotion Type",true,0,"Liquids");
 
-        Produit pepsi = new Produit(R.drawable.pepsi,"PEPSI",3,1,
-                "Promotion Type",true,0,"Liquids");
-        Produit tonic = new Produit(R.drawable.tonic,"PEPSI",3,1,
-                "Promotion Type",true,0,"Liquids");
+    public void fakeProductsData() {
+        listProduits = new ArrayList<>();
+        //DRINKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK
+        Produit coke = new Produit(R.drawable.cok1, "COKA COLA", 2, 1,
+                "Promotion Type", true, 0, "Liquids");
+        Produit seven = new Produit(R.drawable.seven, "SEVEN UP", 2.5, 1,
+                "Promotion Type", true, 0, "Liquids");
+        Produit FANTA = new Produit(R.drawable.fanta, "FANTA", 2.2, 1,
+                "Promotion Type", true, 0, "Liquids");
+
+        Produit pepsi = new Produit(R.drawable.pepsi, "PEPSI", 3, 1,
+                "Promotion Type", true, 0, "Liquids");
+        Produit tonic = new Produit(R.drawable.tonic, "PEPSI", 3, 1,
+                "Promotion Type", true, 0, "Liquids");
 
         listProduits.add(coke);
         listProduits.add(seven);
@@ -410,15 +406,15 @@ public class PassCommandeActivity extends AppCompatActivity implements  RvInterf
 
 /////////////////////////////////////////////////////////
 
-        Produit rio = new Produit(R.drawable.rio,"RIO",3.5,1,
-                "Promotion Type",true,0,"Fish");
-        Produit century = new Produit(R.drawable.century,"CENTURY",4.5,1,
-                "Promotion Type",true,0,"Fish");
-        Produit gourmet = new Produit(R.drawable.gourmet,"GOURMET",2.4,1,
-                "Promotion Type",true,0,"Fish");
+        Produit rio = new Produit(R.drawable.rio, "RIO", 3.5, 1,
+                "Promotion Type", true, 0, "Fish");
+        Produit century = new Produit(R.drawable.century, "CENTURY", 4.5, 1,
+                "Promotion Type", true, 0, "Fish");
+        Produit gourmet = new Produit(R.drawable.gourmet, "GOURMET", 2.4, 1,
+                "Promotion Type", true, 0, "Fish");
 
-        Produit tuna4 = new Produit(R.drawable.tuna1,"PEPSI",3,1,
-                "Promotion Type",true,0,"Fish");
+        Produit tuna4 = new Produit(R.drawable.tuna1, "PEPSI", 3, 1,
+                "Promotion Type", true, 0, "Fish");
 
         listProduits.add(rio);
         listProduits.add(gourmet);
@@ -438,26 +434,17 @@ public class PassCommandeActivity extends AppCompatActivity implements  RvInterf
         listProduits.add(tuna4);
         ///////////////////////////////////////////////////////// BREAD
 
-        Produit toast = new Produit(R.drawable.toast,"TOAST",3.5,1,
-                "Promotion Type",true,0,"Breads");
-        Produit complet = new Produit(R.drawable.complet,"COMPLET",2.3,1,
-                "Promotion Type",true,0,"Breads");
-        Produit baget = new Produit(R.drawable.baget,"FRENCH",1.5,1,
-                "Promotion Type",true,0,"Breads");
-        Produit baguette = new Produit(R.drawable.baguette,"FRENCH",2.5,1,
-                "Promotion Type",true,0,"Bread");
-        Produit croissant = new Produit(R.drawable.croissant,"CROISSANT",1.400,1,
-                "Promotion Type",true,0,"Breads");
+        Produit toast = new Produit(R.drawable.toast, "TOAST", 3.5, 1,
+                "Promotion Type", true, 0, "Breads");
+        Produit complet = new Produit(R.drawable.complet, "COMPLET", 2.3, 1,
+                "Promotion Type", true, 0, "Breads");
+        Produit baget = new Produit(R.drawable.baget, "FRENCH", 1.5, 1,
+                "Promotion Type", true, 0, "Breads");
+        Produit baguette = new Produit(R.drawable.baguette, "FRENCH", 2.5, 1,
+                "Promotion Type", true, 0, "Bread");
+        Produit croissant = new Produit(R.drawable.croissant, "CROISSANT", 1.400, 1,
+                "Promotion Type", true, 0, "Breads");
         listProduits.add(toast);
-        listProduits.add(complet);
-        listProduits.add(baget);
-        listProduits.add(baguette);
-        listProduits.add(croissant);
-        listProduits.add(toast);
-        listProduits.add(complet);
-        listProduits.add(baget);
-        listProduits.add(baguette);
-        listProduits.add(croissant);    listProduits.add(toast);
         listProduits.add(complet);
         listProduits.add(baget);
         listProduits.add(baguette);
@@ -471,26 +458,32 @@ public class PassCommandeActivity extends AppCompatActivity implements  RvInterf
         listProduits.add(complet);
         listProduits.add(baget);
         listProduits.add(baguette);
-        listProduits.add(croissant);    listProduits.add(toast);
+        listProduits.add(croissant);
+        listProduits.add(toast);
+        listProduits.add(complet);
+        listProduits.add(baget);
+        listProduits.add(baguette);
+        listProduits.add(croissant);
+        listProduits.add(toast);
+        listProduits.add(complet);
+        listProduits.add(baget);
+        listProduits.add(baguette);
+        listProduits.add(croissant);
+        listProduits.add(toast);
         listProduits.add(complet);
         listProduits.add(baget);
         listProduits.add(baguette);
         listProduits.add(croissant);
         ///////////////////////////////////////////////////////// BREAD
 
-        Produit emmental = new Produit(R.drawable.emmental,"EMMENTAL",4.5,1,
-                "Promotion Type",true,0,"Fromages");
-        Produit gouda = new Produit(R.drawable.gouda,"GOUDA",5.3,1,
-                "Promotion Type",true,0,"Fromages");
-        Produit swiss = new Produit(R.drawable.swiss,"SWISS",3.5,1,
-                "Promotion Type",true,0,"Fromages");
-    ;
+        Produit emmental = new Produit(R.drawable.emmental, "EMMENTAL", 4.5, 1,
+                "Promotion Type", true, 0, "Fromages");
+        Produit gouda = new Produit(R.drawable.gouda, "GOUDA", 5.3, 1,
+                "Promotion Type", true, 0, "Fromages");
+        Produit swiss = new Produit(R.drawable.swiss, "SWISS", 3.5, 1,
+                "Promotion Type", true, 0, "Fromages");
+        ;
         listProduits.add(emmental);
-        listProduits.add(gouda);
-        listProduits.add(swiss);
-        listProduits.add(emmental);
-        listProduits.add(gouda);
-        listProduits.add(swiss);  listProduits.add(emmental);
         listProduits.add(gouda);
         listProduits.add(swiss);
         listProduits.add(emmental);
@@ -498,7 +491,14 @@ public class PassCommandeActivity extends AppCompatActivity implements  RvInterf
         listProduits.add(swiss);
         listProduits.add(emmental);
         listProduits.add(gouda);
-        listProduits.add(swiss);  listProduits.add(emmental);
+        listProduits.add(swiss);
+        listProduits.add(emmental);
+        listProduits.add(gouda);
+        listProduits.add(swiss);
+        listProduits.add(emmental);
+        listProduits.add(gouda);
+        listProduits.add(swiss);
+        listProduits.add(emmental);
         listProduits.add(gouda);
         listProduits.add(swiss);
     }

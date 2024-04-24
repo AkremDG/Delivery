@@ -33,38 +33,55 @@ import java.util.List;
 
 
 public class MissionsFragment extends Fragment {
-    private MaterialToolbar toolbar;
-    private MissionsViewModel missionsViewModel;
-    AppBarLayout appBarLayout;
-    TabLayout tabLayout;
-    ViewPager2 viewPager2;
-    MissionsVpAdapter missionsVpAdapter;
-    View view;
-    ImageView logoutIv;
+    private AppBarLayout appBarLayout;
+    private TabLayout tabLayout;
+    private ViewPager2 viewPager2;
+    private MissionsVpAdapter missionsVpAdapter;
+    private View view;
+    private ImageView logoutIv;
+
     @SuppressLint("FragmentLiveDataObserve")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_commandes, container, false);
 
+
         bindViews();
+        uiSetup();
+        uiListeners();
+
+
+        return view;
+    }
+
+    private void uiSetup() {
+        missionsVpAdapter = new MissionsVpAdapter(MissionsFragment.this);
+        viewPager2.setAdapter(missionsVpAdapter);
+    }
+
+    private void uiListeners() {
 
         logoutIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent intent = new Intent(getActivity(), SplashLoginActivity.class);
-                SessionManager.getInstance().setToken(getContext(),"");
+                SessionManager.getInstance().setToken(getContext(), "");
                 getActivity().overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_right);
                 startActivity(intent);
             }
         });
 
+    }
 
-        missionsVpAdapter = new MissionsVpAdapter(MissionsFragment.this);
-        viewPager2.setAdapter(missionsVpAdapter);
+    public void bindViews() {
+        appBarLayout = view.findViewById(R.id.appBarLayout);
+        appBarLayout.setOutlineProvider(null);
 
-
+        logoutIv = view.findViewById(R.id.logout);
+        tabLayout = view.findViewById(R.id.cmds_Tl);
+        viewPager2 = view.findViewById(R.id.cmdsVp);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -90,18 +107,6 @@ public class MissionsFragment extends Fragment {
                 super.onPageSelected(position);
             }
         });
-
-        return view;
-    }
-    public void bindViews(){
-        appBarLayout = view.findViewById(R.id.appBarLayout);
-        appBarLayout.setOutlineProvider(null);
-
-        logoutIv= view.findViewById(R.id.logout);
-        tabLayout=view.findViewById(R.id.cmds_Tl);
-        viewPager2=view.findViewById(R.id.cmdsVp);
-        toolbar = view.findViewById(R.id.toolbar);
-
 
 
     }

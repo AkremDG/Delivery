@@ -16,6 +16,14 @@
     </style>
 
 
+    <style name="CustomToolbar" parent="Widget.MaterialComponents.Toolbar">
+        <!-- Set your custom font -->
+        <item name="android:fontFamily">@font/exo</item>
+        <!-- Make the text bold -->
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
     <style name="DialogAnimation">
         <item name="android:windowEnterAnimation">@anim/bottom_sheet_animation_inside</item>
         <item name="android:windowExitAnimation">@anim/bottom_sheet_animation_outsid</item>

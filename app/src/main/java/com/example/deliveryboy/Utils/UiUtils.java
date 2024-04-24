@@ -1,5 +1,6 @@
 package com.example.deliveryboy.Utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
@@ -46,8 +47,9 @@ public class UiUtils {
 
     }
 
+    @SuppressLint("ResourceAsColor")
     public static void setStatusBarColorDesign(Window window){
-        window.setStatusBarColor(Color.TRANSPARENT);
+        window.setStatusBarColor(R.color.orange_btn_color);
         window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
     }
