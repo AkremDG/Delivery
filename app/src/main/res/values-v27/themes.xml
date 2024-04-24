@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.DELIVERYBOY" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <!-- system status bar and icons dark-->
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+
+        <!-- Thumb and track tint colors for SwitchMaterial -->
+        <item name="colorControlActivated">@color/orange_btn_color</item>
+        <item name="colorControlNormal">@color/black</item>
+
+        <!-- system nav bar and icons dark -->
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:windowLightNavigationBar">true</item>
+
+    </style>
+</resources>
