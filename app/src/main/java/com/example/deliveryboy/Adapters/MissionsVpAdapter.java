@@ -5,8 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.deliveryboy.View.BottomNavFragments.MissionsFragment;
-import com.example.deliveryboy.View.MissionsFragment.DétaillantFragment;
-import com.example.deliveryboy.View.MissionsFragment.GrossisteFragment;
+import com.example.deliveryboy.View.MissionsFragment.Courantes;
 import com.example.deliveryboy.View.MissionsFragment.TousFragment;
 
 public class MissionsVpAdapter extends FragmentStateAdapter {
@@ -24,9 +23,8 @@ public class MissionsVpAdapter extends FragmentStateAdapter {
             case 0:
                 return new TousFragment();
             case 1:
-                return new GrossisteFragment();
-            case 2:
-                return new DétaillantFragment();
+                return new Courantes();
+
 
         }
         return null;
@@ -34,6 +32,6 @@ public class MissionsVpAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 3;
+        return 2;
     }
 }

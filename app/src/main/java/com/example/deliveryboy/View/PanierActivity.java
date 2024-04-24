@@ -12,14 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.deliveryboy.Adapters.MissionsRvAdapter;
 import com.example.deliveryboy.Adapters.PanierRvAdapter;
-import com.example.deliveryboy.Adapters.TypeCmdRvAdapter;
 import com.example.deliveryboy.Adapters.quantiteInterface;
 import com.example.deliveryboy.Model.Produit;
 import com.example.deliveryboy.Model.User;
 import com.example.deliveryboy.R;
-import com.example.deliveryboy.View.MissionsFragment.TousFragment;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
@@ -37,7 +34,6 @@ public class PanierActivity extends AppCompatActivity implements quantiteInterfa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_panier);
-        getWindow().setStatusBarColor(ContextCompat.getColor(PanierActivity.this,R.color.search_bg_color));
 
         DisplayData();
         HandleEvents();
@@ -68,7 +64,7 @@ public class PanierActivity extends AppCompatActivity implements quantiteInterfa
         Intent intent = getIntent();
         bindViews();
         User user = (User)  intent.getSerializableExtra("user");
-        nomClient_Tv.setText(user.getNameUser());
+        nomClient_Tv.setText(user.getEmail());
         selectedProduits = (List<Produit>) getIntent().getSerializableExtra("lista");
         panier_produids_rv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         panier_produids_rv.setAdapter(new PanierRvAdapter(getApplicationContext(),selectedProduits

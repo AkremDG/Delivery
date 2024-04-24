@@ -21,7 +21,6 @@ public class EmailSuccessActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email_success);
 
-        getWindow().setStatusBarColor(ContextCompat.getColor(EmailSuccessActivity.this,R.color.white));
 
         bindViews();
         clickHandler();

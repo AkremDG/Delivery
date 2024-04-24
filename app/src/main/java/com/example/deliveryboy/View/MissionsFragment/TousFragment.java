@@ -1,63 +1,109 @@
 package com.example.deliveryboy.View.MissionsFragment;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.deliveryboy.Adapters.MissionsRvAdapter;
 import com.example.deliveryboy.Adapters.RvInterface;
-import com.example.deliveryboy.Model.Produit;
+import com.example.deliveryboy.Model.Mission;
 import com.example.deliveryboy.Model.User;
 import com.example.deliveryboy.Model.Visite;
-import com.example.deliveryboy.View.PanierActivity;
+import com.example.deliveryboy.Utils.InternetChecker;
+import com.example.deliveryboy.Utils.SessionManager;
+import com.example.deliveryboy.Utils.UiUtils;
+import com.example.deliveryboy.View.MainActivity;
 import com.example.deliveryboy.View.PassCommandeActivity;
 import com.example.deliveryboy.R;
+import com.example.deliveryboy.View.RapportVisite;
+import com.example.deliveryboy.ViewModel.MissionsViewModel;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 public class TousFragment extends Fragment implements RvInterface {
+
+    private List<Mission> missionList = new ArrayList<>();
     private RecyclerView listCmds_Rv;
     private View view;
     private List<Visite> visiteList ;
     private SearchView searchBar_tt;
+    private MissionsViewModel missionsViewModel;
+
+    private MaterialToolbar toolbar;
+    TabLayout cmds_Tl;
+
+    ProgressBar progressBar;
+    MissionsRvAdapter adapter;
+
+    FloatingActionButton addClient_fab;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
          view =  inflater.inflate(R.layout.fragment_tous, container, false);
 
         bindViews();
-        fakeMissionsData();
+        uiSetup();
         DisplayData(visiteList);
-        HandleEvents();
+        listeners();
+        //scrollllllllllll show bar searchhhhhh
+        //HandleEvents();
 
         return view;
     }
+    private void listeners() {
+        addClient_fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAlert();
+            }
+        });
+    }
+    private void uiSetup() {
+        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(view.getContext(), R.color.orange_btn_color),
+                PorterDuff.Mode.SRC_IN);
+
+        adapter = new MissionsRvAdapter(getContext(), missionList, TousFragment.this );
+        listCmds_Rv.setLayoutManager(new LinearLayoutManager(getContext()));
+        listCmds_Rv.setAdapter(adapter);
+    }
 
     private void HandleEvents() {
-        listCmds_Rv.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+        listCmds_Rv.setOnScrollChangeListener(new View.OnScrollChangeListener()     {
             private int scrollThreshold = 20;
             private boolean scrolledDown = false;
             private int oldScrollY = 0;
@@ -123,7 +169,7 @@ public class TousFragment extends Fragment implements RvInterface {
                 else{
 
                     for (Visite visite : visiteList) {
-                        if (visite.getTypeVisite().contains(newText) || visite.getZone().contains(newText) || visite.getUser().getNameUser().contains(newText)) {
+                        if (visite.getTypeVisite().toLowerCase(Locale.ROOT).contains(newText) || visite.getZone().toLowerCase().contains(newText) || visite.getUser().getEmail().toLowerCase(Locale.ROOT).contains(newText)) {
                             listVisists.add(visite);
                             dataFound = true;
                         }
@@ -143,52 +189,92 @@ public class TousFragment extends Fragment implements RvInterface {
 
     }
 
+    @SuppressLint("FragmentLiveDataObserve")
     private void DisplayData(List<Visite> visites) {
 
-        listCmds_Rv.setLayoutManager(new LinearLayoutManager(getContext()));
-        listCmds_Rv.setAdapter(new MissionsRvAdapter(getContext(), visites, TousFragment.this));
+        missionsViewModel = new MissionsViewModel();
+        progressBar.setVisibility(View.VISIBLE);
+
+        if(InternetChecker.isConnected(getContext())){
+            missionsViewModel.getMissionsApi(getContext()).observe(TousFragment.this, new Observer<Boolean>() {
+                @Override
+                public void onChanged(Boolean aBoolean) {
+                        getAndDisplayLocalMissions();
+                }
+            });
+
+        }else {
+            getAndDisplayLocalMissions();
+        }
+
 
 
     }
 
+    @SuppressLint("FragmentLiveDataObserve")
+    private void getAndDisplayLocalMissions() {
+        missionsViewModel.getLocalMissions(getContext()).observe(TousFragment.this, new Observer<List<Mission>>() {
+            @Override
+            public void onChanged(List<Mission> missions) {
+
+                if(missions!=null){
+
+                    if(missions.size()>0){
+
+                        progressBar.setVisibility(View.INVISIBLE);
+                        missionList.clear();
+                        missionList.addAll(missions);
+                        adapter.notifyDataSetChanged();
+
+
+
+                    }else {
+                        progressBar.setVisibility(View.VISIBLE);
+
+                    }
+
+
+                }
+
+            }
+        });
+
+    }
+
+
+
+
+
+
+
+
     public void bindViews(){
         listCmds_Rv=view.findViewById(R.id.listCmds_Rv);
         searchBar_tt = view.findViewById(R.id.searchBar_tt);
+        toolbar = view.findViewById(R.id.toolbar);
+        progressBar = view.findViewById(R.id.progressBar);
+        cmds_Tl = view.findViewById(R.id.cmds_Tl);
+        addClient_fab = view.findViewById(R.id.addClient_fab);
 
     }
 
     @Override
     public void onItemClick(int position) {
 
-        showAlert(visiteList.get(position).getUser());
+        Toast.makeText(getContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();
 
     }
-    public void showAlert(User user){
+    public void showAlert(){
         final Dialog dialog = new Dialog(getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.bottom_sheet_layout);
 
-        TextView generatrive_tv =dialog.findViewById(R.id.generatrice);
-        TextView non_generatrive_tv = dialog.findViewById(R.id.non_generatrice);
+        ImageView closeIv = dialog.findViewById(R.id.close_iv);
 
-        generatrive_tv.setOnClickListener(new View.OnClickListener() {
+        closeIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                generatrive_tv.setTextColor(getResources().getColor(R.color.blue_reset_password));
-                Intent intent = new Intent(getContext(), PassCommandeActivity.class);
-                intent.putExtra("user", (Serializable) user);
-
-                startActivity(intent);
-            }
-        });
-
-        non_generatrive_tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                generatrive_tv.setTextColor(getResources().getColor(R.color.black));
-                Toast.makeText(getContext(), "non_generatrive_tv", Toast.LENGTH_SHORT).show();
-                non_generatrive_tv.setTextColor(getResources().getColor(R.color.blue_reset_password));
-
+                dialog.dismiss();
             }
         });
 
@@ -201,47 +287,9 @@ public class TousFragment extends Fragment implements RvInterface {
 
     }
 
-
     public void fakeMissionsData(){
         visiteList = new ArrayList<>();
 
-        User user = new User(0,"Akrem BEN DHIA");
-        Visite visite = new Visite("VISITE 01","visite de réactivation",user
-                ,"Ariana");
 
-
-        User raslen = new User(0,"Raslen");
-        Visite visiteralen = new Visite("VISITE 01","Autre",raslen
-                ,"Tunis");
-
-        User user3 = new User(0,"Ali BEN SALEM");
-        Visite visite0 = new Visite("VISITE 01","visite de reactivation",user3
-                ,"Jandouba");
-
-
-        User raslen4 = new User(0,"Kamel");
-        Visite visiteralenz = new Visite("VISITE 01","Autre",raslen4
-                ,"Beja");
-
-
-        visiteList.add(visite);
-        visiteList.add(visiteralen);
-        visiteList.add(visite0);
-        visiteList.add(visiteralenz);
-
-        visiteList.add(visite);
-        visiteList.add(visiteralen);
-        visiteList.add(visite0);
-        visiteList.add(visiteralenz);
-
-        visiteList.add(visite);
-        visiteList.add(visiteralen);
-        visiteList.add(visite0);
-        visiteList.add(visiteralenz);
-
-        visiteList.add(visite);
-        visiteList.add(visiteralen);
-        visiteList.add(visite0);
-        visiteList.add(visiteralenz);
     }
 }

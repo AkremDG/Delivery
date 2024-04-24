@@ -5,11 +5,11 @@
 
 
      <item android:id="@+id/Missions"
-         android:title="Les Missions"
+         android:title="Mes Missions"
          android:icon="@drawable/empty_missions_icon"/>
 
      <item android:id="@+id/historique"
-         android:title="L'historique"
+         android:title="Mes Demandes"
          android:icon="@drawable/empty_historique_icon"/>
 
 </menu>

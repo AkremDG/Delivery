@@ -18,8 +18,6 @@ public class ResetPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
 
-        //White status bar
-        getWindow().setStatusBarColor(ContextCompat.getColor(ResetPasswordActivity.this,R.color.white));
         bindViews();
         clicksHandler();
     }

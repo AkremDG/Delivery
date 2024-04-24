@@ -2,29 +2,20 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="@drawable/gradient_background"
 
     android:scrollbars="none"
     tools:context=".View.SplashLoginActivity">
-
-
-
 
 
     <androidx.constraintlayout.motion.widget.MotionLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutDescription="@xml/motion_splash"
-        android:id="@+id/constraint"
-
-
-        >
-
-
-
+        android:id="@+id/constraint">
 
 
     <ImageView
@@ -37,6 +28,7 @@
         app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
         app:layout_constraintEnd_toEndOf="@id/login_logo_digid"
         />
+
 
 
 
@@ -60,7 +52,7 @@
                     android:layout_width="90dp"
                     android:layout_height="23dp"
                     android:fontFamily="@font/exo"
-                    android:text="Powered by"
+                    android:text="Powered_By"
                     android:textColor="@color/dark_gray"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="@id/login_logo_digid"
@@ -82,17 +74,20 @@
                     android:orientation="vertical"
                     app:layout_constraintBottom_toTopOf="@id/login_logo_digid"
                     >
-                        <TextView
-                            android:id="@+id/seconecter_Tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Se connecter"
-                            style="@style/TextAppearance.MaterialComponents.Headline6"
 
-                            android:textStyle="bold"
-                            android:textColor="@color/se_con_col"
-                            android:fontFamily="@font/exo"
-                            android:layout_gravity="center"/>
+
+
+                    <TextView
+                        android:id="@+id/seconecter_Tv"
+                        style="@style/TextAppearance.AppCompat.Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+
+                        android:fontFamily="@font/exo"
+                        android:text="Se connecter"
+                        android:textColor="@color/se_con_col"
+                        android:textStyle="bold" />
 
 
 
@@ -142,7 +137,7 @@
 
 
 
-                        <com.google.android.material.textfield.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/password_Til"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -162,6 +157,8 @@
                             android:textColorHint="@color/input_text_color"
 
                             app:endIconMode="password_toggle"
+
+
                             app:errorTextColor="@color/error_red"
                             app:boxStrokeErrorColor="@color/error_red"
                             app:errorIconTint="@color/error_red"
@@ -173,7 +170,6 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
 
-                                    android:inputType="textPassword"
                                     android:textColor="@color/black"
                                   />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -191,7 +187,9 @@
                             app:backgroundTint="@color/orange_btn_color"
                            />
 
-                        <TextView
+
+
+                    <TextView
                             android:id="@+id/mdp_oublie_Tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -202,6 +200,8 @@
                             android:layout_gravity="center"
                             android:fontFamily="@font/exo"/>
                 </LinearLayout>
+
+
 
 
 
@@ -223,9 +223,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.2" />
-
-
-
 
 
 

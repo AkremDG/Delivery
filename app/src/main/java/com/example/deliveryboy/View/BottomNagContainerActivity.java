@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 
 import com.example.deliveryboy.R;
 import com.example.deliveryboy.View.BottomNavFragments.MissionsFragment;
@@ -24,10 +25,6 @@ public class BottomNagContainerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_nag_container);
 
-
-
-        //White status bar
-        getWindow().setStatusBarColor(ContextCompat.getColor(BottomNagContainerActivity.this,R.color.search_bg_color));
 
         bindViews();
         bindFragments();

@@ -1,6 +1,5 @@
 package com.example.deliveryboy.View;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.content.ContextCompat;
@@ -8,15 +7,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.animation.Animator;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,12 +29,12 @@ import com.example.deliveryboy.Model.Produit;
 import com.example.deliveryboy.Model.TypeCommande;
 import com.example.deliveryboy.Model.User;
 import com.example.deliveryboy.R;
-import com.example.deliveryboy.View.MissionsFragment.TousFragment;
 import com.google.android.material.button.MaterialButton;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class PassCommandeActivity extends AppCompatActivity implements  RvInterface, quantiteInterface, TypeProduitInterface {
 
@@ -67,7 +62,6 @@ public class PassCommandeActivity extends AppCompatActivity implements  RvInterf
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pass_commande);
-        getWindow().setStatusBarColor(ContextCompat.getColor(PassCommandeActivity.this,R.color.search_bg_color));
 
         bindViews();
         fakeProductsData();
@@ -182,7 +176,7 @@ public class PassCommandeActivity extends AppCompatActivity implements  RvInterf
                      produitList.clear();
 
                      for (Produit produit : listProduits) {
-                         if (produit.getNomProduit().contains(newText)) {
+                         if (produit.getNomProduit().toLowerCase(Locale.ROOT).contains(newText)) {
                              produitList.add(produit);
                              //DisplayData(produitList);
                              dataFound = true ;
@@ -353,7 +347,7 @@ public class PassCommandeActivity extends AppCompatActivity implements  RvInterf
         //////////////////////////////////// RV PRODUITS
         produids_rv.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
         produids_rv.setAdapter(new ProduitRvAdapter(getApplicationContext(),listProd,this,this));
-        nomClient_Tv.setText(user.getNameUser());
+        nomClient_Tv.setText(user.getEmail());
     }
 
     @Override
@@ -370,14 +364,7 @@ public class PassCommandeActivity extends AppCompatActivity implements  RvInterf
             typeProduit="Fish";
         if(position==2)
             typeProduit="Breads";
-        if(position==3)
-            typeProduit="Fromages";
 
-            for(Produit produit : listProduits){
-                if(produit.getCategorie().equals(typeProduit)){
-                    filtredProducts.add(produit);
-                }
-            }
             DisplayData(filtredProducts);
     }
     public void fakeProductsData(){

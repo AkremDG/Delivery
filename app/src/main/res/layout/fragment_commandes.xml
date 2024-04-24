@@ -1,62 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_background"
+    android:fillViewport="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".View.BottomNavFragments.MissionsFragment">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/avatar"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/user_Iv"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="22dp"
-        />
-    <TextView
-        android:id="@+id/bonjour_Tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Bonjour !"
-        android:fontFamily="@font/exo"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@id/user_Iv"
-        app:layout_constraintTop_toTopOf="@id/user_Iv"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:textColor="@color/black"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_logout_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/logout"
+            android:layout_marginEnd="22dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="22dp"
+            />
 
 
-    <TextView
-        android:id="@+id/type_user_Tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Commercial"
-        android:fontFamily="@font/exo"
-        app:layout_constraintStart_toEndOf="@id/user_Iv"
-        app:layout_constraintTop_toBottomOf="@id/bonjour_Tv"
-        android:layout_marginLeft="5dp"
-        android:textColor="@color/input_text_color"/>
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
 
-    <TextView
-        android:id="@+id/listeCmd_Tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Liste des missions des visites"
-        app:layout_constraintTop_toBottomOf="@id/user_Iv"
-        android:fontFamily="@font/exo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textColor="@color/se_con_col"
-        android:textStyle="bold"
-        android:layout_marginTop="10dp"
-        />
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@color/white"
 
+            android:elevation="0dp">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="?attr/actionBarSize"
+                app:title="Mes missions"
+                app:subtitle="Planification mensuelle"
+                android:elevation="0dp" />
+
+
+        </com.google.android.material.appbar.AppBarLayout>
 
 
     <com.google.android.material.tabs.TabLayout
@@ -67,23 +55,26 @@
         app:tabSelectedTextColor="@color/orange_btn_color"
         app:tabTextColor="@color/black"
         app:tabIndicatorColor="#F8981D"
+
         style="@style/TextAppearance.MaterialComponents.Headline6"
-        android:background="@drawable/gradient_background"
-        app:layout_constraintTop_toBottomOf="@+id/listeCmd_Tv">
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
 
 
+
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tous(10)"/>
+
+            android:text="Tous"/>
+
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Grossistes(4)"/>
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Détaillants(4)"/>
+            android:layout_gravity="center_vertical"
+
+            android:text="Cette Semaine"/>
+
+
 
     </com.google.android.material.tabs.TabLayout>
 
@@ -96,5 +87,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cmds_Tl"
         app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

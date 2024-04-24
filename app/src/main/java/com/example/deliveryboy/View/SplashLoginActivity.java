@@ -4,24 +4,37 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.Guideline;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Observer;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.deliveryboy.Model.Requests.AuthRequest;
 import com.example.deliveryboy.R;
+import com.example.deliveryboy.Utils.InternetChecker;
+import com.example.deliveryboy.Utils.SessionManager;
+import com.example.deliveryboy.Utils.UiUtils;
+import com.example.deliveryboy.ViewModel.AuthViewModel;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class SplashLoginActivity extends AppCompatActivity {
     boolean res=false;
-
+    ProgressBar progressBar;
+    AuthViewModel authViewModel;
     ConstraintLayout constraint;
 
    TextView mdp_oublie_Tv;
@@ -35,8 +48,9 @@ public class SplashLoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_login);
-        getWindow().setStatusBarColor(ContextCompat.getColor(SplashLoginActivity.this,R.color.search_bg_color));
 
+        authViewModel = new AuthViewModel();
+        progressBar= new ProgressBar(getApplicationContext());
 
         bindViews();
         clicksHandler();
@@ -75,10 +89,40 @@ public class SplashLoginActivity extends AppCompatActivity {
         connect_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 if(!isEmptyInputs())
                 {
-                    Intent intent=new Intent(SplashLoginActivity.this, BottomNagContainerActivity.class);
-                    startActivity(intent);
+                    if(InternetChecker.isConnected(getApplicationContext())){
+
+                        connect_btn.setText("En cours ...");
+                        connect_btn.setEnabled(false);
+
+                        authViewModel.authUser(getApplicationContext(), new AuthRequest(username_Et.getText().toString(),
+                                        password_Et.getText().toString())).observe(SplashLoginActivity.this, new Observer<String>() {
+                            @Override
+                            public void onChanged(String s) {
+
+                                connect_btn.setEnabled(true);
+                                connect_btn.setText("SE CONNECTER");
+
+                                if(s.equals("success")){
+                                    Intent intent=new Intent(SplashLoginActivity.this, BottomNagContainerActivity.class);
+                                    startActivity(intent);
+                                }else {
+
+                                    UiUtils.showSnackbar(constraint,s,"Annuler");
+
+                                }
+                            }
+                        });
+
+                    }else {
+
+                        UiUtils.showSnackbar(constraint,"Pas de connexion internet","Annuler");
+                    }
+
+
                 }
 
             }
@@ -156,6 +200,7 @@ public class SplashLoginActivity extends AppCompatActivity {
 
         return res;
     }
+
     }
 
 

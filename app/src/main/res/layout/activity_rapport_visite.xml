@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".View.RapportVisite">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/gradient_background"
+
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/title_Tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/exo"
+            android:text="Rapport de visite"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+
+            style="@style/TextAppearance.AppCompat.Title"
+
+            app:layout_constraintBottom_toBottomOf="@+id/arrow_pass_cmd_Iv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/arrow_pass_cmd_Iv"
+         />
+
+        <ImageView
+        android:id="@+id/arrow_pass_cmd_Iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="20dp"
+        android:clickable="true"
+        android:src="@drawable/arrow_back_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+        <LinearLayout
+            android:id="@+id/form_Ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/title_Tv"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.25"
+
+            >
+
+
+            <TextView
+                android:id="@+id/Tel_Tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Numéro de téléphone"
+
+                android:layout_marginHorizontal="10dp"
+
+                android:textStyle="bold"
+                android:textColor="@color/se_con_col"
+                android:fontFamily="@font/exo"
+                android:layout_gravity="start"/>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/username_Til"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            app:layout_constraintTop_toBottomOf="@id/seconecter_Tv"
+            android:hint="Numéro de téléphone du client"
+            android:layout_marginHorizontal="10dp"
+            app:boxStrokeWidth="2dp"
+
+            app:errorTextColor="@color/error_red"
+            app:boxStrokeErrorColor="@color/error_red"
+            app:errorIconTint="@color/error_red"
+
+
+
+            app:boxBackgroundMode="filled"
+            android:textColorHint="@color/input_text_color"
+            app:boxBackgroundColor="@color/background_rv_item"
+            app:boxStrokeColor="@color/input_stroke_color"
+            app:hintTextColor="@color/black"
+            app:endIconMode="clear_text"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopStart="10dp"
+            android:clickable="true"
+            app:startIconDrawable="@drawable/tel_icon">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/username_Et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:textColor="@color/black"
+
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+            <TextView
+                android:id="@+id/raison_Tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Raison de refoulement"
+                android:layout_marginHorizontal="10dp"
+                android:textStyle="bold"
+
+                android:layout_marginTop="25dp"
+
+                android:textColor="@color/se_con_col"
+                android:fontFamily="@font/exo"
+                android:layout_gravity="start"/>
+
+
+
+            <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/password_Til"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:hint="Déclarer le raison de refoulement"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopStart="10dp"
+            android:layout_marginHorizontal="10dp"
+            app:boxBackgroundMode="filled"
+                app:startIconDrawable="@drawable/baseline_edit_note_24"
+            app:boxStrokeColor="@color/input_stroke_color"
+            app:hintTextColor="@color/black"
+            app:boxBackgroundColor="@color/background_rv_item"
+            app:boxStrokeWidth="2dp"
+            app:endIconTint="@color/se_con_col"
+            android:textColorHint="@color/input_text_color"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            app:errorTextColor="@color/error_red"
+            app:boxStrokeErrorColor="@color/error_red"
+            app:errorIconTint="@color/error_red"
+
+
+            >
+            <AutoCompleteTextView
+                android:id="@+id/raison_Actv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:textColor="@color/black"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+            <TextView
+                android:id="@+id/comment_Tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Commentaire"
+                android:layout_marginHorizontal="10dp"
+                android:textStyle="bold"
+                android:layout_marginTop="25dp"
+
+                android:textColor="@color/se_con_col"
+                android:fontFamily="@font/exo"
+                android:layout_gravity="start"/>
+
+
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/commentaire_Til"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="5dp"
+                android:hint="Ajouter un commentaire"
+                app:boxBackgroundColor="@color/background_rv_item"
+                app:boxBackgroundMode="outline"
+
+                app:boxCornerRadiusBottomEnd="10dp"
+                app:boxCornerRadiusBottomStart="10dp"
+                app:boxCornerRadiusTopEnd="10dp"
+                app:boxCornerRadiusTopStart="10dp"
+                app:boxStrokeColor="@color/input_stroke_color"
+                app:boxStrokeWidth="1dp"
+                app:hintTextColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:endIconMode="clear_text"
+                app:layout_constraintTop_toBottomOf="@id/totalVal_Tv">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/commentaireVal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="50dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </LinearLayout>
+
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/valid_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/exo"
+            android:text="Envoyer"
+            app:backgroundTint="@color/orange_btn_color"
+            app:cornerRadius="10dp"
+            android:layout_marginHorizontal="20dp"
+            app:layout_constraintVertical_bias="0.4"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.4"
+            app:layout_constraintStart_toEndOf="@+id/annuler_btn"
+            app:layout_constraintTop_toBottomOf="@id/form_Ll" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/annuler_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/exo"
+            android:layout_marginHorizontal="20dp"
+            android:text="Annuler"
+            app:backgroundTint="@color/background_rv_item"
+            app:cornerRadius="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:textColor="@color/dark_gray"
+            app:layout_constraintVertical_bias="0.4"
+            app:layout_constraintEnd_toStartOf="@+id/valid_btn"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/form_Ll" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

@@ -1,7 +1,5 @@
 package com.example.deliveryboy.Model;
 
-import android.widget.ImageView;
-
 public class TypeCommande {
 
     private int image;

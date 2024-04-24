@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.deliveryboy.Model.Commande;
+import com.example.deliveryboy.Model.Mission;
 import com.example.deliveryboy.Model.Visite;
 import com.example.deliveryboy.R;
 
@@ -17,7 +17,7 @@ import java.util.List;
 
 public class MissionsRvAdapter extends RecyclerView.Adapter<MissionsRvAdapter.CommandesVh> {
     Context context;
-    List<Visite> visiteList;
+    List<Mission> visiteList;
     private final RvInterface rvInterface;
 
 
@@ -29,7 +29,6 @@ public class MissionsRvAdapter extends RecyclerView.Adapter<MissionsRvAdapter.Co
 
             Uuser_name_visite_Tv=itemView.findViewById(R.id.Uuser_name_visite_Tv);
             type_visite_Tv=itemView.findViewById(R.id.type_visite_Tv);
-            zone_Tv=itemView.findViewById(R.id.zone_Tv);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -46,7 +45,7 @@ public class MissionsRvAdapter extends RecyclerView.Adapter<MissionsRvAdapter.Co
     }
 
 
-    public MissionsRvAdapter(Context context, List<Visite> visiteList,RvInterface rvInterface ) {
+    public MissionsRvAdapter(Context context, List<Mission> visiteList,RvInterface rvInterface ) {
         this.context = context;
         this.visiteList = visiteList;
         this.rvInterface=rvInterface;
@@ -64,9 +63,10 @@ public class MissionsRvAdapter extends RecyclerView.Adapter<MissionsRvAdapter.Co
 
     @Override
     public void onBindViewHolder(@NonNull CommandesVh holder, int position) {
-        holder.Uuser_name_visite_Tv.setText(visiteList.get(position).getUser().getNameUser());
-        holder.type_visite_Tv.setText(visiteList.get(position).getTypeVisite());
-        holder.zone_Tv.setText(String.valueOf(visiteList.get(position).getZone()));
+        holder.Uuser_name_visite_Tv.setText("Mission numèro "+String.valueOf(position));
+
+        holder.type_visite_Tv.setText("Nombre Client : 2");
+
     }
 
     @Override
