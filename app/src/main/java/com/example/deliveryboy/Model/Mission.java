@@ -28,7 +28,6 @@ public class Mission {
     @SerializedName("endsOn")
     private String endsOn;
 
-
     @Ignore
     @SerializedName("clientU")
     private List<Client> clientsList;

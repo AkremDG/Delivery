@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.deliveryboy.Apis.MissionsApi;
 import com.example.deliveryboy.Database.DatabaseInstance;
+import com.example.deliveryboy.Model.Client;
 import com.example.deliveryboy.Model.Mission;
 import com.example.deliveryboy.Model.Region;
 import com.example.deliveryboy.Utils.SessionManager;
@@ -44,35 +45,70 @@ public class MissionsRepository {
 
                 if(response.isSuccessful()){
 
-                    executor.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            Boolean isDeleted = false;
+                    if(response.body()!=null){
 
-                            try {
-                                DatabaseInstance.getInstance(context).missionsDao().deleteAllMissions();
+                        if(response.body().size()>0)
+                        {
 
-                                isDeleted = true;
+                            executor.execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Boolean isDeleted = false;
 
-                            }catch (Exception e){
+                                    try {
+                                        DatabaseInstance.getInstance(context).missionsDao().deleteAllMissions();
+                                        try{
 
-                                isDeleted = false;
-                            }
+                                            DatabaseInstance.getInstance(context).missionsDao().deleteAllClientsMissions();
+
+                                        }catch (Exception e){
 
 
-                            if(isDeleted==true) {
-                                try {
-                                    DatabaseInstance.getInstance(context).missionsDao().insertAllMissions(response.body());
-                                    isRefreshedLiveData.postValue(true);
-                                }catch (Exception e){
-                                    isRefreshedLiveData.postValue(false);
+
+                                        }
+
+                                        isDeleted = true;
+
+                                    }catch (Exception e){
+
+                                        isDeleted = false;
+                                    }
+
+
+                                    if(isDeleted==true) {
+                                        try {
+
+                                            DatabaseInstance.getInstance(context).missionsDao().insertAllMissions(response.body());
+
+                                            for(Mission mission : response.body()){
+                                                for(Client client : mission.getClientsList()){
+                                                    client.setMissionId(mission.getMissionId());
+                                                    DatabaseInstance.getInstance(context).missionsDao().insertMissionClient(client);
+                                                }
+                                            }
+
+                                            isRefreshedLiveData.postValue(true);
+                                        }catch (Exception e){
+
+
+                                            isRefreshedLiveData.postValue(false);
+                                        }
+
+                                    }
+
                                 }
 
-                            }
+                            });
+
+                        }else {
+                            isRefreshedLiveData.postValue(false);
 
                         }
 
-                    });
+
+                    }else {
+                        isRefreshedLiveData.postValue(false);
+                    }
 
 
 
@@ -108,6 +144,7 @@ public class MissionsRepository {
                     localMissionMutableLiveData.postValue(DatabaseInstance.getInstance(context).missionsDao().getAllMissionsByUserId
                             (SessionManager.getInstance().getUSER_ID(context)));
 
+
                 }catch (Exception e){
                     localMissionMutableLiveData.postValue(null);
                 }
@@ -117,4 +154,27 @@ public class MissionsRepository {
         return localMissionMutableLiveData;
 
     }
+
+    public MutableLiveData<List<Client>> getLocalClientsByMissionId(Context context,Integer missionId){
+
+        MutableLiveData<List<Client>> localClientsMutableLiveData = new MutableLiveData<>();
+
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+
+                    localClientsMutableLiveData.postValue(DatabaseInstance.getInstance(context).missionsDao().getAllClientsByMissionId(missionId));
+
+
+                }catch (Exception e){
+                    localClientsMutableLiveData.postValue(null);
+                }
+            }
+        });
+
+        return localClientsMutableLiveData;
+
+    }
+
 }

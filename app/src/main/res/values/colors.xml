@@ -21,5 +21,6 @@
     <color name="background_rv_item">#F3F3F3</color>
     <color name="search_bg_color">#FEF0DD</color>
     <color name="green">#49968C</color>
+    <color name="search_input_gray">#F8F8F8</color>
 
 </resources>

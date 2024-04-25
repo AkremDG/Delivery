@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.example.deliveryboy.Adapters.MissionsRvAdapter;
 import com.example.deliveryboy.Adapters.RvInterface;
+import com.example.deliveryboy.Model.Client;
 import com.example.deliveryboy.Model.Mission;
 import com.example.deliveryboy.Model.User;
 import com.example.deliveryboy.Model.Visite;
@@ -260,6 +261,14 @@ public class TousFragment extends Fragment implements RvInterface {
 
     @Override
     public void onItemClick(int position) {
+        missionsViewModel.getMissionsClients(getContext(),missionList.get(position).getMissionId()).observe(TousFragment.this, new Observer<List<Client>>() {
+            @Override
+            public void onChanged(List<Client> clients) {
+                for(Client client : clients){
+                    Toast.makeText(getContext(), String.valueOf(client.getCT_Intitule()), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         Intent intent = new Intent(getActivity(), MissionDetails.class);
         startActivity(intent);

@@ -1,29 +1,60 @@
 package com.example.deliveryboy.Model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
+@Entity
 public class Client {
+    @PrimaryKey
+    @ColumnInfo(name = "clientId")
     @SerializedName("id")
     private Integer clientId;
 
+    @ColumnInfo(name = "missionId")
+    private Integer missionId;
+
+    @ColumnInfo(name = "CT_Num")
     @SerializedName("CT_Num")
     private String  CT_Num;
+
+    @ColumnInfo(name = "CT_Intitule")
     @SerializedName("CT_Intitule")
     private String CT_Intitule;
+
+    @ColumnInfo(name = "CT_Adresse")
     @SerializedName("CT_Adresse")
     private String CT_Adresse;
+
+
+    @ColumnInfo(name = "statutC")
     @SerializedName("statutC")
     private String statutC;
+
+    @ColumnInfo(name = "CT_Telephone")
     @SerializedName("CT_Telephone")
     private String CT_Telephone;
+
+    @ColumnInfo(name = "CT_Ville")
     @SerializedName("CT_Ville")
     private String CT_Ville;
+
+
+    @ColumnInfo(name = "regionId")
     @SerializedName("Region")
     private Long regionId;
+
+
+    @Ignore
     @SerializedName("regionU")
     private Region region;
 
+    public Client(){
 
+    }
     public Client(Integer clientId, String CT_Num, String CT_Intitule, String CT_Adresse, String statutC, String CT_Telephone, String CT_Ville, Long regionId, Region region) {
         this.clientId = clientId;
         this.CT_Num = CT_Num;
@@ -36,12 +67,21 @@ public class Client {
         this.region = region;
     }
 
+
     public Integer getClientId() {
         return clientId;
     }
 
     public void setClientId(Integer clientId) {
         this.clientId = clientId;
+    }
+
+    public Integer getMissionId() {
+        return missionId;
+    }
+
+    public void setMissionId(Integer missionId) {
+        this.missionId = missionId;
     }
 
     public String getCT_Num() {
@@ -112,6 +152,7 @@ public class Client {
     public String toString() {
         return "Client{" +
                 "clientId=" + clientId +
+                ", missionId=" + missionId +
                 ", CT_Num='" + CT_Num + '\'' +
                 ", CT_Intitule='" + CT_Intitule + '\'' +
                 ", CT_Adresse='" + CT_Adresse + '\'' +

@@ -22,11 +22,13 @@ public class MissionsRvAdapter extends RecyclerView.Adapter<MissionsRvAdapter.Co
 
 
     public static class CommandesVh extends RecyclerView.ViewHolder {
-        TextView Uuser_name_visite_Tv,type_visite_Tv,zone_Tv;
+        TextView Uuser_name_visite_Tv,type_visite_Tv,startsDate_tv,endDate_tv,nbClients_tv;
 
         public CommandesVh(@NonNull View itemView, RvInterface rvInterface) {
             super(itemView);
-
+            startsDate_tv = itemView.findViewById(R.id.startsDate_tv);
+            endDate_tv = itemView.findViewById(R.id.endDate_tv);
+            nbClients_tv = itemView.findViewById(R.id.nbClients_tv);
             Uuser_name_visite_Tv=itemView.findViewById(R.id.Uuser_name_visite_Tv);
             type_visite_Tv=itemView.findViewById(R.id.type_visite_Tv);
 
@@ -65,7 +67,10 @@ public class MissionsRvAdapter extends RecyclerView.Adapter<MissionsRvAdapter.Co
     public void onBindViewHolder(@NonNull CommandesVh holder, int position) {
         holder.Uuser_name_visite_Tv.setText("Mission numèro "+String.valueOf(position));
 
-        holder.type_visite_Tv.setText("Nombre Client : 2");
+        holder.startsDate_tv.setText(this.visiteList.get(position).getStartOn()+" - ");
+        holder.endDate_tv.setText(this.visiteList.get(position).getEndsOn());
+//      holder.nbClients_tv.setText(String.valueOf(this.visiteList.get(position).getClientsList().size())+" Clients");
+
 
     }
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.deliveryboy.Model.Client;
 import com.example.deliveryboy.Model.Mission;
 import com.example.deliveryboy.Repository.MissionsRepository;
 
@@ -23,5 +24,9 @@ public class MissionsViewModel {
 
     public MutableLiveData<List<Mission>> getLocalMissions(Context context){
         return missionsRepository.getLocalMissions(context);
+    }
+
+    public MutableLiveData<List<Client>> getMissionsClients(Context context,Integer missionId){
+        return missionsRepository.getLocalClientsByMissionId(context,missionId);
     }
 }
