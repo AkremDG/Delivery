@@ -94,8 +94,10 @@ public class SplashLoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
+
                 if (!isEmptyInputs()) {
-                    if (InternetChecker.isConnected(getApplicationContext())) {
+
+                    if (InternetChecker.isConnectedToInternet(getApplicationContext())) {
 
                         connect_btn.setText("En cours ...");
                         connect_btn.setEnabled(false);
@@ -124,8 +126,9 @@ public class SplashLoginActivity extends AppCompatActivity {
                         UiUtils.showSnackbar(constraint, "Pas de connexion internet", "Annuler");
                     }
 
-
                 }
+
+
 
             }
         });

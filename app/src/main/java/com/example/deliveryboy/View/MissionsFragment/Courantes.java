@@ -195,7 +195,8 @@ public class Courantes extends Fragment implements RvInterface {
         missionsViewModel = new MissionsViewModel();
         progressBar.setVisibility(View.VISIBLE);
 
-        if (InternetChecker.isConnected(getContext())) {
+
+        if (InternetChecker.isConnectedToInternet(getContext())) {
 
             missionsViewModel.getMissionsApi(getContext()).observe(Courantes.this, new Observer<Boolean>() {
                 @Override
@@ -208,6 +209,10 @@ public class Courantes extends Fragment implements RvInterface {
 
             getAndDisplayLocalMissions();
         }
+
+
+
+
 
 
     }

@@ -32,6 +32,7 @@ import com.example.deliveryboy.Model.Client;
 import com.example.deliveryboy.Model.Mission;
 import com.example.deliveryboy.Model.User;
 import com.example.deliveryboy.Model.Visite;
+import com.example.deliveryboy.Repository.ReponseInternet;
 import com.example.deliveryboy.Utils.InternetChecker;
 import com.example.deliveryboy.Utils.SessionManager;
 import com.example.deliveryboy.Utils.UiUtils;
@@ -196,27 +197,48 @@ public class TousFragment extends Fragment implements RvInterface {
         missionsViewModel = new MissionsViewModel();
         progressBar.setVisibility(View.VISIBLE);
 
-        if(InternetChecker.isConnected(getContext())){
+
+
+
+        if(InternetChecker.isConnectedToInternet(getContext())){
+            Toast.makeText(getContext(), "CONNECTED", Toast.LENGTH_SHORT).show();
             missionsViewModel.getMissionsApi(getContext()).observe(TousFragment.this, new Observer<Boolean>() {
                 @Override
                 public void onChanged(Boolean aBoolean) {
+                    if(aBoolean==false){
+                        Toast.makeText(getContext(), "FALSEEEEEEEEEE", Toast.LENGTH_SHORT).show();
                         getAndDisplayLocalMissions();
+                    }else {
+                        Toast.makeText(getContext(), "TRUEEEEE", Toast.LENGTH_SHORT).show();
+
+                        getAndDisplayLocalMissions();
+
+                    }
                 }
             });
 
         }else {
+            Toast.makeText(getContext(), "DISCONNECT", Toast.LENGTH_SHORT).show();
+
             getAndDisplayLocalMissions();
         }
 
 
 
-    }
 
+
+
+
+
+
+    }
     @SuppressLint("FragmentLiveDataObserve")
     private void getAndDisplayLocalMissions() {
         missionsViewModel.getLocalMissions(getContext()).observe(TousFragment.this, new Observer<List<Mission>>() {
             @Override
             public void onChanged(List<Mission> missions) {
+
+                Toast.makeText(getContext(), "IJAA", Toast.LENGTH_SHORT).show();
 
                 if(missions!=null){
 
@@ -264,9 +286,19 @@ public class TousFragment extends Fragment implements RvInterface {
         missionsViewModel.getMissionsClients(getContext(),missionList.get(position).getMissionId()).observe(TousFragment.this, new Observer<List<Client>>() {
             @Override
             public void onChanged(List<Client> clients) {
-                for(Client client : clients){
-                    Toast.makeText(getContext(), String.valueOf(client.getCT_Intitule()), Toast.LENGTH_SHORT).show();
+                if(clients!=null){
+                    if(clients.size()>0){
+                        for(Client client : clients){
+                            Toast.makeText(getContext(), String.valueOf(client.toString()), Toast.LENGTH_SHORT).show();
+                        }
+                    }else {
+                        Toast.makeText(getContext(), "000000000000", Toast.LENGTH_SHORT).show();
+
+                    }
+                }else {
+                    Toast.makeText(getContext(), "NOOOOO CLIENTS", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
 

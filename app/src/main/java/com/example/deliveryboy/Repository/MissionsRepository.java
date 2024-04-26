@@ -3,6 +3,7 @@ package com.example.deliveryboy.Repository;
 import android.content.Context;
 import android.se.omapi.Session;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -42,13 +43,22 @@ public class MissionsRepository {
             @Override
             public void onResponse(Call<List<Mission>> call, Response<List<Mission>> response) {
 
+                Log.i("VVVVVVVV", "0 OK: ");
 
                 if(response.isSuccessful()){
 
+                    Log.i("RESULTTTTTTTTTTTTTTT", response.body().toString());
+
+                    Log.i("VVVVVVVV", "1 OK: ");
+
                     if(response.body()!=null){
+                        Log.i("VVVVVVVV", "2 OK: ");
 
                         if(response.body().size()>0)
                         {
+
+
+                            Log.i("VVVVVVVV", "3 OK");
 
                             executor.execute(new Runnable() {
                                 @Override
@@ -101,12 +111,16 @@ public class MissionsRepository {
                             });
 
                         }else {
+                            Log.i("VVVVVVVV", "3 NO: ");
+
                             isRefreshedLiveData.postValue(false);
 
                         }
 
 
                     }else {
+                        Log.i("VVVVVVVV", "2 NO: ");
+
                         isRefreshedLiveData.postValue(false);
                     }
 
@@ -114,6 +128,8 @@ public class MissionsRepository {
 
 
                 }else {
+                    Log.i("VVVVVVVV", "1 NO: ");
+
                     isRefreshedLiveData.postValue(false);
 
                 }
@@ -122,6 +138,8 @@ public class MissionsRepository {
 
             @Override
             public void onFailure(Call<List<Mission>> call, Throwable t) {
+                Log.i("VVVVVVVV", "FAILURE YES RETARD IS HERE: ");
+
                 isRefreshedLiveData.postValue(false);
 
             }
