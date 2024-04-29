@@ -55,7 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tabSelectedTextColor="@color/orange_btn_color"
-        app:tabTextColor="@color/black"
+        app:tabTextColor="@color/se_con_col"
         app:tabIndicatorColor="#F8981D"
 
         style="@style/TextAppearance.MaterialComponents.Headline6"
@@ -66,6 +66,7 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
 
             android:text="Tous"/>
 

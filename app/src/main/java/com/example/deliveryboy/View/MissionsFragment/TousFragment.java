@@ -77,7 +77,7 @@ public class TousFragment extends Fragment implements RvInterface {
                              Bundle savedInstanceState) {
 
          view =  inflater.inflate(R.layout.fragment_tous, container, false);
-
+        Log.i("TOKEEEEEEEEEEEEN", SessionManager.getInstance().getToken(getContext()));
         bindViews();
         uiSetup();
         DisplayData(visiteList);
@@ -283,26 +283,10 @@ public class TousFragment extends Fragment implements RvInterface {
 
     @Override
     public void onItemClick(int position) {
-        missionsViewModel.getMissionsClients(getContext(),missionList.get(position).getMissionId()).observe(TousFragment.this, new Observer<List<Client>>() {
-            @Override
-            public void onChanged(List<Client> clients) {
-                if(clients!=null){
-                    if(clients.size()>0){
-                        for(Client client : clients){
-                            Toast.makeText(getContext(), String.valueOf(client.toString()), Toast.LENGTH_SHORT).show();
-                        }
-                    }else {
-                        Toast.makeText(getContext(), "000000000000", Toast.LENGTH_SHORT).show();
-
-                    }
-                }else {
-                    Toast.makeText(getContext(), "NOOOOO CLIENTS", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
 
         Intent intent = new Intent(getActivity(), MissionDetails.class);
+        intent.putExtra("MissionFromTousFragment",(Serializable) missionList.get(position));
+
         startActivity(intent);
     }
     public void showAlert(){

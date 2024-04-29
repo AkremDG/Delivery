@@ -11,7 +11,7 @@ import com.example.deliveryboy.Model.Mission;
 import com.example.deliveryboy.Model.Region;
 import com.example.deliveryboy.Model.User;
 
-@Database(entities = {Mission.class, Client.class}, version = 4,exportSchema = false)
+@Database(entities = {Mission.class, Client.class}, version = 7,exportSchema = false)
 public abstract class DatabaseInstance extends RoomDatabase {
 
     public static DatabaseInstance instance;

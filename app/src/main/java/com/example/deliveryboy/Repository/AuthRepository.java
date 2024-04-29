@@ -37,7 +37,6 @@ public class AuthRepository {
                if(response.isSuccessful()){
 
 
-
                        Calendar calendar = Calendar.getInstance();
                        calendar.add(Calendar.DAY_OF_MONTH,1);
 
@@ -45,6 +44,8 @@ public class AuthRepository {
                        SessionManager.getInstance().setExpireDate(context,calendar);
                        SessionManager.getInstance().setUSER_ID(context,response.body().getUser().getId());
                        SessionManager.getInstance().setROLE_ID(context,response.body().getUser().getRoleId());
+
+                       Log.i("TOKEN", String.valueOf(response.body().getToken()));
 
 
                        authUserLiveData.postValue("success");

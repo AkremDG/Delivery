@@ -7,10 +7,11 @@ import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
-public class Mission {
+public class Mission implements Serializable {
     @PrimaryKey
     @ColumnInfo(name = "missionId")
     @SerializedName("id")

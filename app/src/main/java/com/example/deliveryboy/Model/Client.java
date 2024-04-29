@@ -7,10 +7,16 @@ import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 @Entity
-public class Client {
+public class Client implements Serializable {
+
     @PrimaryKey
-    @ColumnInfo(name = "clientId")
+    @ColumnInfo(name = "localClientId")
+    private Integer localClientId;
+
+    @ColumnInfo(name = "boClientId")
     @SerializedName("id")
     private Integer clientId;
 
@@ -47,6 +53,11 @@ public class Client {
     @SerializedName("Region")
     private Long regionId;
 
+    @ColumnInfo(name = "RegionName")
+    @SerializedName("RegionName")
+    private String RegionName;
+
+
 
     @Ignore
     @SerializedName("regionU")
@@ -55,8 +66,11 @@ public class Client {
     public Client(){
 
     }
-    public Client(Integer clientId, String CT_Num, String CT_Intitule, String CT_Adresse, String statutC, String CT_Telephone, String CT_Ville, Long regionId, Region region) {
+
+    public Client(Integer localClientId, Integer clientId, Integer missionId, String CT_Num, String CT_Intitule, String CT_Adresse, String statutC, String CT_Telephone, String CT_Ville, Long regionId, String regionName, Region region) {
+        this.localClientId = localClientId;
         this.clientId = clientId;
+        this.missionId = missionId;
         this.CT_Num = CT_Num;
         this.CT_Intitule = CT_Intitule;
         this.CT_Adresse = CT_Adresse;
@@ -64,9 +78,17 @@ public class Client {
         this.CT_Telephone = CT_Telephone;
         this.CT_Ville = CT_Ville;
         this.regionId = regionId;
+        RegionName = regionName;
         this.region = region;
     }
 
+    public Integer getLocalClientId() {
+        return localClientId;
+    }
+
+    public void setLocalClientId(Integer localClientId) {
+        this.localClientId = localClientId;
+    }
 
     public Integer getClientId() {
         return clientId;
@@ -140,6 +162,14 @@ public class Client {
         this.regionId = regionId;
     }
 
+    public String getRegionName() {
+        return RegionName;
+    }
+
+    public void setRegionName(String regionName) {
+        RegionName = regionName;
+    }
+
     public Region getRegion() {
         return region;
     }
@@ -151,7 +181,8 @@ public class Client {
     @Override
     public String toString() {
         return "Client{" +
-                "clientId=" + clientId +
+                "localClientId=" + localClientId +
+                ", clientId=" + clientId +
                 ", missionId=" + missionId +
                 ", CT_Num='" + CT_Num + '\'' +
                 ", CT_Intitule='" + CT_Intitule + '\'' +
@@ -160,6 +191,7 @@ public class Client {
                 ", CT_Telephone='" + CT_Telephone + '\'' +
                 ", CT_Ville='" + CT_Ville + '\'' +
                 ", regionId=" + regionId +
+                ", RegionName='" + RegionName + '\'' +
                 ", region=" + region +
                 '}';
     }

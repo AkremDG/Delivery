@@ -17,7 +17,7 @@ public interface MissionsDao {
     @Insert
     void insertAllMissions(List<Mission> missionList);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     void insertMissionClient(Client missionClient);
 
 

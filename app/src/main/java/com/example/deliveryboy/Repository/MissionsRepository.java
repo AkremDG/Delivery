@@ -67,15 +67,10 @@ public class MissionsRepository {
 
                                     try {
                                         DatabaseInstance.getInstance(context).missionsDao().deleteAllMissions();
-                                        try{
 
-                                            DatabaseInstance.getInstance(context).missionsDao().deleteAllClientsMissions();
-
-                                        }catch (Exception e){
+                                        DatabaseInstance.getInstance(context).missionsDao().deleteAllClientsMissions();
 
 
-
-                                        }
 
                                         isDeleted = true;
 
@@ -90,16 +85,30 @@ public class MissionsRepository {
 
                                             DatabaseInstance.getInstance(context).missionsDao().insertAllMissions(response.body());
 
+
                                             for(Mission mission : response.body()){
-                                                for(Client client : mission.getClientsList()){
-                                                    client.setMissionId(mission.getMissionId());
-                                                    DatabaseInstance.getInstance(context).missionsDao().insertMissionClient(client);
+
+                                                Log.i("MISSIONSSSS", String.valueOf(mission.toString()) + "\n" );
+
+                                                if(mission.getClientsList()!=null && mission.getClientsList().size()>0){
+
+                                                    for(Client client : mission.getClientsList()){
+                                                        client.setMissionId(mission.getMissionId());
+                                                        try {
+                                                            DatabaseInstance.getInstance(context).missionsDao().insertMissionClient(client);
+                                                            Log.i("INSERTTTTT","OKKKK");
+
+                                                        }catch (Exception e){
+                                                            Log.i("INSERTTTTT", e.getMessage());
+                                                        }
+                                                    }
+
                                                 }
+
                                             }
 
                                             isRefreshedLiveData.postValue(true);
                                         }catch (Exception e){
-
 
                                             isRefreshedLiveData.postValue(false);
                                         }

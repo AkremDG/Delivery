@@ -1,6 +1,7 @@
 package com.example.deliveryboy.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -33,12 +34,18 @@ public class ClientsRvAdapter extends RecyclerView.Adapter<ClientsVh> {
     public void onBindViewHolder(@NonNull ClientsVh holder, int position) {
         holder.clientName_tv.setText(clientList.get(position).getCT_Intitule());
         holder.clientStatus_tv.setText(clientList.get(position).getStatutC());
-        holder.clientRegion_tv.setText(clientList.get(position).getRegion().getRegionName());
+        holder.clientRegion_tv.setText(clientList.get(position).getRegionName());
 
     }
 
     @Override
     public int getItemCount() {
-        return clientList.size();
+        int size = 0;
+
+        if(clientList!=null)
+           size =  clientList.size();
+
+
+        return size;
     }
 }
