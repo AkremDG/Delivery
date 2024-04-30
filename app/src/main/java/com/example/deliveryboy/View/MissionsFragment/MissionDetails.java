@@ -158,7 +158,7 @@ public class MissionDetails extends AppCompatActivity implements RegionClick {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         typeCmd_Rv.setLayoutManager(layoutManager);
 
-        typeCmd_Rv.setAdapter(new RegionsRvAdapter(getApplicationContext(),regionsList,this));
+        typeCmd_Rv.setAdapter(new RegionsRvAdapter(getApplicationContext(),regionsList,this,typeCmd_Rv));
 
 
     }
@@ -225,7 +225,31 @@ public class MissionDetails extends AppCompatActivity implements RegionClick {
     @Override
     public void onRegionClick(List<String> position) {
         List<String> regions = new ArrayList<>();
+        List<Client> clients = new ArrayList<>();
         regions.addAll(position);
+
+        if(position !=null){
+
+            if(position.size()>0){
+
+                for(Client client : clientsList) {
+                    for(String region : regions){
+
+                        if(client.getRegionName().equals(region)){
+                            clients.add(client);
+                            Toast.makeText(this, "YES", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                }
+                setClientsList(clients);
+
+            }else
+            setClientsList(clientsList);
+
+        }
+
+
 
 
     }
