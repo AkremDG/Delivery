@@ -37,7 +37,7 @@
         app:layout_constraintTop_toBottomOf="@id/detailsAppbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-      >
+        >
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/typeCmd_Rv"
@@ -66,13 +66,13 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/exo"
         android:text="Date début"
-             android:textColor="@color/se_con_col"
+        android:textColor="@color/se_con_col"
         android:textSize="18sp"
 
         app:layout_constraintTop_toBottomOf="@id/searchBar_tt"
         app:layout_constraintStart_toStartOf="@id/constraint_date"
         android:layout_marginTop="20dp"
-       />
+        />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_date"
@@ -242,7 +242,7 @@
         app:layout_constraintBottom_toBottomOf="@id/searchBar_tt"
         app:layout_constraintTop_toTopOf="@+id/searchBar_tt"
         app:layout_constraintEnd_toEndOf="@id/missionsClients_rv"
-       />
+        />
 
 
 

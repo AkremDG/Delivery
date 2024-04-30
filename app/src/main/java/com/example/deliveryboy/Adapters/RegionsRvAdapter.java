@@ -21,11 +21,12 @@ import java.util.List;
 
 public class RegionsRvAdapter extends RecyclerView.Adapter<RegionsVh>{
 
+    private List<String> regionsList;
+    private boolean[] isSelectedArray;
+
     Context context;
-    List<String> regionsList;
     RegionClick regionClick ;
 
-    int lastClickedPosition;
     RecyclerView recyclerView;
 
 
@@ -41,20 +42,43 @@ public class RegionsRvAdapter extends RecyclerView.Adapter<RegionsVh>{
     public RegionsVh onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new RegionsVh(LayoutInflater.from(this.context).inflate(R.layout.regions_item,parent,false));
     }
-
     @Override
     public void onBindViewHolder(@NonNull RegionsVh holder, int position) {
-        boolean[] isSelectedArray;
-
-        isSelectedArray = new boolean[regionsList.size()];
-        Arrays.fill(isSelectedArray, false);
-
         holder.regionName_tv.setText(regionsList.get(position));
 
+        // Check if isSelectedArray is initialized and has the correct size
+        if (isSelectedArray == null || isSelectedArray.length != regionsList.size()) {
+            isSelectedArray = new boolean[regionsList.size()];
+            Arrays.fill(isSelectedArray, false);
+        }
+
+        // Set the UI state based on the selection state
+        if (isSelectedArray[position]) {
+            holder.constraintLayout.setBackgroundResource(R.drawable.search_view_stroke_white);
+            holder.regionName_tv.setTextColor(Color.parseColor("#F8981D"));
+            holder.plusIcon.setImageResource(R.drawable.baseline_check_24);
+        } else {
+            holder.constraintLayout.setBackgroundResource(R.drawable.search_view_stroke_orange);
+            holder.regionName_tv.setTextColor(Color.parseColor("#FFFFFF"));
+            holder.plusIcon.setImageResource(R.drawable.baseline_add_circle_24);
+        }
+
+        // Set click listener
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                // Update UI of the previously clicked item
+                for (int i = 0; i < isSelectedArray.length; i++) {
+                    if (isSelectedArray[i] && i != position) {
+                        isSelectedArray[i] = false;
+                        RegionsVh previousViewHolder = (RegionsVh) recyclerView.findViewHolderForAdapterPosition(i);
+                        if (previousViewHolder != null) {
+                            previousViewHolder.constraintLayout.setBackgroundResource(R.drawable.search_view_stroke_orange);
+                            previousViewHolder.regionName_tv.setTextColor(Color.parseColor("#FFFFFF"));
+                            previousViewHolder.plusIcon.setImageResource(R.drawable.baseline_add_circle_24);
+                        }
+                    }
+                }
 
                 // Toggle the selection state of the clicked item
                 isSelectedArray[position] = !isSelectedArray[position];
@@ -64,62 +88,25 @@ public class RegionsRvAdapter extends RecyclerView.Adapter<RegionsVh>{
                     holder.constraintLayout.setBackgroundResource(R.drawable.search_view_stroke_white);
                     holder.regionName_tv.setTextColor(Color.parseColor("#F8981D"));
                     holder.plusIcon.setImageResource(R.drawable.baseline_check_24);
-
-
-                    for (int i = 0; i < isSelectedArray.length; i++) {
-                        if (!isSelectedArray[i]) { // Check if item is not selected
-                            // Retrieve the ViewHolder for the not selected item
-                            RegionsVh notSelectedViewHolder = (RegionsVh) recyclerView.findViewHolderForAdapterPosition(i);
-                            if (notSelectedViewHolder != null) {
-                                // Add the TextView of not selected item to the list
-                                notSelectedViewHolder.constraintLayout.setBackgroundResource(R.drawable.search_view_stroke_orange);
-                                notSelectedViewHolder.regionName_tv.setTextColor(Color.parseColor("#FFFFFF"));
-                                notSelectedViewHolder.plusIcon.setImageResource(R.drawable.baseline_add_circle_24);
-                            }
-                        }
-                    }
-
-
-
                 } else {
                     holder.constraintLayout.setBackgroundResource(R.drawable.search_view_stroke_orange);
                     holder.regionName_tv.setTextColor(Color.parseColor("#FFFFFF"));
                     holder.plusIcon.setImageResource(R.drawable.baseline_add_circle_24);
-
-
-
-                    for (int i = 0; i < isSelectedArray.length; i++) {
-                        if (!isSelectedArray[i]) { // Check if item is not selected
-                            // Retrieve the ViewHolder for the not selected item
-                            RegionsVh notSelectedViewHolder = (RegionsVh) recyclerView.findViewHolderForAdapterPosition(i);
-                            if (notSelectedViewHolder != null) {
-                                // Add the TextView of not selected item to the list
-                                notSelectedViewHolder.constraintLayout.setClickable(true);
-                            }
-                        }
-                    }
                 }
 
                 // Create a list to hold selected items
                 List<String> selectedItems = new ArrayList<>();
-                if (isSelectedArray[position]) {
-                    selectedItems.add(regionsList.get(position));
+                for (int i = 0; i < isSelectedArray.length; i++) {
+                    if (isSelectedArray[i]) {
+                        selectedItems.add(regionsList.get(i));
+                    }
                 }
 
                 // Pass the list of selected items to the callback method
                 regionClick.onRegionClick(selectedItems);
-
-
-
-
-
             }
         });
-
     }
-
-
-
 
     @Override
     public int getItemCount() {

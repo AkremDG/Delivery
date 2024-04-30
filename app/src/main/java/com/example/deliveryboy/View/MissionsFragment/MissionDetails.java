@@ -224,33 +224,34 @@ public class MissionDetails extends AppCompatActivity implements RegionClick {
 
     @Override
     public void onRegionClick(List<String> position) {
+
+
         List<String> regions = new ArrayList<>();
         List<Client> clients = new ArrayList<>();
         regions.addAll(position);
 
-        if(position !=null){
+        if (position != null) {
 
-            if(position.size()>0){
+            if (position.size() > 0) {
 
-                for(Client client : clientsList) {
-                    for(String region : regions){
+                for (Client client : clientsList) {
+                    for (String region : regions) {
 
-                        if(client.getRegionName().equals(region)){
+                        if (client.getRegionName().equals(region)) {
                             clients.add(client);
-                            Toast.makeText(this, "YES", Toast.LENGTH_SHORT).show();
                         }
 
                     }
                 }
                 setClientsList(clients);
 
-            }else
-            setClientsList(clientsList);
+            } else
+                setClientsList(clientsList);
 
         }
 
-
-
-
     }
+
+
+
 }
