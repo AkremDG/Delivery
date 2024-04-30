@@ -285,9 +285,10 @@ public class TousFragment extends Fragment implements RvInterface {
     public void onItemClick(int position) {
 
         Intent intent = new Intent(getActivity(), MissionDetails.class);
-        intent.putExtra("MissionFromTousFragment",(Serializable) missionList.get(position));
-
+        intent.putExtra("MissionIntent",(Serializable) missionList.get(position));
         startActivity(intent);
+
+
     }
     public void showAlert(){
         final Dialog dialog = new Dialog(getContext());

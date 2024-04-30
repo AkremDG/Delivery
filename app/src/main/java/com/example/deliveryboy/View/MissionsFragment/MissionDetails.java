@@ -2,6 +2,7 @@ package com.example.deliveryboy.View.MissionsFragment;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -38,21 +39,29 @@ import com.example.deliveryboy.ViewModel.MissionsViewModel;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 public class MissionDetails extends AppCompatActivity implements RegionClick {
     AppBarLayout appBarLayout;
+    ConstraintLayout constraint_date_end,constraint_date_start;
     private RecyclerView typeCmd_Rv,missionsClients_rv;
     EditText searchBar_tt;
     ImageView calIv;
+
     private Mission mission;
     private List<Client> clientsList;
     private MissionsViewModel missionsViewModel;
 
     private List<String> regionsList ;
-    private TextView dateDebutTv,dateFinTv;
+    private TextView dateDebutTv,dateFinTv,dayTv,dayEndTv,startDateIv,endDatetextTv,clientAVisiterTv;
 
 
     @SuppressLint("NewApi")
@@ -63,8 +72,7 @@ public class MissionDetails extends AppCompatActivity implements RegionClick {
 
         getWindow().setStatusBarColor(getResources().getColor(R.color.orange_btn_color));
 
-           Intent intent = getIntent();
-           mission = (Mission) getIntent().getSerializableExtra("MissionFromTousFragment");
+        mission = (Mission) getIntent().getSerializableExtra("MissionIntent");
         regionsList = new ArrayList<>();
         clientsList = new ArrayList<>();
         missionsViewModel = new MissionsViewModel();
@@ -89,9 +97,29 @@ public class MissionDetails extends AppCompatActivity implements RegionClick {
 
         dateDebutTv = findViewById(R.id.dateTv);
         dateFinTv = findViewById(R.id.dateEndTv);
+        dayTv = findViewById(R.id.dayTv);
+        dayEndTv = findViewById(R.id.dayEndTv);
+        clientAVisiterTv = findViewById(R.id.clientListTv);
+
+
+        startDateIv = findViewById(R.id.startDateIv);
+        endDatetextTv = findViewById(R.id.endDatetextTv);
+
+
+        constraint_date_end = findViewById(R.id.constraint_date_end);
+        constraint_date_start = findViewById(R.id.constraint_date);
 
         dateDebutTv.setText(mission.getStartOn());
         dateFinTv.setText(mission.getEndsOn());
+
+
+        String day = getDayConversion(mission.getStartOn());
+        String dayeND = getDayConversion(mission.getEndsOn());
+
+
+        dayTv.setText(day);
+        dayEndTv.setText(dayeND);
+
 
 
         missionsClients_rv = findViewById(R.id.missionsClients_rv);
@@ -132,12 +160,6 @@ public class MissionDetails extends AppCompatActivity implements RegionClick {
         });
 
 
-
-
-
-
-
-
     }
 
     private void setClientsList(List<Client> clientsList) {
@@ -151,14 +173,20 @@ public class MissionDetails extends AppCompatActivity implements RegionClick {
 
     private void setRegionsFilter(List<Client> clientsList) {
 
-        for(Client client : clientsList){
-            regionsList.add(client.getRegionName());
+
+
+        for (Client client : clientsList) {
+            String regionName = client.getRegionName();
+            if (!regionsList.contains(regionName)) {
+                regionsList.add(regionName);
+            }
         }
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        typeCmd_Rv.setLayoutManager(layoutManager);
 
-        typeCmd_Rv.setAdapter(new RegionsRvAdapter(getApplicationContext(),regionsList,this,typeCmd_Rv));
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+            typeCmd_Rv.setLayoutManager(layoutManager);
+
+            typeCmd_Rv.setAdapter(new RegionsRvAdapter(getApplicationContext(),regionsList,this,typeCmd_Rv));
 
 
     }
@@ -176,8 +204,21 @@ public class MissionDetails extends AppCompatActivity implements RegionClick {
                     if (!scrolledDown) {
                         scrolledDown = true;
                         // Hide the views with animation
+
                         animateViewVisibilityWithFadeOut(searchBar_tt);
-                        animateViewVisibilityWithFadeOut(calIv);
+
+                        /*
+                        animateViewVisibilityWithFadeOut(constraint_date_end);
+                        animateViewVisibilityWithFadeOut(constraint_date_start);
+
+                        animateViewVisibilityWithFadeOut(startDateIv);
+                        animateViewVisibilityWithFadeOut(endDatetextTv);
+
+                         */
+
+
+                        //clientAvisiter
+                        animateViewVisibilityWithFadeOut(clientAVisiterTv);
 
                     }
                 } else if (scrollY < oldScrollY - scrollThreshold) {
@@ -186,7 +227,17 @@ public class MissionDetails extends AppCompatActivity implements RegionClick {
                         scrolledDown = false;
                         // Show the views with animation
                         animateViewVisibilityWithFadeIn(searchBar_tt);
-                        animateViewVisibilityWithFadeIn(calIv);
+
+                        animateViewVisibilityWithFadeIn(constraint_date_end);
+                        animateViewVisibilityWithFadeIn(constraint_date_start);
+
+                        animateViewVisibilityWithFadeIn(startDateIv);
+                        animateViewVisibilityWithFadeIn(endDatetextTv);
+
+
+                        //clientAvisiter
+                        animateViewVisibilityWithFadeIn(clientAVisiterTv);
+
 
                     }
                 }
@@ -239,6 +290,8 @@ public class MissionDetails extends AppCompatActivity implements RegionClick {
 
                         if (client.getRegionName().equals(region)) {
                             clients.add(client);
+
+
                         }
 
                     }
@@ -252,6 +305,30 @@ public class MissionDetails extends AppCompatActivity implements RegionClick {
 
     }
 
+    public String getDayConversion(String dateString){
 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String dayName="";
+
+        try {
+            Date date = dateFormat.parse(dateString);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+
+             dayName = getDayName(dayOfWeek);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return dayName;
+    }
+    private String getDayName(int dayOfWeek) {
+
+        String[] dayNames = new String[] {"Dimanche","Lundi","tuesday","wednesday","thursday","friday","saturday"};
+        return dayNames[dayOfWeek - 1];
+    }
 
 }

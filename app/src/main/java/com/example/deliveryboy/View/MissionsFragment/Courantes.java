@@ -267,7 +267,9 @@ public class Courantes extends Fragment implements RvInterface {
     @Override
     public void onItemClick(int position) {
 
+
         Intent intent = new Intent(getActivity(), MissionDetails.class);
+        intent.putExtra("MissionIntent",(Serializable) missionList.get(position));
         startActivity(intent);
 
     }

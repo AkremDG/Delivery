@@ -106,7 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:fontFamily="@font/exo"
-            android:text="Monday"
+            android:text="DAY"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/dateTv"
             app:layout_constraintStart_toEndOf="@id/calenderIv"
@@ -179,7 +179,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:fontFamily="@font/exo"
-            android:text="Monday"
+            android:text="DAY END"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/dateEndTv"
             app:layout_constraintStart_toEndOf="@id/calenderEndIv"
@@ -238,6 +238,7 @@
         android:layout_height="0dp"
         android:padding="10dp"
         android:background="@drawable/calender_bg"
+        android:visibility="gone"
         android:src="@drawable/calender_icon"
         app:layout_constraintBottom_toBottomOf="@id/searchBar_tt"
         app:layout_constraintTop_toTopOf="@+id/searchBar_tt"
@@ -260,7 +261,6 @@
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
 
-        android:layout_marginEnd="5dp"
         app:boxCornerRadiusTopEnd="5dp"
         android:background="@drawable/search_view_stroke_gray"
         />

@@ -7,6 +7,15 @@
     >
 
 
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/clientName_tv"
+        android:id="@+id/clientIv"
+        android:src="@drawable/iconperson"
+        />
+
     <TextView
         android:id="@+id/clientName_tv"
         android:layout_width="wrap_content"
@@ -15,8 +24,9 @@
         android:textSize="16sp"
         android:text="Foulen Ben Foulen"
         android:textColor="@color/se_con_col"
+        android:layout_marginLeft="10dp"
 
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/clientIv"
         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -25,12 +35,13 @@
         android:id="@+id/statusClient_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="2dp"
         android:fontFamily="@font/exo"
         android:textSize="14sp"
         android:text="Client indisponible"
         android:textColor="@color/se_con_col"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintStart_toEndOf="@+id/clientIv"
         app:layout_constraintTop_toBottomOf="@+id/clientName_tv" />
 
 
@@ -40,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:fontFamily="@font/exo"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:text="Tunis"
 
         android:textColor="@color/se_con_col"
