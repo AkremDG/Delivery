@@ -13,6 +13,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -330,6 +331,12 @@ public class MissionDetails extends AppCompatActivity implements RegionClick, Rv
 
         showAlert(position);
     }
+
+    @Override
+    public void onCommanderClick(int position) {
+        Toast.makeText(this, clientsList.get(position).getCT_Intitule(), Toast.LENGTH_SHORT).show();
+    }
+
     public void showAlert(int pos){
 
         final Dialog dialog = new Dialog(this);
@@ -347,10 +354,12 @@ public class MissionDetails extends AppCompatActivity implements RegionClick, Rv
         TextView clientRegion = dialog.findViewById(R.id.client_region_tv);
 
 
+
+
         clientName.setText(clientsList.get(pos).getCT_Intitule());
         clientCtNum.setText(clientsList.get(pos).getCT_Num());
         clientAdress.setText(clientsList.get(pos).getCT_Adresse());
-        clientStatus.setText(clientsList.get(pos).getStatutC());
+        clientStatus.setText("Client "+clientsList.get(pos).getStatutC());
         clientRegion.setText(clientsList.get(pos).getRegionName());
         clientPhone.setText("+216 "+clientsList.get(pos).getCT_Telephone());
 

@@ -327,6 +327,12 @@ public class TousFragment extends Fragment implements RvInterface {
 
 
     }
+
+    @Override
+    public void onCommanderClick(int position) {
+
+    }
+
     public void showAlert(){
         final Dialog dialog = new Dialog(getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

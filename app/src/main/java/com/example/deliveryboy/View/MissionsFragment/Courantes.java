@@ -333,6 +333,11 @@ public class Courantes extends Fragment implements RvInterface {
 
     }
 
+    @Override
+    public void onCommanderClick(int position) {
+
+    }
+
     private List<Mission> filterCurrentWeekMissions(List<Mission> missionList) {
 
         List<Mission> filtredMissionList = new ArrayList<>();

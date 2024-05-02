@@ -225,6 +225,11 @@ public class PassCommandeActivity extends AppCompatActivity implements RvInterfa
 
     }
 
+    @Override
+    public void onCommanderClick(int position) {
+
+    }
+
 
     public void showAlert(List<Produit> products, int pos) {
 

@@ -78,6 +78,7 @@
 
         <TextView
             android:id="@+id/clientAdress_tv"
+            app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/exo"
@@ -102,6 +103,8 @@
         <TextView
             android:id="@+id/telephone_tv"
             android:layout_width="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+
             android:layout_height="wrap_content"
             android:fontFamily="@font/exo"
             android:textSize="16sp"
@@ -130,6 +133,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/exo"
+            app:layout_constraintEnd_toEndOf="parent"
+
             android:textSize="16sp"
             android:layout_marginLeft="10dp"
             android:text="Client indisponible"
@@ -156,6 +161,8 @@
             android:textSize="16sp"
             android:layout_marginLeft="10dp"
             android:text="Tunis"
+            app:layout_constraintEnd_toEndOf="parent"
+
             android:textColor="@color/se_con_col"
             app:layout_constraintStart_toEndOf="@+id/client_region_iv"
             app:layout_constraintBottom_toBottomOf="@+id/client_region_iv"
