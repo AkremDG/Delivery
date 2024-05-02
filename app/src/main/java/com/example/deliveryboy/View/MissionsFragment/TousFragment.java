@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.SearchView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -28,33 +29,25 @@ import android.widget.Toast;
 
 import com.example.deliveryboy.Adapters.MissionsRvAdapter;
 import com.example.deliveryboy.Adapters.RvInterface;
-import com.example.deliveryboy.Model.Client;
 import com.example.deliveryboy.Model.Mission;
-import com.example.deliveryboy.Model.User;
 import com.example.deliveryboy.Model.Visite;
-import com.example.deliveryboy.Repository.ReponseInternet;
 import com.example.deliveryboy.Utils.InternetChecker;
 import com.example.deliveryboy.Utils.SessionManager;
-import com.example.deliveryboy.Utils.UiUtils;
-import com.example.deliveryboy.View.MainActivity;
-import com.example.deliveryboy.View.PassCommandeActivity;
 import com.example.deliveryboy.R;
-import com.example.deliveryboy.View.RapportVisite;
+import com.example.deliveryboy.Utils.UiUtils;
 import com.example.deliveryboy.ViewModel.MissionsViewModel;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 
 public class TousFragment extends Fragment implements RvInterface {
+    private ConstraintLayout internetBg;
 
     private List<Mission> missionList = new ArrayList<>();
     private RecyclerView listCmds_Rv;
@@ -62,6 +55,7 @@ public class TousFragment extends Fragment implements RvInterface {
     private List<Visite> visiteList ;
     private SearchView searchBar_tt;
     private MissionsViewModel missionsViewModel;
+    private TextView synchTv;
 
     private MaterialToolbar toolbar;
     private TabLayout cmds_Tl;
@@ -69,7 +63,7 @@ public class TousFragment extends Fragment implements RvInterface {
    private ProgressBar progressBar;
     private MissionsRvAdapter adapter;
 
-    private FloatingActionButton addClient_fab;
+    private FloatingActionButton addClient_fab,synchro_fab;
 
 
     @Override
@@ -92,6 +86,49 @@ public class TousFragment extends Fragment implements RvInterface {
             @Override
             public void onClick(View v) {
                 showAlert();
+            }
+        });
+
+
+        synchro_fab.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("FragmentLiveDataObserve")
+            @Override
+            public void onClick(View v) {
+
+                progressBar.setVisibility(View.VISIBLE);
+                listCmds_Rv.setVisibility(View.GONE);
+
+
+                if(InternetChecker.isConnectedToInternet(getContext())){
+
+                    missionsViewModel.getMissionsApi(getContext()).observe(TousFragment.this, new Observer<Boolean>() {
+                        @Override
+                        public void onChanged(Boolean aBoolean) {
+                            if(aBoolean==false){
+                                UiUtils.showSnackbar(view,"Erreur synchronisation","Fermer");
+                                internetBg.setVisibility(View.VISIBLE);
+
+                                listCmds_Rv.setVisibility(View.VISIBLE);
+                                getAndDisplayLocalMissions();
+                            }else {
+                                listCmds_Rv.setVisibility(View.VISIBLE);
+                                internetBg.setVisibility(View.GONE);
+
+                                getAndDisplayLocalMissions();
+
+                            }
+                        }
+                    });
+
+                }else {
+                    progressBar.setVisibility(View.GONE);
+                    listCmds_Rv.setVisibility(View.VISIBLE);
+
+                    internetBg.setVisibility(View.VISIBLE);
+
+                    UiUtils.showSnackbar(view,"Erreur de connexion internet","Fermer");
+                }
+
             }
         });
     }
@@ -201,25 +238,23 @@ public class TousFragment extends Fragment implements RvInterface {
 
 
         if(InternetChecker.isConnectedToInternet(getContext())){
-            Toast.makeText(getContext(), "CONNECTED", Toast.LENGTH_SHORT).show();
+
             missionsViewModel.getMissionsApi(getContext()).observe(TousFragment.this, new Observer<Boolean>() {
                 @Override
                 public void onChanged(Boolean aBoolean) {
                     if(aBoolean==false){
-                        Toast.makeText(getContext(), "FALSEEEEEEEEEE", Toast.LENGTH_SHORT).show();
+                        internetBg.setVisibility(View.VISIBLE);
                         getAndDisplayLocalMissions();
                     }else {
-                        Toast.makeText(getContext(), "TRUEEEEE", Toast.LENGTH_SHORT).show();
-
+                        internetBg.setVisibility(View.GONE);
                         getAndDisplayLocalMissions();
-
                     }
                 }
             });
 
         }else {
-            Toast.makeText(getContext(), "DISCONNECT", Toast.LENGTH_SHORT).show();
 
+            internetBg.setVisibility(View.VISIBLE);
             getAndDisplayLocalMissions();
         }
 
@@ -272,13 +307,15 @@ public class TousFragment extends Fragment implements RvInterface {
 
 
     public void bindViews(){
+        internetBg = view.findViewById(R.id.internetBg);
+        synchTv = view.findViewById(R.id.synchTv);
         listCmds_Rv=view.findViewById(R.id.listCmds_Rv);
         searchBar_tt = view.findViewById(R.id.searchBar_tt);
         toolbar = view.findViewById(R.id.toolbar);
         progressBar = view.findViewById(R.id.progressBar);
         cmds_Tl = view.findViewById(R.id.cmds_Tl);
         addClient_fab = view.findViewById(R.id.addClient_fab);
-
+        synchro_fab = view.findViewById(R.id.synchro_fab);
     }
 
     @Override

@@ -28,4 +28,5 @@
         <item name="android:windowEnterAnimation">@anim/bottom_sheet_animation_inside</item>
         <item name="android:windowExitAnimation">@anim/bottom_sheet_animation_outsid</item>
     </style>
+
 </resources>

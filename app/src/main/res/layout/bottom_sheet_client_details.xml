@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_alert"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true"
+    >
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:padding="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/close_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_close_24"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+
+
+
+        <ImageView
+            android:id="@+id/clientImage_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/iconpersonbig"
+            app:layout_constraintTop_toBottomOf="@+id/close_iv" />
+
+
+
+        <TextView
+            android:id="@+id/clientName_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/exo"
+            android:textSize="18sp"
+            android:text="MARIEM ELJEZZI"
+            android:textColor="@color/se_con_col"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clientImage_iv" />
+
+        <TextView
+            android:id="@+id/clientNum_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/exo"
+            android:textSize="16sp"
+            android:text="CLT4343545729"
+            android:textColor="@color/se_con_col"
+            android:layout_marginTop="5dp"
+            android:textColorHint="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clientName_tv" />
+
+
+
+        <ImageView
+            android:id="@+id/clietnAdress_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/baseline_location_city_24"
+            app:layout_constraintTop_toBottomOf="@+id/clientNum_tv" />
+
+        <TextView
+            android:id="@+id/clientAdress_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/exo"
+            android:textSize="16sp"
+            android:layout_marginLeft="10dp"
+            android:text="2 Rue d'allemagne, Tunis, Tunisie"
+            android:textColor="@color/se_con_col"
+            app:layout_constraintStart_toEndOf="@+id/clietnAdress_iv"
+            app:layout_constraintBottom_toBottomOf="@+id/clietnAdress_iv"
+            app:layout_constraintTop_toTopOf="@+id/clietnAdress_iv" />
+
+
+        <ImageView
+            android:id="@+id/telephone_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/baseline_phone_24"
+            app:layout_constraintTop_toBottomOf="@+id/clietnAdress_iv" />
+
+        <TextView
+            android:id="@+id/telephone_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/exo"
+            android:textSize="16sp"
+            android:layout_marginLeft="10dp"
+            android:text="+216 98898789"
+            android:textColor="@color/se_con_col"
+            app:layout_constraintStart_toEndOf="@+id/telephone_iv"
+            app:layout_constraintBottom_toBottomOf="@+id/telephone_iv"
+            app:layout_constraintTop_toTopOf="@+id/telephone_iv" />
+
+
+
+
+
+        <ImageView
+            android:id="@+id/status_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/baseline_stacked_bar_chart_24"
+            app:layout_constraintTop_toBottomOf="@+id/telephone_iv" />
+
+        <TextView
+            android:id="@+id/status_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/exo"
+            android:textSize="16sp"
+            android:layout_marginLeft="10dp"
+            android:text="Client indisponible"
+            android:textColor="@color/se_con_col"
+            app:layout_constraintStart_toEndOf="@+id/telephone_iv"
+            app:layout_constraintBottom_toBottomOf="@+id/status_iv"
+            app:layout_constraintTop_toTopOf="@+id/status_iv" />
+
+
+        <ImageView
+            android:id="@+id/client_region_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/baseline_add_location_alt_24"
+            app:layout_constraintTop_toBottomOf="@+id/status_tv" />
+
+        <TextView
+            android:id="@+id/client_region_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/exo"
+            android:textSize="16sp"
+            android:layout_marginLeft="10dp"
+            android:text="Tunis"
+            android:textColor="@color/se_con_col"
+            app:layout_constraintStart_toEndOf="@+id/client_region_iv"
+            app:layout_constraintBottom_toBottomOf="@+id/client_region_iv"
+            app:layout_constraintTop_toTopOf="@+id/client_region_iv" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addClient_btn"
+            app:layout_constraintTop_toBottomOf="@id/client_region_iv"
+
+            app:hintTextColor="@color/white"
+            app:iconGravity="textEnd"
+            app:icon="@drawable/baseline_add_shopping_cart_24"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Commander"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:cornerRadius="10dp"
+            android:fontFamily="@font/exo"
+            android:paddingVertical="11sp"
+            app:backgroundTint="@color/orange_btn_color"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+</ScrollView>

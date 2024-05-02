@@ -35,7 +35,6 @@ public class Client implements Serializable {
     @SerializedName("CT_Adresse")
     private String CT_Adresse;
 
-
     @ColumnInfo(name = "statutC")
     @SerializedName("statutC")
     private String statutC;

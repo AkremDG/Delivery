@@ -179,20 +179,20 @@
         android:id="@+id/addClient_btn"
         app:layout_constraintTop_toBottomOf="@id/descPos_tv"
 
-    android:enabled="false"
-
-        app:hintTextColor="@color/black"
+    app:iconGravity="textEnd"
+    app:icon="@drawable/baseline_save_alt_24"
+    app:hintTextColor="@color/white"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Ajouter"
+        android:text="Enregistrer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:cornerRadius="10dp"
         android:fontFamily="@font/exo"
         android:paddingVertical="11sp"
-        app:backgroundTint="@color/search_bg_color"
+    app:backgroundTint="@color/orange_btn_color"
         />
 
 

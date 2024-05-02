@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.SearchView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -33,6 +34,7 @@ import com.example.deliveryboy.Model.User;
 import com.example.deliveryboy.Model.Visite;
 import com.example.deliveryboy.R;
 import com.example.deliveryboy.Utils.InternetChecker;
+import com.example.deliveryboy.Utils.UiUtils;
 import com.example.deliveryboy.View.PassCommandeActivity;
 import com.example.deliveryboy.View.RapportVisite;
 import com.example.deliveryboy.ViewModel.MissionsViewModel;
@@ -52,6 +54,8 @@ import java.util.Locale;
 public class Courantes extends Fragment implements RvInterface {
 
     private boolean isRefreshed = false;
+    private ConstraintLayout internetBg;
+
     private List<Mission> missionList = new ArrayList<>();
     private RecyclerView listCmds_Rv;
     private View view;
@@ -65,7 +69,7 @@ public class Courantes extends Fragment implements RvInterface {
     private ProgressBar progressBar;
     private MissionsRvAdapter adapter;
 
-    private FloatingActionButton addClient_fab;
+    private FloatingActionButton addClient_fab,synchro_fab;
 
     private ImageView closeIv;
 
@@ -91,6 +95,49 @@ public class Courantes extends Fragment implements RvInterface {
                 showAlert();
             }
         });
+
+        synchro_fab.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("FragmentLiveDataObserve")
+            @Override
+            public void onClick(View v) {
+
+                progressBar.setVisibility(View.VISIBLE);
+                listCmds_Rv.setVisibility(View.GONE);
+
+
+                if(InternetChecker.isConnectedToInternet(getContext())){
+
+                    missionsViewModel.getMissionsApi(getContext()).observe(Courantes.this, new Observer<Boolean>() {
+                        @Override
+                        public void onChanged(Boolean aBoolean) {
+                            if(aBoolean==false){
+                                UiUtils.showSnackbar(view,"Erreur synchronisation","Fermer");
+                                internetBg.setVisibility(View.VISIBLE);
+
+                                listCmds_Rv.setVisibility(View.VISIBLE);
+                                getAndDisplayLocalMissions();
+                            }else {
+                                listCmds_Rv.setVisibility(View.VISIBLE);
+                                internetBg.setVisibility(View.GONE);
+
+                                getAndDisplayLocalMissions();
+
+                            }
+                        }
+                    });
+
+                }else {
+                    progressBar.setVisibility(View.GONE);
+                    listCmds_Rv.setVisibility(View.VISIBLE);
+
+                    internetBg.setVisibility(View.VISIBLE);
+
+                    UiUtils.showSnackbar(view,"Erreur de connexion internet","Fermer");
+                }
+
+            }
+        });
+
     }
 
 
@@ -196,17 +243,24 @@ public class Courantes extends Fragment implements RvInterface {
         progressBar.setVisibility(View.VISIBLE);
 
 
-        if (InternetChecker.isConnectedToInternet(getContext())) {
+        if(InternetChecker.isConnectedToInternet(getContext())){
 
             missionsViewModel.getMissionsApi(getContext()).observe(Courantes.this, new Observer<Boolean>() {
                 @Override
                 public void onChanged(Boolean aBoolean) {
-                    getAndDisplayLocalMissions();
+                    if(aBoolean==false){
+                        internetBg.setVisibility(View.VISIBLE);
+                        getAndDisplayLocalMissions();
+                    }else {
+                        internetBg.setVisibility(View.GONE);
+                        getAndDisplayLocalMissions();
+                    }
                 }
             });
 
-        } else {
+        }else {
 
+            internetBg.setVisibility(View.VISIBLE);
             getAndDisplayLocalMissions();
         }
 
@@ -257,11 +311,16 @@ public class Courantes extends Fragment implements RvInterface {
 
     public void bindViews() {
         listCmds_Rv = view.findViewById(R.id.listCmds_Rv);
+        internetBg = view.findViewById(R.id.internetBg);
+
         searchBar_tt = view.findViewById(R.id.searchBar_tt);
         toolbar = view.findViewById(R.id.toolbar);
         progressBar = view.findViewById(R.id.progressBar);
         cmds_Tl = view.findViewById(R.id.cmds_Tl);
         addClient_fab = view.findViewById(R.id.addClient_fab);
+
+        synchro_fab = view.findViewById(R.id.synchro_fab);
+
     }
 
     @Override

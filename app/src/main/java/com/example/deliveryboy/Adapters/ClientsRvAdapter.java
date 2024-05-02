@@ -18,23 +18,28 @@ public class ClientsRvAdapter extends RecyclerView.Adapter<ClientsVh> {
 
      Context context;
      List<Client> clientList ;
-    public ClientsRvAdapter(Context context,List<Client> clients) {
+
+     RvInterface rvInterface;
+    public ClientsRvAdapter(Context context,List<Client> clients, RvInterface rvInterface) {
         this.context = context;
         this.clientList = clients;
+        this.rvInterface = rvInterface;
 
     }
 
     @NonNull
     @Override
     public ClientsVh onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ClientsVh(LayoutInflater.from(context).inflate(R.layout.clients_item,parent,false));
+        return new ClientsVh(LayoutInflater.from(context).inflate(R.layout.clients_item,parent,false), rvInterface);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ClientsVh holder, int position) {
         holder.clientName_tv.setText(clientList.get(position).getCT_Intitule());
-        holder.clientStatus_tv.setText(clientList.get(position).getStatutC());
+        holder.clientStatus_tv.setText("Client "+clientList.get(position).getStatutC());
         holder.clientRegion_tv.setText(clientList.get(position).getRegionName());
+
+
 
     }
 

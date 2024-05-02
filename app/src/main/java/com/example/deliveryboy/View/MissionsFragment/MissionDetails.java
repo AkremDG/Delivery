@@ -9,13 +9,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
@@ -28,6 +33,7 @@ import com.example.deliveryboy.Adapters.ClientsRvAdapter;
 import com.example.deliveryboy.Adapters.MissionsRvAdapter;
 import com.example.deliveryboy.Adapters.RegionClick;
 import com.example.deliveryboy.Adapters.RegionsRvAdapter;
+import com.example.deliveryboy.Adapters.RvInterface;
 import com.example.deliveryboy.Adapters.TypeCmdRvAdapter;
 import com.example.deliveryboy.Model.Client;
 import com.example.deliveryboy.Model.Mission;
@@ -35,8 +41,10 @@ import com.example.deliveryboy.Model.Region;
 import com.example.deliveryboy.Model.Visite;
 import com.example.deliveryboy.R;
 import com.example.deliveryboy.Utils.UiUtils;
+import com.example.deliveryboy.View.BottomNagContainerActivity;
 import com.example.deliveryboy.ViewModel.MissionsViewModel;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.ParseException;
@@ -49,12 +57,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-public class MissionDetails extends AppCompatActivity implements RegionClick {
-    AppBarLayout appBarLayout;
-    ConstraintLayout constraint_date_end,constraint_date_start;
+public class MissionDetails extends AppCompatActivity implements RegionClick, RvInterface {
+    private AppBarLayout appBarLayout;
+    MaterialToolbar detailsMissions_mt;
+
+    private ConstraintLayout constraint_date_end,constraint_date_start;
     private RecyclerView typeCmd_Rv,missionsClients_rv;
-    EditText searchBar_tt;
-    ImageView calIv;
+    private EditText searchBar_tt;
+    private ImageView calIv;
 
     private Mission mission;
     private List<Client> clientsList;
@@ -64,7 +74,7 @@ public class MissionDetails extends AppCompatActivity implements RegionClick {
     private TextView dateDebutTv,dateFinTv,dayTv,dayEndTv,startDateIv,endDatetextTv,clientAVisiterTv;
 
 
-    @SuppressLint("NewApi")
+    @SuppressLint({"NewApi", "MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +88,7 @@ public class MissionDetails extends AppCompatActivity implements RegionClick {
         missionsViewModel = new MissionsViewModel();
 
 
+
         missionsViewModel.getMissionsClients(getApplicationContext(),mission.getMissionId()).observe(MissionDetails.this, new Observer<List<Client>>() {
             @Override
             public void onChanged(List<Client> clients) {
@@ -87,6 +98,7 @@ public class MissionDetails extends AppCompatActivity implements RegionClick {
 
                         setRegionsFilter(clients);
                         clientsList.addAll(clients);
+
                         setClientsList(clientsList);
 
                     }
@@ -127,37 +139,20 @@ public class MissionDetails extends AppCompatActivity implements RegionClick {
         searchBar_tt = findViewById(R.id.searchBar_tt);
 
         appBarLayout= findViewById(R.id.detailsAppbar);
-
+        detailsMissions_mt = findViewById(R.id.detailsMissions_mt);
         appBarLayout.setOutlineProvider(null);
 
         typeCmd_Rv = findViewById(R.id.typeCmd_Rv);
 
-
-        searchBar_tt.addTextChangedListener(new TextWatcher() {
+        detailsMissions_mt.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                List<Client> filtredList = new ArrayList<>();
-
-
-                for(Client client : clientsList){
-                    if(client.getCT_Intitule().toLowerCase().contains(s) || client.getCT_Intitule().toUpperCase().contains(s)){
-                        filtredList.add(client);
-                        setClientsList(filtredList);
-                    }
-
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
+            public void onClick(View v) {
+                Intent intent = new Intent(MissionDetails.this, BottomNagContainerActivity.class);
+                startActivity(intent);
             }
         });
+
+        HandleEvents();
 
 
     }
@@ -166,9 +161,8 @@ public class MissionDetails extends AppCompatActivity implements RegionClick {
 
         LinearLayoutManager layoutManagerClients = new LinearLayoutManager(MissionDetails.this, LinearLayoutManager.VERTICAL, false);
         missionsClients_rv.setLayoutManager(layoutManagerClients);
-        missionsClients_rv.setAdapter(new ClientsRvAdapter(getApplicationContext(),clientsList));
+        missionsClients_rv.setAdapter(new ClientsRvAdapter(getApplicationContext(),clientsList,this));
 
-        HandleEvents();
     }
 
     private void setRegionsFilter(List<Client> clientsList) {
@@ -329,6 +323,51 @@ public class MissionDetails extends AppCompatActivity implements RegionClick {
 
         String[] dayNames = new String[] {"Dimanche","Lundi","tuesday","wednesday","thursday","friday","saturday"};
         return dayNames[dayOfWeek - 1];
+    }
+
+    @Override
+    public void onItemClick(int position) {
+
+        showAlert(position);
+    }
+    public void showAlert(int pos){
+
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.bottom_sheet_client_details);
+
+        ImageView closeIv = dialog.findViewById(R.id.close_iv);
+
+        TextView clientName = dialog.findViewById(R.id.clientName_tv);
+        TextView clientPhone = dialog.findViewById(R.id.telephone_tv);
+
+        TextView clientCtNum = dialog.findViewById(R.id.clientNum_tv);
+        TextView clientAdress = dialog.findViewById(R.id.clientAdress_tv);
+        TextView clientStatus = dialog.findViewById(R.id.status_tv);
+        TextView clientRegion = dialog.findViewById(R.id.client_region_tv);
+
+
+        clientName.setText(clientsList.get(pos).getCT_Intitule());
+        clientCtNum.setText(clientsList.get(pos).getCT_Num());
+        clientAdress.setText(clientsList.get(pos).getCT_Adresse());
+        clientStatus.setText(clientsList.get(pos).getStatutC());
+        clientRegion.setText(clientsList.get(pos).getRegionName());
+        clientPhone.setText("+216 "+clientsList.get(pos).getCT_Telephone());
+
+        closeIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+
+
     }
 
 }

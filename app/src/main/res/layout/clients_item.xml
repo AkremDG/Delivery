@@ -13,6 +13,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/clientName_tv"
         android:id="@+id/clientIv"
+        app:layout_constraintBottom_toBottomOf="@+id/statusClient_tv"
         android:src="@drawable/iconperson"
         />
 
@@ -38,11 +39,17 @@
         android:layout_marginTop="2dp"
         android:fontFamily="@font/exo"
         android:textSize="14sp"
+        android:textStyle="bold"
         android:text="Client indisponible"
         android:textColor="@color/se_con_col"
         android:layout_marginLeft="10dp"
         app:layout_constraintStart_toEndOf="@+id/clientIv"
         app:layout_constraintTop_toBottomOf="@+id/clientName_tv" />
+
+
+
+
+
 
 
     <TextView
@@ -54,18 +61,21 @@
         android:textSize="14sp"
         android:text="Tunis"
 
-        android:textColor="@color/se_con_col"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/statusClient_tv" />
 
+        app:layout_constraintStart_toStartOf="@id/statusClient_tv"
+        app:layout_constraintTop_toBottomOf="@id/statusClient_tv"
+        android:textColor="@color/orange_btn_color"
+        />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:src="@drawable/baseline_add_location_alt_24"
-        app:layout_constraintTop_toTopOf="@id/regionName_tv"
-        app:layout_constraintBottom_toBottomOf="@id/regionName_tv"
-        app:layout_constraintEnd_toStartOf="@id/regionName_tv"/>
+        android:src="@drawable/baseline_add_shopping_cart_24_orange"
+        app:layout_constraintTop_toTopOf="@id/clientName_tv"
+
+        app:layout_constraintBottom_toBottomOf="@id/statusClient_tv"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
 
 
 
