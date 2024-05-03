@@ -41,7 +41,8 @@
                 android:layout_height="?attr/actionBarSize"
                 style="@style/CustomToolbar"
 
-                app:title="MES MISSIONS"
+
+                app:title="Mes missions"
                 app:subtitle="Planification mensuelle"
                 android:elevation="0dp" />
 

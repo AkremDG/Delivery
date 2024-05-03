@@ -22,7 +22,6 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
     private final quantiteInterface quantiteInterface;
 
 
-
     public ProduitRvAdapter(Context context, List<Produit> produitList, RvInterface rvInterface, quantiteInterface quantiteInterface) {
         this.context = context;
         this.produitList = produitList;

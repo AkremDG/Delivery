@@ -16,10 +16,9 @@ import com.example.deliveryboy.R;
 import java.util.List;
 
 public class MissionsRvAdapter extends RecyclerView.Adapter<MissionsRvAdapter.CommandesVh> {
-    Context context;
-    List<Mission> visiteList;
+    private Context context;
+    private List<Mission> visiteList;
     private final RvInterface rvInterface;
-
 
     public static class CommandesVh extends RecyclerView.ViewHolder {
         TextView Uuser_name_visite_Tv,type_visite_Tv,startsDate_tv,endDate_tv,nbClients_tv;

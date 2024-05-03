@@ -55,11 +55,11 @@ public class RegionsRvAdapter extends RecyclerView.Adapter<RegionsVh>{
         // Set the UI state based on the selection state
         if (isSelectedArray[position]) {
             holder.constraintLayout.setBackgroundResource(R.drawable.search_view_stroke_white);
-            holder.regionName_tv.setTextColor(Color.parseColor("#F8981D"));
+            holder.regionName_tv.setTextColor(Color.parseColor("#FFFFFF"));
             holder.plusIcon.setImageResource(R.drawable.baseline_check_24);
         } else {
             holder.constraintLayout.setBackgroundResource(R.drawable.search_view_stroke_orange);
-            holder.regionName_tv.setTextColor(Color.parseColor("#FFFFFF"));
+            holder.regionName_tv.setTextColor(Color.parseColor("#F8981D"));
             holder.plusIcon.setImageResource(R.drawable.baseline_add_circle_24);
         }
 
@@ -74,7 +74,7 @@ public class RegionsRvAdapter extends RecyclerView.Adapter<RegionsVh>{
                         RegionsVh previousViewHolder = (RegionsVh) recyclerView.findViewHolderForAdapterPosition(i);
                         if (previousViewHolder != null) {
                             previousViewHolder.constraintLayout.setBackgroundResource(R.drawable.search_view_stroke_orange);
-                            previousViewHolder.regionName_tv.setTextColor(Color.parseColor("#FFFFFF"));
+                            previousViewHolder.regionName_tv.setTextColor(Color.parseColor("#F8981D"));
                             previousViewHolder.plusIcon.setImageResource(R.drawable.baseline_add_circle_24);
                         }
                     }
@@ -86,11 +86,11 @@ public class RegionsRvAdapter extends RecyclerView.Adapter<RegionsVh>{
                 // Update UI for the clicked item based on its selection state
                 if (isSelectedArray[position]) {
                     holder.constraintLayout.setBackgroundResource(R.drawable.search_view_stroke_white);
-                    holder.regionName_tv.setTextColor(Color.parseColor("#F8981D"));
+                    holder.regionName_tv.setTextColor(Color.parseColor("#FFFFFF"));
                     holder.plusIcon.setImageResource(R.drawable.baseline_check_24);
                 } else {
                     holder.constraintLayout.setBackgroundResource(R.drawable.search_view_stroke_orange);
-                    holder.regionName_tv.setTextColor(Color.parseColor("#FFFFFF"));
+                    holder.regionName_tv.setTextColor(Color.parseColor("#F8981D"));
                     holder.plusIcon.setImageResource(R.drawable.baseline_add_circle_24);
                 }
 

@@ -2,22 +2,20 @@ package com.example.deliveryboy.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
 
 import com.example.deliveryboy.R;
 import com.example.deliveryboy.View.BottomNavFragments.MissionsFragment;
-import com.example.deliveryboy.View.BottomNavFragments.HistoriqueFragment;
+import com.example.deliveryboy.View.BottomNavFragments.DemandeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class BottomNagContainerActivity extends AppCompatActivity {
     private MissionsFragment missionsFragment;
-    private HistoriqueFragment historiqueFragment;
+    private DemandeFragment demandeFragment;
 
     private BottomNavigationView bottom_nav_view;
 
@@ -76,8 +74,8 @@ public class BottomNagContainerActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.historique:
-                        historiqueFragment = new HistoriqueFragment();
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, historiqueFragment).commit();
+                        demandeFragment = new DemandeFragment();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container, demandeFragment).commit();
                         item.setIcon(getResources().getDrawable(R.drawable.filled_historique_icon));
                         return true;
 

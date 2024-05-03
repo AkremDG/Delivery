@@ -43,6 +43,7 @@ import com.example.deliveryboy.Model.Visite;
 import com.example.deliveryboy.R;
 import com.example.deliveryboy.Utils.UiUtils;
 import com.example.deliveryboy.View.BottomNagContainerActivity;
+import com.example.deliveryboy.View.PassCommandeActivity;
 import com.example.deliveryboy.ViewModel.MissionsViewModel;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -334,7 +335,7 @@ public class MissionDetails extends AppCompatActivity implements RegionClick, Rv
 
     @Override
     public void onCommanderClick(int position) {
-        Toast.makeText(this, clientsList.get(position).getCT_Intitule(), Toast.LENGTH_SHORT).show();
+
     }
 
     public void showAlert(int pos){

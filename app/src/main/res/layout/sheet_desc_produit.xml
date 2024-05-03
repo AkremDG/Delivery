@@ -10,13 +10,21 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
-        android:background="@drawable/bg_alert"
->
+        android:padding="16sp"
+        android:background="@drawable/bg_alert">
+
+        <ImageView
+            android:id="@+id/close_descProduit_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_close_24"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
 
 
 
-    <androidx.constraintlayout.widget.Guideline
+        <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_bottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,11 +40,14 @@
         android:background="@drawable/bg_pack_green"
         android:paddingHorizontal="20dp"
         android:textColor="@color/white"
+        android:textSize="16sp"
+
+        android:layout_marginTop="5dp"
 
         android:fontFamily="@font/exo"
         android:paddingVertical="2dp"
         app:layout_constraintStart_toStartOf="@+id/produit_Iv"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/close_descProduit_iv"/>
 
     <ImageView
         android:id="@+id/produit_Iv"
@@ -58,9 +69,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/exo"
+        android:textSize="18sp"
+        android:textStyle="bold"
+
         android:text="Lait demi-ecrémé"
-        android:textColor="@color/black"
-        style="@style/TextAppearance.MaterialComponents.Headline6"
+        android:textColor="@color/se_con_col"
         app:layout_constraintTop_toTopOf="@+id/produit_Iv"
         app:layout_constraintStart_toEndOf="@+id/produit_Iv"
         android:layout_marginLeft="10dp"
@@ -72,7 +85,8 @@
         android:id="@+id/promo_Tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
+        android:textSize="16sp"
+
         app:layout_constraintStart_toStartOf="@+id/nomProduit_Tv"
         app:layout_constraintTop_toBottomOf="@+id/nomProduit_Tv"
         android:textColor="@color/green"
@@ -84,12 +98,12 @@
         android:id="@+id/promo_val_Tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
+        android:text="Promotion"
         app:layout_constraintStart_toEndOf="@+id/promo_Tv"
         app:layout_constraintTop_toBottomOf="@+id/nomProduit_Tv"
         android:textColor="@color/green"
         android:fontFamily="@font/exo"
-        android:textSize="17sp"
+        android:textSize="16sp"
         android:layout_marginTop="5dp"
         />
 
@@ -101,9 +115,9 @@
         android:text="Conditionnement : "
         app:layout_constraintStart_toStartOf="@+id/nomProduit_Tv"
         app:layout_constraintTop_toBottomOf="@+id/promo_val_Tv"
-        android:textColor="@color/black"
+        android:textColor="@color/se_con_col"
         android:fontFamily="@font/exo"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:layout_marginTop="5dp"
         />
 
@@ -117,9 +131,9 @@
         android:text="Prix unitaire "
         app:layout_constraintStart_toStartOf="@id/nomProduit_Tv"
         app:layout_constraintTop_toBottomOf="@+id/conditionn_Tv"
-        android:textColor="@color/black"
+        android:textColor="@color/se_con_col"
         android:fontFamily="@font/exo"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:layout_marginTop="5dp"
         />
 
@@ -133,9 +147,10 @@
         app:layout_constraintTop_toBottomOf="@+id/conditionn_Tv"
         android:textColor="@color/blue_reset_password"
         android:fontFamily="@font/exo"
-        android:textSize="14sp"
-        android:textStyle="bold"
+        android:textSize="16sp"
         android:layout_marginTop="5dp"
+        android:textStyle="bold"
+
         />
 
     <TextView
@@ -147,80 +162,85 @@
         app:layout_constraintTop_toBottomOf="@+id/promo_val_Tv"
         android:textColor="@color/orange_btn_color"
         android:fontFamily="@font/exo"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:layout_marginTop="5dp"
         android:textStyle="bold"
 
         />
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraint"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_choix_qte"
-        android:padding="5dp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintBottom_toTopOf="@id/aj_panier_btn"
-        app:layout_constraintEnd_toEndOf="@id/conditionn_val_Tv"
-        app:layout_constraintStart_toStartOf="@id/guideline_bottom"
-        app:layout_constraintTop_toBottomOf="@id/prix_Tv">
-
-        <ImageView
-            android:id="@+id/moins_Iv"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:clickable="true"
-            android:src="@drawable/moins_icon"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/qte_Tv"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/qte_Tv"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="5"
-            android:textColor="@color/black"
-            android:textSize="18dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/plus_Iv"
-            app:layout_constraintStart_toEndOf="@id/moins_Iv"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginTop="15dp"
+            android:background="@drawable/bg_choix_qte"
+            android:padding="5dp"
+            app:layout_constraintBottom_toTopOf="@id/aj_panier_btn"
+            app:layout_constraintEnd_toEndOf="@id/conditionn_val_Tv"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@id/guideline_bottom"
+            app:layout_constraintTop_toBottomOf="@id/prix_Tv">
 
-        <ImageView
-            android:id="@+id/plus_Iv"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:src="@drawable/plus_icon"
-            app:layout_constraintBottom_toBottomOf="parent"
+            <ImageView
+                android:id="@+id/moins_Iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+
+
+                android:src="@drawable/baseline_remove_circle_24_orange"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/qte_Tv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/qte_Tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5"
+                android:textColor="#FFA5A5A5"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/plus_Iv"
+                app:layout_constraintStart_toEndOf="@id/moins_Iv"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageView
+                android:id="@+id/plus_Iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:src="@drawable/baseline_add_circle_24_orange"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/qte_Tv"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/aj_panier_btn"
+            app:layout_constraintTop_toBottomOf="@id/constraint"
+            app:hintTextColor="@color/white"
+            app:iconGravity="textEnd"
+            app:icon="@drawable/baseline_add_shopping_cart_24"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Ajouter"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/qte_Tv"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/aj_panier_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Ajouter au panier"
-        app:cornerRadius="5dp"
-        android:layout_marginVertical="20dp"
-        android:fontFamily="@font/exo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/constraint"
-        app:backgroundTint="@color/orange_btn_color"
-        app:layout_constraintStart_toStartOf="@id/guideline_bottom"
-        />
-
+            app:cornerRadius="10dp"
+            android:fontFamily="@font/exo"
+            android:paddingVertical="11sp"
+            app:backgroundTint="@color/orange_btn_color"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

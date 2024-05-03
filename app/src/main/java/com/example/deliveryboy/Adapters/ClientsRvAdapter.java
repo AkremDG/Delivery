@@ -3,6 +3,7 @@ package com.example.deliveryboy.Adapters;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -24,7 +25,6 @@ public class ClientsRvAdapter extends RecyclerView.Adapter<ClientsVh> {
         this.context = context;
         this.clientList = clients;
         this.rvInterface = rvInterface;
-
     }
 
     @NonNull
@@ -38,7 +38,6 @@ public class ClientsRvAdapter extends RecyclerView.Adapter<ClientsVh> {
         holder.clientName_tv.setText(clientList.get(position).getCT_Intitule());
         holder.clientStatus_tv.setText("Client "+clientList.get(position).getStatutC());
         holder.clientRegion_tv.setText(clientList.get(position).getRegionName());
-
 
 
     }

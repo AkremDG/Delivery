@@ -29,14 +29,13 @@ public class TypeCmdRvAdapter extends RecyclerView.Adapter<TypeCmdRvAdapter.Type
 
     public static class TypeCmdVh extends RecyclerView.ViewHolder {
         ImageView soda_img;
-        TextView type_Tv;
+        TextView catalog_Tv;
 
 
         public TypeCmdVh(@NonNull View itemView, TypeProduitInterface typeProduitInterface,Context context) {
             super(itemView);
 
-            soda_img=itemView.findViewById(R.id.typeCmd_Iv);
-            type_Tv=itemView.findViewById(R.id.type_Tv);
+            catalog_Tv=itemView.findViewById(R.id.catalog_Tv);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -66,7 +65,7 @@ public class TypeCmdRvAdapter extends RecyclerView.Adapter<TypeCmdRvAdapter.Type
     @Override
     public TypeCmdVh onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(this.context);
-        View view = inflater.inflate(R.layout.cmd_type_item,parent,false);
+        View view = inflater.inflate(R.layout.catalog_item,parent,false);
 
         return new TypeCmdRvAdapter.TypeCmdVh(view,typeProduitInterface,context);
     }
@@ -74,8 +73,7 @@ public class TypeCmdRvAdapter extends RecyclerView.Adapter<TypeCmdRvAdapter.Type
 
     @Override
     public void onBindViewHolder(@NonNull TypeCmdVh holder, int position) {
-        holder.soda_img.setImageResource(typeCommandeList.get(position).getImage());
-        holder.type_Tv.setText(typeCommandeList.get(position).getName());
+        holder.catalog_Tv.setText(typeCommandeList.get(position).getName());
 
 
     }
