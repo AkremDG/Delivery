@@ -17,6 +17,7 @@ import com.example.deliveryboy.Adapters.quantiteInterface;
 import com.example.deliveryboy.Model.Produit;
 import com.example.deliveryboy.Model.User;
 import com.example.deliveryboy.R;
+import com.example.deliveryboy.View.DemandeFragments.CreateDemande;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
@@ -51,10 +52,8 @@ public class PanierActivity extends AppCompatActivity implements quantiteInterfa
     }
 
     public double calculTotal() {
-        for (Produit produit : selectedProduits) {
-            tot = tot + produit.getTotalPrix();
-        }
-        return tot;
+
+        return 0;
     }
 
     @Override
@@ -79,7 +78,7 @@ public class PanierActivity extends AppCompatActivity implements quantiteInterfa
         arrow_pass_cmd_Iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PanierActivity.this, PassCommandeActivity.class);
+                Intent intent = new Intent(PanierActivity.this, CreateDemande.class);
                 startActivity(intent);
             }
         });

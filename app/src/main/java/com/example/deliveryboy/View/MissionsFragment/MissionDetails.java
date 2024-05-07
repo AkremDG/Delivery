@@ -1,9 +1,7 @@
 package com.example.deliveryboy.View.MissionsFragment;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,51 +11,34 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
-import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.deliveryboy.Adapters.ClientsRvAdapter;
-import com.example.deliveryboy.Adapters.MissionsRvAdapter;
 import com.example.deliveryboy.Adapters.RegionClick;
 import com.example.deliveryboy.Adapters.RegionsRvAdapter;
 import com.example.deliveryboy.Adapters.RvInterface;
-import com.example.deliveryboy.Adapters.TypeCmdRvAdapter;
 import com.example.deliveryboy.Model.Client;
 import com.example.deliveryboy.Model.Mission;
-import com.example.deliveryboy.Model.Region;
-import com.example.deliveryboy.Model.Visite;
 import com.example.deliveryboy.R;
-import com.example.deliveryboy.Utils.UiUtils;
 import com.example.deliveryboy.View.BottomNagContainerActivity;
-import com.example.deliveryboy.View.PassCommandeActivity;
 import com.example.deliveryboy.ViewModel.MissionsViewModel;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 public class MissionDetails extends AppCompatActivity implements RegionClick, RvInterface {
     private AppBarLayout appBarLayout;
@@ -82,7 +63,7 @@ public class MissionDetails extends AppCompatActivity implements RegionClick, Rv
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mission_details);
 
-        getWindow().setStatusBarColor(getResources().getColor(R.color.orange_btn_color));
+       // getWindow().setStatusBarColor(getResources().getColor(R.color.orange_btn_color));
 
         mission = (Mission) getIntent().getSerializableExtra("MissionIntent");
         regionsList = new ArrayList<>();
@@ -97,6 +78,7 @@ public class MissionDetails extends AppCompatActivity implements RegionClick, Rv
                 if(clients!=null){
 
                     if(clients.size()>0){
+
 
                         setRegionsFilter(clients);
                         clientsList.addAll(clients);
@@ -142,7 +124,7 @@ public class MissionDetails extends AppCompatActivity implements RegionClick, Rv
 
         appBarLayout= findViewById(R.id.detailsAppbar);
         detailsMissions_mt = findViewById(R.id.detailsMissions_mt);
-        appBarLayout.setOutlineProvider(null);
+        //appBarLayout.setOutlineProvider(null);
 
         typeCmd_Rv = findViewById(R.id.typeCmd_Rv);
 

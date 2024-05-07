@@ -1,107 +1,103 @@
 package com.example.deliveryboy.Model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
+import java.util.List;
 
+@Entity
 public class Produit implements Serializable {
-    private int imageProduit;
-    private String nomProduit;
-    private double prixProduit;
-    private int quantiteProduit;
-    private String typePromotion;
-    private Boolean dispProduit;
 
-    private double totalPrix;
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "localArticleId")
+    private Integer localArticleId;
 
-    private String Categorie;
+    @SerializedName("AR_Ref")
+    @ColumnInfo(name = "AR_Ref")
+    private String AR_Ref;
+
+    @SerializedName("AR_Design")
+    @ColumnInfo(name = "AR_Design")
+    private String AR_Design;
 
 
-    public Produit(int imageProduit, String nomProduit, double prixProduit, int quantiteProduit, String typePromotoin, Boolean dispProduit, double
-                   totalPrix, String Categorie) {
-        this.imageProduit = imageProduit;
-        this.nomProduit = nomProduit;
-        this.prixProduit = prixProduit;
-        this.quantiteProduit = quantiteProduit;
-        this.typePromotion = typePromotoin;
-        this.dispProduit=dispProduit;
-        this.totalPrix=totalPrix;
-        this.Categorie=Categorie;
+    @SerializedName("FA_CodeFamille")
+    @ColumnInfo(name = "FA_CodeFamille")
+    private String FA_CodeFamille;
+
+
+    @SerializedName("conditions")
+    @Ignore
+    private List<ArticleCondition> articleConditionsList;
+
+
+
+
+    public Produit(){
+
     }
 
-    public double getTotalPrix() {
-        return totalPrix;
+    public Produit(Integer localArticleId, String AR_Ref, String AR_Design, String FA_CodeFamille, List<ArticleCondition> articleConditionsList) {
+        this.localArticleId = localArticleId;
+        this.AR_Ref = AR_Ref;
+        this.AR_Design = AR_Design;
+        this.FA_CodeFamille = FA_CodeFamille;
+        this.articleConditionsList = articleConditionsList;
     }
 
-    public void setTotalPrix(double totalPrix) {
-        this.totalPrix = totalPrix;
+    public Integer getLocalArticleId() {
+        return localArticleId;
     }
 
-    public Boolean getDispProduit() {
-        return dispProduit;
+    public void setLocalArticleId(Integer localArticleId) {
+        this.localArticleId = localArticleId;
     }
 
-    public void setDispProduit(Boolean dispProduit) {
-        this.dispProduit = dispProduit;
+    public String getAR_Ref() {
+        return AR_Ref;
     }
 
-    public int getImageProduit() {
-        return imageProduit;
+    public void setAR_Ref(String AR_Ref) {
+        this.AR_Ref = AR_Ref;
     }
 
-    public void setImageProduit(int imageProduit) {
-        this.imageProduit = imageProduit;
+    public String getAR_Design() {
+        return AR_Design;
     }
 
-    public String getNomProduit() {
-        return nomProduit;
+    public void setAR_Design(String AR_Design) {
+        this.AR_Design = AR_Design;
     }
 
-    public void setNomProduit(String nomProduit) {
-        this.nomProduit = nomProduit;
+    public String getFA_CodeFamille() {
+        return FA_CodeFamille;
     }
 
-    public double getPrixProduit() {
-        return prixProduit;
+    public void setFA_CodeFamille(String FA_CodeFamille) {
+        this.FA_CodeFamille = FA_CodeFamille;
     }
 
-    public void setPrixProduit(double prixProduit) {
-        this.prixProduit = prixProduit;
+    public List<ArticleCondition> getArticleConditionsList() {
+        return articleConditionsList;
     }
 
-    public int getQuantiteProduit() {
-        return quantiteProduit;
-    }
-
-    public void setQuantiteProduit(int quantiteProduit) {
-        this.quantiteProduit = quantiteProduit;
-    }
-
-    public String getTypePromotion() {
-        return typePromotion;
-    }
-
-    public void setTypePromotion(String typePromotion) {
-        this.typePromotion = typePromotion;
-    }
-
-    public String getCategorie() {
-        return Categorie;
-    }
-
-    public void setCategorie(String categorie) {
-        Categorie = categorie;
+    public void setArticleConditionsList(List<ArticleCondition> articleConditionsList) {
+        this.articleConditionsList = articleConditionsList;
     }
 
     @Override
     public String toString() {
         return "Produit{" +
-                "imageProduit=" + imageProduit +
-                ", nomProduit='" + nomProduit + '\'' +
-                ", prixProduit=" + prixProduit +
-                ", quantiteProduit=" + quantiteProduit +
-                ", typePromotion='" + typePromotion + '\'' +
-                ", dispProduit=" + dispProduit +
-                ", totalPrix=" + totalPrix +
-                ", Categorie='" + Categorie + '\'' +
+                "localArticleId=" + localArticleId +
+                ", AR_Ref='" + AR_Ref + '\'' +
+                ", AR_Design='" + AR_Design + '\'' +
+                ", FA_CodeFamille='" + FA_CodeFamille + '\'' +
+                ", articleConditionsList=" + articleConditionsList +
                 '}';
     }
 }

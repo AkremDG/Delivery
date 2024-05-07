@@ -45,7 +45,7 @@ public class AuthRepository {
                        SessionManager.getInstance().setUSER_ID(context,response.body().getUser().getId());
                        SessionManager.getInstance().setROLE_ID(context,response.body().getUser().getRoleId());
 
-                       Log.i("TOKEN", String.valueOf(response.body().getToken()));
+                       Log.i("TOKENNNNNNNNNNN", String.valueOf(response.body().getToken()));
 
 
                        authUserLiveData.postValue("success");

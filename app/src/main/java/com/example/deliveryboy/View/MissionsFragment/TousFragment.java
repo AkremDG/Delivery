@@ -273,17 +273,17 @@ public class TousFragment extends Fragment implements RvInterface {
             @Override
             public void onChanged(List<Mission> missions) {
 
-                Toast.makeText(getContext(), "IJAA", Toast.LENGTH_SHORT).show();
 
                 if(missions!=null){
 
                     if(missions.size()>0){
 
+
+
                         progressBar.setVisibility(View.INVISIBLE);
                         missionList.clear();
                         missionList.addAll(missions);
                         adapter.notifyDataSetChanged();
-
 
 
                     }else {

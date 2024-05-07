@@ -3,8 +3,12 @@ package com.example.deliveryboy.Utils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.view.View;
 import android.view.Window;
+import android.widget.ProgressBar;
+
+import androidx.core.content.ContextCompat;
 
 import com.example.deliveryboy.R;
 import com.google.android.material.snackbar.Snackbar;
@@ -23,10 +27,16 @@ public class UiUtils {
         });
         snackbar.setActionTextColor(Color.WHITE);
 
-        snackbar.setBackgroundTint(Color.BLACK);
+        snackbar.setBackgroundTint(view.getResources().getColor(R.color.se_con_col));
         snackbar.show();
     }
 
+
+    public static void setupProgressBar(Context context, ProgressBar progressBar){
+
+        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(context, R.color.orange_btn_color),
+                PorterDuff.Mode.SRC_IN);
+    }
     public static boolean isSessionExpired(Context context){
 
         boolean res = false;

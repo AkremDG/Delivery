@@ -4,7 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.PassCommandeActivity">
+    tools:context=".View.DemandeFragments.CreateDemande">
+
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:progressTint="@color/orange_btn_color"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/demandeAppBar"
@@ -13,6 +26,8 @@
         app:layout_constraintTop_toTopOf="parent"
         android:background="@color/white"
 
+
+
         android:elevation="0dp">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -20,9 +35,10 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:title="Demande de chargement"
+            app:titleCentered="true"
             app:menu="@menu/details_missions_menu"
-            app:subtitle="Chargement camionette"
             android:elevation="0dp"
+            app:navigationIcon="@drawable/baseline_arrow_back_24"
             style="@style/CustomToolbar"
             />
 
@@ -32,8 +48,6 @@
 
     <EditText
         android:id="@+id/searchBar_pass_cmd"
-
-
         android:layout_marginHorizontal="16dp"
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -53,7 +67,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/typeCmd_Rv"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_height="wrap_content"

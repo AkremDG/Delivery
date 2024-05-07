@@ -40,15 +40,16 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
 
     @Override
     public void onBindViewHolder(@NonNull ProduitVh holder, int position) {
-        holder.nomProduit_Tv.setText(produitList.get(position).getNomProduit());
-        holder.produit_Iv.setImageResource(produitList.get(position).getImageProduit());
-        holder.promotion_Tv.setText(produitList.get(position).getTypePromotion());
-        holder.prix_Tv.setText(String.valueOf(produitList.get(position).getPrixProduit())+" dt");
-        holder.qte_Tv.setText(String.valueOf(produitList.get(position).getQuantiteProduit()));
+        holder.nomProduit_Tv.setText(produitList.get(position).getAR_Design());
+       // holder.produit_Iv.setImageResource(produitList.get(position).getImageProduit());
+       // holder.promotion_Tv.setText(produitList.get(position).getTypePromotion());
+       // holder.prix_Tv.setText(String.valueOf(produitList.get(position).getPrixProduit())+" dt");
+       // holder.qte_Tv.setText(String.valueOf(produitList.get(position).getQuantiteProduit()));
     }
 
     @Override
     public int getItemCount() {
+
         return produitList.size();
     }
 

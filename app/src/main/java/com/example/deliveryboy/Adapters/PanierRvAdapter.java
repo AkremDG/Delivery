@@ -44,13 +44,13 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
 
     @Override
     public void onBindViewHolder(@NonNull PanierVH holder, int position) {
-        holder.panier_produit_Iv.setImageResource(listProduit.get(position).getImageProduit());
-        holder.nomProdPanier_Tv.setText(listProduit.get(position).getNomProduit());
-        holder.promoPanier_tv.setText(listProduit.get(position).getTypePromotion());
-        holder.totalVal_tv.setText(String.valueOf(listProduit.get(position).getTotalPrix())+ " dt");
-        holder.qte_Tv.setText(String.valueOf(listProduit.get(position).getQuantiteProduit()));
+        holder.panier_produit_Iv.setImageResource(R.drawable.seven);
+        holder.nomProdPanier_Tv.setText(listProduit.get(position).getAR_Design());
 
-        quantite = listProduit.get(position).getQuantiteProduit();
+        //holder.promoPanier_tv.setText(null);
+       // holder.totalVal_tv.setText(String.valueOf(listProduit.get(position).getTotalPrix())+ " dt");
+       // holder.qte_Tv.setText(String.valueOf(listProduit.get(position).getQuantiteProduit()));
+       // quantite = listProduit.get(position).getQuantiteProduit();
     }
 
     @Override
