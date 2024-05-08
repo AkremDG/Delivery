@@ -2,17 +2,17 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-
+    android:layout_height="300dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:cardElevation="5dp"
+        app:cardElevation="2dp"
+        app:cardBackgroundColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,9 +20,10 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+
             app:layout_constraintTop_toTopOf="parent">
 
 
@@ -31,14 +32,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.1" />
+                app:layout_constraintGuide_percent="0.2" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_img_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.95" />
+                app:layout_constraintGuide_percent="0.8" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_img_bottom"
@@ -53,41 +54,49 @@
                 android:layout_height="0dp"
                 android:src="@drawable/cok1"
 
-                android:layout_marginTop="4dp"
                 app:layout_constraintBottom_toBottomOf="@id/guideline_img_bottom"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/nomProduit_Tv"
-                android:textSize="18sp"
-
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/exo"
-                android:text="Lait demi-écrémé"
-                android:textColor="@color/se_con_col"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/guideline_img_bottom" />
 
             <TextView
-                android:id="@+id/promotion_Tv"
+                android:id="@+id/arRef_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:text="Promotion gratuité"
+                android:paddingHorizontal="10dp"
+                android:text="AR43434348349"
+                android:textAlignment="center"
+
                 android:textColor="@color/green"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@+id/prix_Tv"
 
+                app:layout_constraintEnd_toEndOf="@id/guideline_img_right"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@id/guideline_img_left"
+                app:layout_constraintTop_toBottomOf="@+id/nomProduit_Tv" />
+
+            <TextView
+                android:id="@+id/nomProduit_Tv"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:fontFamily="@font/exo"
+                android:paddingHorizontal="5dp"
+                android:text="Lait demi-écrémé"
+                android:textAlignment="center"
+                android:textColor="@color/se_con_col"
                 android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/nomProduit_Tv" />
-
-
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/arRef_tv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/produit_Iv"
+                app:layout_constraintVertical_chainStyle="packed" />
 
             <TextView
                 android:id="@+id/prix_Tv"
@@ -95,14 +104,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/exo"
-                android:text="1.200 dt"
-                android:textSize="14sp"
                 android:paddingBottom="5dp"
+                android:text="1.200 dt"
+
+                android:textAlignment="center"
+
                 android:textColor="@color/blue_reset_password"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+
+                android:textSize="14sp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/promotion_Tv" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/guideline_img_right"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@id/guideline_img_left"
+                app:layout_constraintTop_toBottomOf="@+id/arRef_tv" />
 
             <TextView
                 android:id="@+id/qte_surSomme_Tv"
@@ -111,12 +126,12 @@
                 android:background="@drawable/bg_pack_green"
                 android:fontFamily="@font/exo"
                 android:padding="1dp"
-                android:textSize="14sp"
                 android:text="1/3"
                 android:textColor="@color/black"
-                app:layout_constraintTop_toTopOf="parent"
+                android:textSize="14sp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
-               />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/pack_Tv"
@@ -126,12 +141,12 @@
                 android:fontFamily="@font/exo"
                 android:padding="1dp"
                 android:text="Pack"
-                android:textSize="14sp"
-                app:layout_constraintTop_toTopOf="parent"
                 android:textColor="@color/white"
+                android:textSize="14sp"
+                android:visibility="gone"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toStartOf="parent"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,18 +1,27 @@
 package com.example.deliveryboy.View.DemandeFragments;
 
+import static java.security.AccessController.getContext;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.media.Image;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,27 +34,36 @@ import android.widget.Toast;
 
 import com.example.deliveryboy.Adapters.CategoriesAdapter.CatalogClick;
 import com.example.deliveryboy.Adapters.CategoriesAdapter.ProductCatalogRv;
+import com.example.deliveryboy.Adapters.ClientsRvAdapter;
+import com.example.deliveryboy.Adapters.MissionsRvAdapter;
 import com.example.deliveryboy.Adapters.ProduitRvAdapter;
 import com.example.deliveryboy.Adapters.RvInterface;
 import com.example.deliveryboy.Adapters.TypeProduitInterface;
 import com.example.deliveryboy.Adapters.quantiteInterface;
+import com.example.deliveryboy.Model.Client;
 import com.example.deliveryboy.Model.Produit;
 import com.example.deliveryboy.Model.TypeCommande;
 import com.example.deliveryboy.Model.User;
 import com.example.deliveryboy.R;
+import com.example.deliveryboy.Utils.InternetChecker;
 import com.example.deliveryboy.Utils.UiUtils;
 import com.example.deliveryboy.View.BottomNagContainerActivity;
-import com.example.deliveryboy.ViewModel.ProductsViewModel;
+import com.example.deliveryboy.View.MissionsFragment.MissionDetails;
+import com.example.deliveryboy.View.MissionsFragment.TousFragment;
+import com.example.deliveryboy.ViewModel.DemandeChargViewModel;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class CreateDemande extends AppCompatActivity implements RvInterface, quantiteInterface, TypeProduitInterface, CatalogClick {
     private Produit produit;
     private MaterialToolbar materialToolbar;
+    ProduitRvAdapter productsAdapter;
     private EditText searchBar_pass_cmd;
     private Boolean isFilterClicked = false;
     private List<Produit> filtredProducts = new ArrayList<>();
@@ -53,8 +71,9 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
     private RecyclerView typeCmd_Rv, produids_rv;
     private List<TypeCommande> typeCommandeList;
 
+    private FloatingActionButton synchro_fab;
     private ImageView panier_pass_cmd_Iv;
-    private List<Produit> listProduits;
+    private List<Produit> listProduits = new ArrayList<>();
 
     private List<Produit> selectedProduits = new ArrayList<>();
 
@@ -65,21 +84,27 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
     private int quantite = 1;
     private User user;
     private int itemCickedPos;
-    View view;
+    ConstraintLayout view;
     private ProgressBar progressBar;
+    private ConstraintLayout internetBg;
 
-    ProductsViewModel productsViewModel;
+    DemandeChargViewModel demandeChargViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_commande);
 
+
         bindViews();
         DisplayData(listProduits);
+        uiSetup();
         uiListeners();
     }
     public void bindViews() {
+        view = findViewById(R.id.global_constraint);
+        synchro_fab = findViewById(R.id.synchro_fab);
         demandeAppBar = findViewById(R.id.demandeAppBar);
+        internetBg = findViewById(R.id.internetBg);
        //demandeAppBar.setOutlineProvider(null);
         typeCmd_Rv = findViewById(R.id.typeCmd_Rv);
         produids_rv = findViewById(R.id.produids_rv);
@@ -89,38 +114,30 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
         arrow_pass_cmd_Iv = findViewById(R.id.arrow_pass_cmd_Iv);
         materialToolbar = findViewById(R.id.demandeCharg_mtb);
 
-
+        searchBar_pass_cmd = findViewById(R.id.searchBar_pass_cmd);
         progressBar= findViewById(R.id.progressBar);
         UiUtils.setupProgressBar(getApplicationContext(), progressBar);
 
     }
     public void DisplayData(List<Produit> listProd) {
 
-        productsViewModel = new ProductsViewModel();
+        demandeChargViewModel = new DemandeChargViewModel();
 
 
 
         progressBar.setVisibility(View.VISIBLE);
 
-        productsViewModel.getProductsApi(getApplicationContext()).observe(this, new Observer<Boolean>() {
+        demandeChargViewModel.getProductsApi(getApplicationContext()).observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 if(aBoolean==false){
-                    progressBar.setVisibility(View.INVISIBLE);
-                    Toast.makeText(CreateDemande.this, "ERROR", Toast.LENGTH_SHORT).show();
+                    internetBg.setVisibility(View.VISIBLE);
+                    getAndDisplayLocalProducts();
 
-                    // internetBg.setVisibility(View.VISIBLE);
-
-                    produids_rv.setVisibility(View.VISIBLE);
-                  //  getAndDisplayLocalProducts();
                 }else {
-                    progressBar.setVisibility(View.INVISIBLE);
+                    internetBg.setVisibility(View.GONE);
 
-                    Toast.makeText(CreateDemande.this, "OKAY", Toast.LENGTH_SHORT).show();
-
-                    produids_rv.setVisibility(View.VISIBLE);
-                  //  internetBg.setVisibility(View.GONE);
-                  //  getAndDisplayLocalMissions();
+                    getAndDisplayLocalProducts();
 
                 }
             }
@@ -151,7 +168,98 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
 
          */
     }
+
+    private void getAndDisplayLocalProducts() {
+        demandeChargViewModel.getLocalProducts(getApplicationContext()).observe(this, new Observer<List<Produit>>() {
+            @Override
+            public void onChanged(List<Produit> produits) {
+                if(produits !=null){
+                    if(produits.size()>0){
+
+                        progressBar.setVisibility(View.INVISIBLE);
+
+                        listProduits.clear();
+                        listProduits.addAll(produits);
+                        productsAdapter.notifyDataSetChanged();
+
+
+                    }
+                }else {
+                    progressBar.setVisibility(View.VISIBLE);
+                    Log.i("LOCALLLLLPRODUIT", "ERRORRRRRRRRRR");
+
+                }
+            }
+        });
+    }
+
     public void uiListeners() {
+        synchro_fab.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("FragmentLiveDataObserve")
+            @Override
+            public void onClick(View v) {
+
+                progressBar.setVisibility(View.VISIBLE);
+                produids_rv.setVisibility(View.GONE);
+
+
+                if(InternetChecker.isConnectedToInternet(getApplicationContext())){
+
+                    demandeChargViewModel.getProductsApi(getApplicationContext()).observe(CreateDemande.this, new Observer<Boolean>() {
+                        @Override
+                        public void onChanged(Boolean aBoolean) {
+                            if(aBoolean==false){
+                                UiUtils.showSnackbar(view,"Erreur synchronisation","Fermer");
+                                internetBg.setVisibility(View.VISIBLE);
+
+                                produids_rv.setVisibility(View.VISIBLE);
+                                getAndDisplayLocalProducts();
+                            }else {
+                                internetBg.setVisibility(View.GONE);
+                                 produids_rv.setVisibility(View.VISIBLE);
+
+                                getAndDisplayLocalProducts();
+
+                            }
+                        }
+                    });
+
+                }else {
+                    progressBar.setVisibility(View.GONE);
+                    produids_rv.setVisibility(View.VISIBLE);
+
+                    internetBg.setVisibility(View.VISIBLE);
+
+                    UiUtils.showSnackbar(view,"Erreur de connexion internet","Fermer");
+                }
+
+            }
+        });
+        searchBar_pass_cmd.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                List<Produit> filtredProductsList = new ArrayList<>();
+
+                for(Produit product : listProduits){
+                    if(product.getAR_Design().toLowerCase().contains(s) || product.getAR_Design().toUpperCase(Locale.ROOT).contains(s) ){
+                        filtredProductsList.add(product);
+                        setProductsList(filtredProductsList);
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         materialToolbar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,55 +269,64 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
             }
         });
 
-        produids_rv.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-            private int scrollThreshold = 20;
+
+        produids_rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            private static final int SCROLL_THRESHOLD = 20;
             private boolean scrolledDown = false;
             private int oldScrollY = 0;
+            private boolean isAnimating = false;
 
             @Override
-            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (scrollY > oldScrollY + scrollThreshold) {
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                int scrollY = recyclerView.computeVerticalScrollOffset();
+
+                if (scrollY > oldScrollY + SCROLL_THRESHOLD && !isAnimating) {
                     // Scrolling down
                     if (!scrolledDown) {
                         scrolledDown = true;
+                        isAnimating = true;
                         // Hide the views with animation
-                        animateViewVisibilityWithFadeOut(searchBar_pass_cmd);
-                        animateViewVisibilityWithFadeOut(typeCmd_Rv);
+                        animateViewVisibilityWithFadeOut(searchBar_pass_cmd, () -> isAnimating = false);
+                        animateViewVisibilityWithFadeOut(typeCmd_Rv, null);
                     }
-                } else if (scrollY < oldScrollY - scrollThreshold) {
+                } else if (scrollY < oldScrollY - SCROLL_THRESHOLD && !isAnimating) {
                     // Scrolling up
                     if (scrolledDown) {
                         scrolledDown = false;
+                        isAnimating = true;
                         // Show the views with animation
-                        animateViewVisibilityWithFadeIn(searchBar_pass_cmd);
-                        animateViewVisibilityWithFadeIn(typeCmd_Rv);
+                        animateViewVisibilityWithFadeIn(searchBar_pass_cmd, null);
+                        animateViewVisibilityWithFadeIn(typeCmd_Rv, () -> isAnimating = false);
                     }
                 }
 
                 oldScrollY = scrollY;
             }
 
-            private void animateViewVisibilityWithFadeOut(final View view) {
+            private void animateViewVisibilityWithFadeOut(final View view, Runnable onAnimationEnd) {
                 view.animate()
                         .alpha(0f)
-                        .withEndAction(new Runnable() {
-                            @Override
-                            public void run() {
-                                view.setVisibility(View.GONE);
-                            }
+                        .withEndAction(() -> {
+                            view.setVisibility(View.GONE);
+                            if (onAnimationEnd != null) onAnimationEnd.run();
                         })
                         .start();
             }
 
-            private void animateViewVisibilityWithFadeIn(final View view) {
+            private void animateViewVisibilityWithFadeIn(final View view, Runnable onAnimationEnd) {
                 view.setVisibility(View.VISIBLE);
                 view.setAlpha(0f);
                 view.animate()
                         .alpha(1f)
+                        .withEndAction(() -> {
+                            if (onAnimationEnd != null) onAnimationEnd.run();
+                        })
                         .start();
             }
-
         });
+
         List<Produit> produitList = new ArrayList<>();
 
         /*
@@ -313,7 +430,14 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.sheet_desc_produit);
 
-        TextView disponibiliteTv = dialog.findViewById(R.id.disponibilite_Tv);
+        TextView productName = dialog.findViewById(R.id.nomProduit_Tv);
+        productName.setText(String.valueOf(listProduits.get(pos).getAR_Design()));
+
+        TextView refTv = dialog.findViewById(R.id.promo_val_Tv);
+        refTv.setText(String.valueOf("Ref : "+listProduits.get(pos).getAR_Ref()));
+
+
+
 
 
         ImageView plus = dialog.findViewById(R.id.plus_Iv);
@@ -323,6 +447,14 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
         TextView qte_Tv = dialog.findViewById(R.id.qte_Tv);
         qte_Tv.setText(String.valueOf(quantite));
 
+
+        ImageView closeIv = dialog.findViewById(R.id.close_descProduit_iv);
+        closeIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
 
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -357,5 +489,19 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         dialog.getWindow().setGravity(Gravity.BOTTOM);
     }
+    private void uiSetup() {
 
+         productsAdapter = new ProduitRvAdapter(getApplicationContext(), listProduits, this, this);
+        produids_rv.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+        produids_rv.setAdapter(productsAdapter);
+
+    }
+
+    private void setProductsList(List<Produit> productsList) {
+
+        productsAdapter = new ProduitRvAdapter(getApplicationContext(), productsList, this, this);
+        produids_rv.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+        produids_rv.setAdapter(productsAdapter);
+
+    }
 }

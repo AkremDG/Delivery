@@ -55,6 +55,7 @@
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingHorizontal="8sp"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -89,7 +90,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_date"
         android:layout_width="0dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8sp"
         android:layout_marginEnd="10dp"
 
         android:layout_height="wrap_content"
@@ -165,7 +166,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8sp"
         android:layout_marginStart="10dp"
         android:background="@drawable/search_view_stroke_gray"
         android:paddingVertical="10dp"
@@ -233,7 +234,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
 
-        android:layout_marginHorizontal="16dp"
+        android:layout_marginHorizontal="8sp"
         android:layout_width="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="5dp"
@@ -261,9 +262,8 @@
 
 
     <EditText
-        android:layout_marginStart="16dp"
         android:id="@+id/searchBar_tt"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@id/calIv"
@@ -272,6 +272,8 @@
         android:hint="Rechercher par nom client ..."
         android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
+
+        android:layout_marginHorizontal="8sp"
 
         app:boxCornerRadiusTopEnd="5dp"
         android:background="@drawable/search_view_stroke_gray"

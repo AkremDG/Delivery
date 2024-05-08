@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16sp"
+        android:padding="8sp"
         android:background="@drawable/bg_alert">
 
         <ImageView
@@ -42,6 +42,7 @@
         android:textColor="@color/white"
         android:textSize="16sp"
 
+        android:visibility="gone"
         android:layout_marginTop="5dp"
 
         android:fontFamily="@font/exo"
@@ -53,9 +54,9 @@
         android:id="@+id/produit_Iv"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/bread_img"
+        android:src="@drawable/cok1"
         app:layout_constraintTop_toBottomOf="@+id/disponibilite_Tv"
-        app:layout_constraintBottom_toTopOf="@id/aj_panier_btn"
+        app:layout_constraintBottom_toBottomOf="@id/constraint"
         android:layout_marginTop="20dp"
         android:layout_marginRight="10dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_bottom"
@@ -66,12 +67,13 @@
 
     <TextView
         android:id="@+id/nomProduit_Tv"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/exo"
         android:textSize="18sp"
         android:textStyle="bold"
 
+        app:layout_constraintEnd_toEndOf="parent"
         android:text="Lait demi-ecrémé"
         android:textColor="@color/se_con_col"
         app:layout_constraintTop_toTopOf="@+id/produit_Iv"
@@ -96,9 +98,11 @@
 
     <TextView
         android:id="@+id/promo_val_Tv"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Promotion"
+        app:layout_constraintEnd_toEndOf="parent"
+
         app:layout_constraintStart_toEndOf="@+id/promo_Tv"
         app:layout_constraintTop_toBottomOf="@+id/nomProduit_Tv"
         android:textColor="@color/green"
@@ -128,7 +132,7 @@
         android:id="@+id/prix_Tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Prix unitaire "
+        android:text="Prix : "
         app:layout_constraintStart_toStartOf="@id/nomProduit_Tv"
         app:layout_constraintTop_toBottomOf="@+id/conditionn_Tv"
         android:textColor="@color/se_con_col"

@@ -9,7 +9,7 @@ public class RetrofitClientInstance {
     public static Retrofit getRetrofitClient(){
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://3f4d-41-230-217-53.ngrok-free.app")
+                .baseUrl("https://5d75-41-230-217-53.ngrok-free.app")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

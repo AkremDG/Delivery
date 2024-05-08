@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/addClient_fab"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp"
+        android:layout_margin="16sp"
+
         app:srcCompat="@drawable/baseline_sync_24"
         app:backgroundTint="@color/white"
         app:tint="@color/orange_btn_color"/>
@@ -27,7 +28,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp"
+        android:layout_margin="16sp"
         app:srcCompat="@drawable/baseline_person_add_24"
         app:backgroundTint="@color/orange_btn_color"
         app:tint="@android:color/white" />
@@ -65,7 +66,7 @@
         android:id="@+id/listCmds_Rv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="16dp"
+        android:layout_marginHorizontal="8sp"
         app:layout_constraintTop_toBottomOf="@+id/internetBg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHeight_default="wrap"

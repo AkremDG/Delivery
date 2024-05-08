@@ -1,17 +1,23 @@
 package com.example.deliveryboy.View.MissionsFragment;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -138,6 +144,31 @@ public class MissionDetails extends AppCompatActivity implements RegionClick, Rv
 
         HandleEvents();
 
+        searchBar_tt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                List<Client> filtredClientList = new ArrayList<>();
+
+                for(Client client : clientsList){
+                    if(client.getCT_Intitule().toLowerCase().contains(s) || client.getCT_Intitule().toUpperCase(Locale.ROOT).contains(s)){
+                        filtredClientList.add(client);
+                        setClientsList(filtredClientList);
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
     }
 
@@ -151,15 +182,12 @@ public class MissionDetails extends AppCompatActivity implements RegionClick, Rv
 
     private void setRegionsFilter(List<Client> clientsList) {
 
-
-
         for (Client client : clientsList) {
             String regionName = client.getRegionName();
             if (!regionsList.contains(regionName)) {
                 regionsList.add(regionName);
             }
         }
-
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
             typeCmd_Rv.setLayoutManager(layoutManager);
@@ -170,85 +198,89 @@ public class MissionDetails extends AppCompatActivity implements RegionClick, Rv
     }
 
     private void HandleEvents() {
-        missionsClients_rv.setOnScrollChangeListener(new View.OnScrollChangeListener()     {
-            private int scrollThreshold = 20;
+        missionsClients_rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            private static final int SCROLL_THRESHOLD = 20;
             private boolean scrolledDown = false;
             private int oldScrollY = 0;
+            private boolean isAnimating = false;
 
             @Override
-            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (scrollY > oldScrollY + scrollThreshold) {
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                int scrollY = recyclerView.computeVerticalScrollOffset();
+
+                if (scrollY > oldScrollY + SCROLL_THRESHOLD && !isAnimating) {
                     // Scrolling down
                     if (!scrolledDown) {
                         scrolledDown = true;
+                        isAnimating = true;
                         // Hide the views with animation
-
-                        animateViewVisibilityWithFadeOut(searchBar_tt);
-
-                        /*
-                        animateViewVisibilityWithFadeOut(constraint_date_end);
-                        animateViewVisibilityWithFadeOut(constraint_date_start);
-
-                        animateViewVisibilityWithFadeOut(startDateIv);
-                        animateViewVisibilityWithFadeOut(endDatetextTv);
-
-                         */
-
-
-                        //clientAvisiter
-                        animateViewVisibilityWithFadeOut(clientAVisiterTv);
-
+                        animateViewVisibilityWithFadeOut(searchBar_tt, null);
+                        animateViewVisibilityWithFadeOut(constraint_date_end, null);
+                        animateViewVisibilityWithFadeOut(constraint_date_start, null);
+                        animateViewVisibilityWithFadeOut(startDateIv, null);
+                        animateViewVisibilityWithFadeOut(endDatetextTv, null);
+                        animateViewVisibilityWithFadeOut(clientAVisiterTv, () -> isAnimating = false);
                     }
-                } else if (scrollY < oldScrollY - scrollThreshold) {
+                } else if (scrollY < oldScrollY - SCROLL_THRESHOLD && !isAnimating) {
                     // Scrolling up
                     if (scrolledDown) {
                         scrolledDown = false;
+                        isAnimating = true;
                         // Show the views with animation
-                        animateViewVisibilityWithFadeIn(searchBar_tt);
-
-                        animateViewVisibilityWithFadeIn(constraint_date_end);
-                        animateViewVisibilityWithFadeIn(constraint_date_start);
-
-                        animateViewVisibilityWithFadeIn(startDateIv);
-                        animateViewVisibilityWithFadeIn(endDatetextTv);
-
-
-                        //clientAvisiter
-                        animateViewVisibilityWithFadeIn(clientAVisiterTv);
-
-
+                        animateViewVisibilityWithFadeIn(searchBar_tt, null);
+                        animateViewVisibilityWithFadeIn(constraint_date_end, null);
+                        animateViewVisibilityWithFadeIn(constraint_date_start, null);
+                        animateViewVisibilityWithFadeIn(startDateIv, null);
+                        animateViewVisibilityWithFadeIn(endDatetextTv, null);
+                        animateViewVisibilityWithFadeIn(clientAVisiterTv, () -> isAnimating = false);
                     }
                 }
 
                 oldScrollY = scrollY;
             }
 
-            private void animateViewVisibilityWithFadeOut(final View view) {
-                view.animate()
-                        .alpha(0f)
-                        .withEndAction(new Runnable() {
-                            @Override
-                            public void run() {
-                                view.setVisibility(View.GONE);
-                            }
-                        })
-                        .start();
+            private void animateViewVisibilityWithFadeOut(final View view, final Runnable onAnimationEnd) {
+                if (view != null && view.getVisibility() == View.VISIBLE) {
+                    // Cancel any ongoing animations
+                    view.animate().cancel();
+
+                    ObjectAnimator alphaAnimator = ObjectAnimator.ofFloat(view, View.ALPHA, 1f, 0f);
+                    alphaAnimator.setDuration(300);
+                    alphaAnimator.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            view.setVisibility(View.GONE);
+                            if (onAnimationEnd != null) onAnimationEnd.run();
+                        }
+                    });
+                    alphaAnimator.start();
+                }
             }
 
-            private void animateViewVisibilityWithFadeIn(final View view) {
-                view.setVisibility(View.VISIBLE);
-                view.setAlpha(0f);
-                view.animate()
-                        .alpha(1f)
-                        .start();
-            }
+            private void animateViewVisibilityWithFadeIn(final View view, final Runnable onAnimationEnd) {
+                if (view != null && view.getVisibility() != View.VISIBLE) {
+                    // Cancel any ongoing animations
+                    view.animate().cancel();
 
+                    view.setAlpha(0f);
+                    view.setVisibility(View.VISIBLE);
+                    ObjectAnimator alphaAnimator = ObjectAnimator.ofFloat(view, View.ALPHA, 0f, 1f);
+                    alphaAnimator.setDuration(300);
+                    alphaAnimator.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            if (onAnimationEnd != null) onAnimationEnd.run();
+                        }
+                    });
+                    alphaAnimator.start();
+                }
+            }
         });
 
-
-
-
     }
+
 
 
     @Override

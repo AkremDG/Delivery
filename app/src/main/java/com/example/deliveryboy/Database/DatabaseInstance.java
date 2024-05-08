@@ -20,6 +20,9 @@ public abstract class DatabaseInstance extends RoomDatabase {
 
     public abstract MissionsDao missionsDao();
 
+    public abstract DemadesChargDao demadesChargDao();
+
+
     public static synchronized DatabaseInstance getInstance(Context context) {
         if(instance == null){
             instance = Room.databaseBuilder(context,DatabaseInstance.class,"DIGID_PAP.db")

@@ -42,7 +42,7 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
     public void onBindViewHolder(@NonNull ProduitVh holder, int position) {
         holder.nomProduit_Tv.setText(produitList.get(position).getAR_Design());
        // holder.produit_Iv.setImageResource(produitList.get(position).getImageProduit());
-       // holder.promotion_Tv.setText(produitList.get(position).getTypePromotion());
+        holder.ArRef_Tv.setText("Ref : "+produitList.get(position).getAR_Ref());
        // holder.prix_Tv.setText(String.valueOf(produitList.get(position).getPrixProduit())+" dt");
        // holder.qte_Tv.setText(String.valueOf(produitList.get(position).getQuantiteProduit()));
     }
@@ -56,7 +56,7 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
     public static class ProduitVh extends RecyclerView.ViewHolder {
         Context context;
         ImageView produit_Iv,moins_Iv,plus_Iv;
-        TextView pack_Tv,qte_surSomme_Tv,nomProduit_Tv,promotion_Tv,prix_Tv,qte_Tv;
+        TextView pack_Tv,qte_surSomme_Tv,nomProduit_Tv,ArRef_Tv,prix_Tv,qte_Tv;
         int i=1 ;
         int pos;
 
@@ -68,7 +68,7 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
             pack_Tv=itemView.findViewById(R.id.pack_Tv);
             qte_surSomme_Tv=itemView.findViewById(R.id.qte_surSomme_Tv);
             nomProduit_Tv=itemView.findViewById(R.id.nomProduit_Tv);
-            promotion_Tv=itemView.findViewById(R.id.promotion_Tv);
+            ArRef_Tv=itemView.findViewById(R.id.arRef_tv);
             prix_Tv=itemView.findViewById(R.id.prix_Tv);
             qte_Tv=itemView.findViewById(R.id.qte_Tv);
             this.context=context;
