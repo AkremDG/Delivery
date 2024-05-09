@@ -38,7 +38,7 @@
             android:exported="false" />
         <activity
             android:name=".View.BottomNagContainerActivity"
-            android:exported="true">
+            android:exported="false">
 
         </activity>
         <activity

@@ -1,6 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
+<!-- spinner_bg.xml -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <solid android:color="@color/search_bg_color" />
 
-    <solid android:color="@color/orange_btn_color"/>
-    <corners android:radius="2dp"/>
-</shape>
+        </shape>
+    </item>
+</selector>

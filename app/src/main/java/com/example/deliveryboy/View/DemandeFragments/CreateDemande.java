@@ -26,9 +26,11 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,11 +63,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class CreateDemande extends AppCompatActivity implements RvInterface, quantiteInterface, TypeProduitInterface, CatalogClick {
-    private Produit produit;
     private MaterialToolbar materialToolbar;
     ProduitRvAdapter productsAdapter;
     private EditText searchBar_pass_cmd;
-    private Boolean isFilterClicked = false;
     private List<Produit> filtredProducts = new ArrayList<>();
     private String typeProduit;
     private RecyclerView typeCmd_Rv, produids_rv;
@@ -161,12 +161,6 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
         typeCmd_Rv.setAdapter(new ProductCatalogRv(getApplicationContext(),listCatalogs,
                 this,typeCmd_Rv));
 
-        /*
-        //////////////////////////////////// RV PRODUITS
-        produids_rv.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
-        produids_rv.setAdapter(new ProduitRvAdapter(getApplicationContext(), listProd, this, this));
-
-         */
     }
 
     private void getAndDisplayLocalProducts() {
@@ -430,11 +424,23 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.sheet_desc_produit);
 
+        Spinner conditionSpinner = dialog.findViewById(R.id.conditionSpinner);
+        List<String> stringList = new ArrayList<>();
+
+        stringList.add("Présentoir");
+        stringList.add("Pack");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.customspinner,R.id.regionName_tv, stringList);
+        conditionSpinner.setAdapter(adapter);
+
+
         TextView productName = dialog.findViewById(R.id.nomProduit_Tv);
         productName.setText(String.valueOf(listProduits.get(pos).getAR_Design()));
 
         TextView refTv = dialog.findViewById(R.id.promo_val_Tv);
         refTv.setText(String.valueOf("Ref : "+listProduits.get(pos).getAR_Ref()));
+
+
 
 
 
@@ -455,6 +461,7 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
                 dialog.dismiss();
             }
         });
+
 
         plus.setOnClickListener(new View.OnClickListener() {
             @Override

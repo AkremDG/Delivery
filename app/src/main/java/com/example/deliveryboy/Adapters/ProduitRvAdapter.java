@@ -4,15 +4,20 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.deliveryboy.Model.Produit;
 import com.example.deliveryboy.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.ProduitVh> {
@@ -41,6 +46,7 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
     @Override
     public void onBindViewHolder(@NonNull ProduitVh holder, int position) {
         holder.nomProduit_Tv.setText(produitList.get(position).getAR_Design());
+
        // holder.produit_Iv.setImageResource(produitList.get(position).getImageProduit());
         holder.ArRef_Tv.setText("Ref : "+produitList.get(position).getAR_Ref());
        // holder.prix_Tv.setText(String.valueOf(produitList.get(position).getPrixProduit())+" dt");
@@ -56,6 +62,7 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
     public static class ProduitVh extends RecyclerView.ViewHolder {
         Context context;
         ImageView produit_Iv,moins_Iv,plus_Iv;
+        Spinner conditionSpinner;
         TextView pack_Tv,qte_surSomme_Tv,nomProduit_Tv,ArRef_Tv,prix_Tv,qte_Tv;
         int i=1 ;
         int pos;
@@ -64,6 +71,7 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
             super(itemView);
             produit_Iv=itemView.findViewById(R.id.produit_Iv);
             moins_Iv=itemView.findViewById(R.id.moins_Iv);
+            conditionSpinner = itemView.findViewById(R.id.conditionSpinner);
             plus_Iv=itemView.findViewById(R.id.plus_Iv);
             pack_Tv=itemView.findViewById(R.id.pack_Tv);
             qte_surSomme_Tv=itemView.findViewById(R.id.qte_surSomme_Tv);
@@ -83,6 +91,15 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
                     }
                 }
             });
+            List<String> stringList = new ArrayList<>();
+
+            stringList.add("Présentoir");
+            stringList.add("Pack");
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(itemView.getContext(), R.layout.customspinner,R.id.regionName_tv, stringList);
+            conditionSpinner.setAdapter(adapter);
+
+
 
             plus_Iv.setOnClickListener(new View.OnClickListener() {
                 @Override

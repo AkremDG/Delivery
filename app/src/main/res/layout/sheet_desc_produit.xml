@@ -22,6 +22,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             />
 
+        <Spinner
+            android:id="@+id/conditionSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/close_descProduit_iv"
+            app:layout_constraintStart_toStartOf="parent"
+
+            android:background="@drawable/bg_transparant"
+
+            />
+
 
 
         <androidx.constraintlayout.widget.Guideline
@@ -54,10 +65,10 @@
         android:id="@+id/produit_Iv"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/cok1"
-        app:layout_constraintTop_toBottomOf="@+id/disponibilite_Tv"
+        android:src="@drawable/bag"
+        app:layout_constraintTop_toBottomOf="@+id/conditionSpinner"
         app:layout_constraintBottom_toBottomOf="@id/constraint"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_bottom"
         android:layout_marginLeft="5dp"
@@ -116,7 +127,7 @@
         android:id="@+id/conditionn_Tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Conditionnement : "
+        android:text="Quantité : "
         app:layout_constraintStart_toStartOf="@+id/nomProduit_Tv"
         app:layout_constraintTop_toBottomOf="@+id/promo_val_Tv"
         android:textColor="@color/se_con_col"
@@ -161,7 +172,7 @@
         android:id="@+id/conditionn_val_Tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=" Piece"
+        android:text=" 400"
         app:layout_constraintStart_toEndOf="@+id/conditionn_Tv"
         app:layout_constraintTop_toBottomOf="@+id/promo_val_Tv"
         android:textColor="@color/orange_btn_color"
@@ -175,13 +186,12 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraint"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:background="@drawable/bg_choix_qte"
             android:padding="5dp"
             app:layout_constraintBottom_toTopOf="@id/aj_panier_btn"
-            app:layout_constraintEnd_toEndOf="@id/conditionn_val_Tv"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@id/guideline_bottom"
             app:layout_constraintTop_toBottomOf="@id/prix_Tv">
@@ -191,7 +201,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-
+android:paddingHorizontal="20dp"
 
                 android:src="@drawable/baseline_remove_circle_24_orange"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -206,6 +216,8 @@
                 android:text="5"
                 android:textColor="#FFA5A5A5"
                 android:textSize="18dp"
+                android:paddingHorizontal="5dp"
+
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/plus_Iv"
@@ -219,6 +231,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:clickable="true"
+                android:paddingHorizontal="20dp"
+
                 android:src="@drawable/baseline_add_circle_24_orange"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

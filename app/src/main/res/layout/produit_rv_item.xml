@@ -52,12 +52,12 @@
                 android:id="@+id/produit_Iv"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:src="@drawable/cok1"
+                android:src="@drawable/bag"
 
                 app:layout_constraintBottom_toBottomOf="@id/guideline_img_bottom"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/conditionSpinner" />
 
 
             <TextView
@@ -133,6 +133,20 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+
+            <Spinner
+                android:id="@+id/conditionSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+
+                android:background="@drawable/bg_transparant"
+
+                />
+
+
             <TextView
                 android:id="@+id/pack_Tv"
                 android:layout_width="wrap_content"
@@ -141,12 +155,15 @@
                 android:fontFamily="@font/exo"
                 android:padding="1dp"
                 android:text="Pack"
+                android:visibility="gone"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                android:visibility="gone"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+
+
 
 
             <androidx.constraintlayout.widget.ConstraintLayout

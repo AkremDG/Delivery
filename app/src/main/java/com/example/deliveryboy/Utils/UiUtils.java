@@ -9,10 +9,8 @@ import android.view.Window;
 import android.widget.ProgressBar;
 
 import androidx.core.content.ContextCompat;
-
 import com.example.deliveryboy.R;
 import com.google.android.material.snackbar.Snackbar;
-
 import java.util.Calendar;
 
 public class UiUtils {
@@ -25,9 +23,22 @@ public class UiUtils {
                 snackbar.dismiss();
             }
         });
-        snackbar.setActionTextColor(Color.WHITE);
+        /*
+        snackbar.setActionTextColor(Color.parseColor("#F8981D"));
+        snackbar.setTextColor(Color.parseColor("#F8981D"));
 
-        snackbar.setBackgroundTint(view.getResources().getColor(R.color.se_con_col));
+        snackbar.setBackgroundTint(Color.parseColor("#FEF0DD"));
+
+         */
+
+
+
+        snackbar.setActionTextColor(Color.parseColor("#FFFFFF"));
+        snackbar.setTextColor(Color.parseColor("#FFFFFF"));
+
+        snackbar.setBackgroundTint(Color.parseColor("#F8981D"));
+
+
         snackbar.show();
     }
 
