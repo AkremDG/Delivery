@@ -17,6 +17,12 @@ public class Produit implements Serializable {
     @ColumnInfo(name = "localArticleId")
     private Integer localArticleId;
 
+
+    @ColumnInfo(name ="boId")
+    @SerializedName("UniqueID")
+    private String boId;
+
+
     @SerializedName("AR_Ref")
     @ColumnInfo(name = "AR_Ref")
     private String AR_Ref;
@@ -33,8 +39,7 @@ public class Produit implements Serializable {
 
     @SerializedName("conditions")
     @Ignore
-    private List<ArticleCondition> articleConditionsList;
-
+    private List<ProduitCondition> articleConditionsList;
 
 
 
@@ -42,8 +47,9 @@ public class Produit implements Serializable {
 
     }
 
-    public Produit(Integer localArticleId, String AR_Ref, String AR_Design, String FA_CodeFamille, List<ArticleCondition> articleConditionsList) {
+    public Produit(Integer localArticleId, String boId, String AR_Ref, String AR_Design, String FA_CodeFamille, List<ProduitCondition> articleConditionsList) {
         this.localArticleId = localArticleId;
+        this.boId = boId;
         this.AR_Ref = AR_Ref;
         this.AR_Design = AR_Design;
         this.FA_CodeFamille = FA_CodeFamille;
@@ -56,6 +62,14 @@ public class Produit implements Serializable {
 
     public void setLocalArticleId(Integer localArticleId) {
         this.localArticleId = localArticleId;
+    }
+
+    public String getBoId() {
+        return boId;
+    }
+
+    public void setBoId(String boId) {
+        this.boId = boId;
     }
 
     public String getAR_Ref() {
@@ -82,11 +96,11 @@ public class Produit implements Serializable {
         this.FA_CodeFamille = FA_CodeFamille;
     }
 
-    public List<ArticleCondition> getArticleConditionsList() {
+    public List<ProduitCondition> getArticleConditionsList() {
         return articleConditionsList;
     }
 
-    public void setArticleConditionsList(List<ArticleCondition> articleConditionsList) {
+    public void setArticleConditionsList(List<ProduitCondition> articleConditionsList) {
         this.articleConditionsList = articleConditionsList;
     }
 
@@ -94,6 +108,7 @@ public class Produit implements Serializable {
     public String toString() {
         return "Produit{" +
                 "localArticleId=" + localArticleId +
+                ", boId='" + boId + '\'' +
                 ", AR_Ref='" + AR_Ref + '\'' +
                 ", AR_Design='" + AR_Design + '\'' +
                 ", FA_CodeFamille='" + FA_CodeFamille + '\'' +

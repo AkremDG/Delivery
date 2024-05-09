@@ -5,6 +5,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 import com.example.deliveryboy.Model.Produit;
+import com.example.deliveryboy.Model.ProduitCondition;
 
 import java.util.List;
 
@@ -19,5 +20,12 @@ public interface DemadesChargDao {
 
     @Query("SELECT * FROM Produit")
     List<Produit> getAllProducts();
+
+
+    @Insert
+    void insertProductCondition(ProduitCondition produitCondition);
+
+    @Query("SELECT * FROM ProduitCondition where produitBoId=:boId")
+    List<ProduitCondition> getAllProductsConditionsByBoid(String boId);
 
 }

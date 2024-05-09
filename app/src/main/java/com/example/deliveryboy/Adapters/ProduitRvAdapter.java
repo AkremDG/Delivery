@@ -1,6 +1,7 @@
 package com.example.deliveryboy.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.deliveryboy.Model.Produit;
+import com.example.deliveryboy.Model.ProduitCondition;
 import com.example.deliveryboy.R;
+import com.example.deliveryboy.ViewModel.DemandeChargViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +31,16 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
     private final RvInterface rvInterface;
     private final quantiteInterface quantiteInterface;
 
-
-    public ProduitRvAdapter(Context context, List<Produit> produitList, RvInterface rvInterface, quantiteInterface quantiteInterface) {
+    DemandeChargViewModel demandeChargViewModel;
+    LifecycleOwner lifecycleOwner;
+    public ProduitRvAdapter(LifecycleOwner lifecycleOwner, Context context, List<Produit> produitList, RvInterface rvInterface, quantiteInterface quantiteInterface) {
         this.context = context;
         this.produitList = produitList;
         this.rvInterface = rvInterface;
         this.quantiteInterface=quantiteInterface;
+
+        this.lifecycleOwner = lifecycleOwner;
+        demandeChargViewModel = new DemandeChargViewModel();
     }
 
     @NonNull
@@ -49,8 +58,41 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
 
        // holder.produit_Iv.setImageResource(produitList.get(position).getImageProduit());
         holder.ArRef_Tv.setText("Ref : "+produitList.get(position).getAR_Ref());
-       // holder.prix_Tv.setText(String.valueOf(produitList.get(position).getPrixProduit())+" dt");
        // holder.qte_Tv.setText(String.valueOf(produitList.get(position).getQuantiteProduit()));
+
+        List<String> stringList = new ArrayList<>();
+
+        demandeChargViewModel.getLocalProductsConditions(context, produitList.get(position).getBoId()).
+                observe(lifecycleOwner, new Observer<List<ProduitCondition>>() {
+            @Override
+            public void onChanged(List<ProduitCondition> produitConditions) {
+
+                holder.prix_Tv.setText(String.valueOf(produitConditions.get(0).getTC_Prix())+" dt");
+
+
+                for(ProduitCondition produitCondition : produitConditions){
+
+
+
+
+
+                    if(!stringList.contains(produitCondition.getEC_Enumere())){
+                        stringList.add(produitCondition.getEC_Enumere());
+                    }
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.customspinner,R.id.regionName_tv, stringList);
+                    holder.conditionSpinner.setAdapter(adapter);
+                }
+
+            }
+        });
+
+
+
+
+
+
+
     }
 
     @Override
@@ -79,6 +121,7 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
             ArRef_Tv=itemView.findViewById(R.id.arRef_tv);
             prix_Tv=itemView.findViewById(R.id.prix_Tv);
             qte_Tv=itemView.findViewById(R.id.qte_Tv);
+
             this.context=context;
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -91,6 +134,10 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
                     }
                 }
             });
+
+
+
+            /*
             List<String> stringList = new ArrayList<>();
 
             stringList.add("Présentoir");
@@ -98,6 +145,8 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
 
             ArrayAdapter<String> adapter = new ArrayAdapter<>(itemView.getContext(), R.layout.customspinner,R.id.regionName_tv, stringList);
             conditionSpinner.setAdapter(adapter);
+
+             */
 
 
 

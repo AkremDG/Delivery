@@ -433,6 +433,8 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.customspinner,R.id.regionName_tv, stringList);
         conditionSpinner.setAdapter(adapter);
 
+        TextView prixTv = dialog.findViewById(R.id.prix_val_Tv);
+        prixTv.setText(String.valueOf(listProduits.get(pos).getAR_Design()));
 
         TextView productName = dialog.findViewById(R.id.nomProduit_Tv);
         productName.setText(String.valueOf(listProduits.get(pos).getAR_Design()));
@@ -498,7 +500,7 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
     }
     private void uiSetup() {
 
-         productsAdapter = new ProduitRvAdapter(getApplicationContext(), listProduits, this, this);
+         productsAdapter = new ProduitRvAdapter(this,this, listProduits, this, this);
         produids_rv.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
         produids_rv.setAdapter(productsAdapter);
 
@@ -506,7 +508,7 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
 
     private void setProductsList(List<Produit> productsList) {
 
-        productsAdapter = new ProduitRvAdapter(getApplicationContext(), productsList, this, this);
+        productsAdapter = new ProduitRvAdapter(this,this, productsList, this, this);
         produids_rv.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
         produids_rv.setAdapter(productsAdapter);
 

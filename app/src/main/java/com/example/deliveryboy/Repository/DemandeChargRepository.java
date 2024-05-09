@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.deliveryboy.Apis.ProductsApi;
 import com.example.deliveryboy.Database.DatabaseInstance;
 import com.example.deliveryboy.Model.Produit;
+import com.example.deliveryboy.Model.ProduitCondition;
 import com.example.deliveryboy.Utils.SessionManager;
 
 import java.util.ArrayList;
@@ -51,6 +52,17 @@ public class DemandeChargRepository {
                                     if(isProductsDeleted){
                                         try {
                                             DatabaseInstance.getInstance(context).demadesChargDao().insertAllProducts(response.body());
+
+
+                                            for(Produit produit : response.body()){
+                                                for(ProduitCondition produitCondition : produit.getArticleConditionsList()){
+                                                    String productBoId = produit.getBoId();
+
+                                                    produitCondition.setProduitBoId(productBoId);
+                                                    DatabaseInstance.getInstance(context).demadesChargDao().insertProductCondition(produitCondition);
+
+                                                }
+                                            }
 
                                             resultLiveData.postValue(true);
 
@@ -103,5 +115,24 @@ public class DemandeChargRepository {
         });
 
         return resultLiveData;
+    }
+
+
+    public MutableLiveData<List<ProduitCondition>> getLocalProductConditionByProductBoId(Context context, String idBo){
+
+        MutableLiveData<List<ProduitCondition>> listMutableLiveData = new MutableLiveData<>();
+
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    listMutableLiveData.postValue(DatabaseInstance.getInstance(context).demadesChargDao().getAllProductsConditionsByBoid(idBo));
+
+                }catch (Exception e){
+                    listMutableLiveData.postValue(null);
+                }
+            }
+        });
+        return listMutableLiveData;
     }
 }

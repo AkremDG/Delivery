@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.deliveryboy.Model.Produit;
+import com.example.deliveryboy.Model.ProduitCondition;
 import com.example.deliveryboy.Repository.DemandeChargRepository;
 
 import java.util.List;
@@ -25,4 +26,8 @@ public class DemandeChargViewModel {
         return demandeChargRepository.getLocalProducts(context);
     }
 
+
+    public MutableLiveData<List<ProduitCondition>> getLocalProductsConditions(Context context, String idBo){
+        return demandeChargRepository.getLocalProductConditionByProductBoId(context, idBo);
+    }
 }

@@ -6,14 +6,12 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.example.deliveryboy.Model.ArticleCondition;
+import com.example.deliveryboy.Model.ProduitCondition;
 import com.example.deliveryboy.Model.Client;
 import com.example.deliveryboy.Model.Mission;
 import com.example.deliveryboy.Model.Produit;
-import com.example.deliveryboy.Model.Region;
-import com.example.deliveryboy.Model.User;
 
-@Database(entities = {Mission.class, Client.class, Produit.class, ArticleCondition.class}, version = 10,exportSchema = false)
+@Database(entities = {Mission.class, Client.class, Produit.class, ProduitCondition.class}, version = 14,exportSchema = false)
 public abstract class DatabaseInstance extends RoomDatabase {
 
     public static DatabaseInstance instance;

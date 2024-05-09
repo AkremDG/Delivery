@@ -6,13 +6,14 @@ import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.math.BigDecimal;
-
 @Entity
-public class ArticleCondition {
+public class ProduitCondition {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name ="localIdCondition")
     private Integer localIdCondition;
+
+    @ColumnInfo(name ="produitBoId")
+    private String produitBoId;
 
     @ColumnInfo(name ="AS_QteSto")
     @SerializedName("AS_QteSto")
@@ -37,12 +38,13 @@ public class ArticleCondition {
     private Double TC_Prix;
 
 
-    public ArticleCondition(){
+    public ProduitCondition(){
     }
 
 
-    public ArticleCondition(Integer localIdCondition, Double AS_QteSto, String FA_CodeFamille, String DE_Intitule, String EC_Enumere, Double TC_Prix) {
+    public ProduitCondition(Integer localIdCondition, String produitBoId, Double AS_QteSto, String FA_CodeFamille, String DE_Intitule, String EC_Enumere, Double TC_Prix) {
         this.localIdCondition = localIdCondition;
+        this.produitBoId = produitBoId;
         this.AS_QteSto = AS_QteSto;
         this.FA_CodeFamille = FA_CodeFamille;
         this.DE_Intitule = DE_Intitule;
@@ -56,6 +58,14 @@ public class ArticleCondition {
 
     public void setLocalIdCondition(Integer localIdCondition) {
         this.localIdCondition = localIdCondition;
+    }
+
+    public String getProduitBoId() {
+        return produitBoId;
+    }
+
+    public void setProduitBoId(String produitBoId) {
+        this.produitBoId = produitBoId;
     }
 
     public Double getAS_QteSto() {
@@ -100,8 +110,9 @@ public class ArticleCondition {
 
     @Override
     public String toString() {
-        return "ArticleCondition{" +
+        return "ProduitCondition{" +
                 "localIdCondition=" + localIdCondition +
+                ", produitBoId='" + produitBoId + '\'' +
                 ", AS_QteSto=" + AS_QteSto +
                 ", FA_CodeFamille='" + FA_CodeFamille + '\'' +
                 ", DE_Intitule='" + DE_Intitule + '\'' +
