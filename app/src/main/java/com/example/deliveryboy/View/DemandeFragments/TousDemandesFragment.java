@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.example.deliveryboy.Adapters.MissionsRvAdapter;
 import com.example.deliveryboy.Adapters.RvInterface;
+import com.example.deliveryboy.Model.CustomProduit;
 import com.example.deliveryboy.Model.Mission;
 import com.example.deliveryboy.Model.Visite;
 import com.example.deliveryboy.R;
@@ -270,6 +271,11 @@ public class TousDemandesFragment extends Fragment implements RvInterface {
 
     @Override
     public void onCommanderClick(int position) {
+
+    }
+
+    @Override
+    public void onItemClickReturnObject(CustomProduit customProduit, int position) {
 
     }
 

@@ -2,6 +2,7 @@ package com.example.deliveryboy.Repository;
 
 import android.content.Context;
 import android.util.Log;
+import android.util.Pair;
 
 import androidx.lifecycle.MutableLiveData;
 
@@ -9,6 +10,7 @@ import com.example.deliveryboy.Apis.ProductsApi;
 import com.example.deliveryboy.Database.DatabaseInstance;
 import com.example.deliveryboy.Model.Produit;
 import com.example.deliveryboy.Model.ProduitCondition;
+import com.example.deliveryboy.Model.Responses.LocalPriceAndQuantity;
 import com.example.deliveryboy.Utils.SessionManager;
 
 import java.util.ArrayList;
@@ -127,6 +129,25 @@ public class DemandeChargRepository {
             public void run() {
                 try {
                     listMutableLiveData.postValue(DatabaseInstance.getInstance(context).demadesChargDao().getAllProductsConditionsByBoid(idBo));
+
+                }catch (Exception e){
+                    listMutableLiveData.postValue(null);
+                }
+            }
+        });
+        return listMutableLiveData;
+    }
+
+
+    public MutableLiveData<ProduitCondition> getLocalPriceByIdAndProductId(Context context, String productIddBo, String ecEnumere){
+
+        MutableLiveData<ProduitCondition> listMutableLiveData = new MutableLiveData<>();
+
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    listMutableLiveData.postValue(DatabaseInstance.getInstance(context).demadesChargDao().getPriceById(productIddBo,ecEnumere));
 
                 }catch (Exception e){
                     listMutableLiveData.postValue(null);

@@ -37,10 +37,7 @@ public class ProduitCondition {
     @SerializedName("TC_Prix")
     private Double TC_Prix;
 
-
-    public ProduitCondition(){
-    }
-
+    public ProduitCondition(){}
 
     public ProduitCondition(Integer localIdCondition, String produitBoId, Double AS_QteSto, String FA_CodeFamille, String DE_Intitule, String EC_Enumere, Double TC_Prix) {
         this.localIdCondition = localIdCondition;
@@ -108,16 +105,4 @@ public class ProduitCondition {
         this.TC_Prix = TC_Prix;
     }
 
-    @Override
-    public String toString() {
-        return "ProduitCondition{" +
-                "localIdCondition=" + localIdCondition +
-                ", produitBoId='" + produitBoId + '\'' +
-                ", AS_QteSto=" + AS_QteSto +
-                ", FA_CodeFamille='" + FA_CodeFamille + '\'' +
-                ", DE_Intitule='" + DE_Intitule + '\'' +
-                ", EC_Enumere='" + EC_Enumere + '\'' +
-                ", TC_Prix=" + TC_Prix +
-                '}';
-    }
 }

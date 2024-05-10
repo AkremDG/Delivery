@@ -1,11 +1,8 @@
 package com.example.deliveryboy.View.DemandeFragments;
 
-import static java.security.AccessController.getContext;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,9 +12,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -32,26 +27,22 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.deliveryboy.Adapters.CategoriesAdapter.CatalogClick;
 import com.example.deliveryboy.Adapters.CategoriesAdapter.ProductCatalogRv;
-import com.example.deliveryboy.Adapters.ClientsRvAdapter;
-import com.example.deliveryboy.Adapters.MissionsRvAdapter;
 import com.example.deliveryboy.Adapters.ProduitRvAdapter;
 import com.example.deliveryboy.Adapters.RvInterface;
 import com.example.deliveryboy.Adapters.TypeProduitInterface;
 import com.example.deliveryboy.Adapters.quantiteInterface;
-import com.example.deliveryboy.Model.Client;
+import com.example.deliveryboy.Model.CustomProduit;
 import com.example.deliveryboy.Model.Produit;
+import com.example.deliveryboy.Model.ProduitCondition;
 import com.example.deliveryboy.Model.TypeCommande;
 import com.example.deliveryboy.Model.User;
 import com.example.deliveryboy.R;
 import com.example.deliveryboy.Utils.InternetChecker;
 import com.example.deliveryboy.Utils.UiUtils;
 import com.example.deliveryboy.View.BottomNagContainerActivity;
-import com.example.deliveryboy.View.MissionsFragment.MissionDetails;
-import com.example.deliveryboy.View.MissionsFragment.TousFragment;
 import com.example.deliveryboy.ViewModel.DemandeChargViewModel;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -264,6 +255,7 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
         });
 
 
+
         produids_rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             private static final int SCROLL_THRESHOLD = 20;
             private boolean scrolledDown = false;
@@ -396,11 +388,16 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
 
     @Override
     public void onItemClick(int position) {
-        showAlert(position);
     }
 
     @Override
     public void onCommanderClick(int position) {
+
+    }
+
+    @Override
+    public void onItemClickReturnObject(CustomProduit customProduit, int position) {
+        showAlert(customProduit, position);
 
     }
 
@@ -418,33 +415,48 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
     public void onCatalogClick(List<String> catalog) {
 
     }
-    public void showAlert( int pos) {
+    public void showAlert(CustomProduit customProduit, int position) {
 
         final Dialog dialog = new Dialog(CreateDemande.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.sheet_desc_produit);
 
-        Spinner conditionSpinner = dialog.findViewById(R.id.conditionSpinner);
-        List<String> stringList = new ArrayList<>();
 
-        stringList.add("Présentoir");
-        stringList.add("Pack");
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.customspinner,R.id.regionName_tv, stringList);
-        conditionSpinner.setAdapter(adapter);
 
         TextView prixTv = dialog.findViewById(R.id.prix_val_Tv);
-        prixTv.setText(String.valueOf(listProduits.get(pos).getAR_Design()));
+        prixTv.setText(String.valueOf(customProduit.getProductPrice()));
 
         TextView productName = dialog.findViewById(R.id.nomProduit_Tv);
-        productName.setText(String.valueOf(listProduits.get(pos).getAR_Design()));
+        productName.setText(String.valueOf(customProduit.getProductName()));
 
         TextView refTv = dialog.findViewById(R.id.promo_val_Tv);
-        refTv.setText(String.valueOf("Ref : "+listProduits.get(pos).getAR_Ref()));
+        refTv.setText(String.valueOf(customProduit.getProductRef()+ " "+customProduit.getProductCondition()));
+        List<String> stringList = new ArrayList<>();
 
 
+        Spinner conditionSpinner = dialog.findViewById(R.id.conditionSpinner);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(CreateDemande.this, R.layout.customspinner,R.id.regionName_tv, stringList);
+        stringList.add(customProduit.getProductCondition());
+        conditionSpinner.setAdapter(adapter);
 
 
+        /*
+        List<ProduitCondition> produitConditionList = new ArrayList<>();
+        demandeChargViewModel.getLocalProductsConditions(getApplicationContext(), listProduits.get(position).getBoId()).observe(this, new Observer<List<ProduitCondition>>() {
+            @Override
+            public void onChanged(List<ProduitCondition> produitConditions) {
+                for(ProduitCondition produitCondition : produitConditions){
+
+                    if(!produitConditionList.contains(produitCondition.getEC_Enumere())){
+                        stringList.add(produitCondition.getEC_Enumere());
+                    }
+                }
+            }
+
+        });
+
+         */
 
 
 

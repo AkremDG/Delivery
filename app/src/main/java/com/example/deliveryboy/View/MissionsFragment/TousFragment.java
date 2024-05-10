@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.example.deliveryboy.Adapters.MissionsRvAdapter;
 import com.example.deliveryboy.Adapters.RvInterface;
+import com.example.deliveryboy.Model.CustomProduit;
 import com.example.deliveryboy.Model.Mission;
 import com.example.deliveryboy.Model.Visite;
 import com.example.deliveryboy.Utils.InternetChecker;
@@ -48,7 +49,6 @@ import java.util.Locale;
 
 public class TousFragment extends Fragment implements RvInterface {
     private ConstraintLayout internetBg;
-
     private List<Mission> missionList = new ArrayList<>();
     private RecyclerView listCmds_Rv;
     private View view;
@@ -330,6 +330,12 @@ public class TousFragment extends Fragment implements RvInterface {
 
     @Override
     public void onCommanderClick(int position) {
+
+    }
+
+    @Override
+    public void onItemClickReturnObject(CustomProduit customProduit, int position) {
+
 
     }
 

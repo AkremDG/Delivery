@@ -31,6 +31,7 @@ import com.example.deliveryboy.Adapters.RegionClick;
 import com.example.deliveryboy.Adapters.RegionsRvAdapter;
 import com.example.deliveryboy.Adapters.RvInterface;
 import com.example.deliveryboy.Model.Client;
+import com.example.deliveryboy.Model.CustomProduit;
 import com.example.deliveryboy.Model.Mission;
 import com.example.deliveryboy.R;
 import com.example.deliveryboy.View.BottomNagContainerActivity;
@@ -349,6 +350,11 @@ public class MissionDetails extends AppCompatActivity implements RegionClick, Rv
 
     @Override
     public void onCommanderClick(int position) {
+
+    }
+
+    @Override
+    public void onItemClickReturnObject(CustomProduit customProduit, int position) {
 
     }
 

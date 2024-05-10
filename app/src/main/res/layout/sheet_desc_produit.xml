@@ -28,11 +28,9 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/close_descProduit_iv"
             app:layout_constraintStart_toStartOf="parent"
-
             android:background="@drawable/bg_transparant"
 
             />
-
 
 
         <androidx.constraintlayout.widget.Guideline
@@ -127,6 +125,7 @@
         android:id="@+id/conditionn_Tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:text="Quantité : "
         app:layout_constraintStart_toStartOf="@+id/nomProduit_Tv"
         app:layout_constraintTop_toBottomOf="@+id/promo_val_Tv"
@@ -173,6 +172,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=" 400"
+        android:visibility="gone"
         app:layout_constraintStart_toEndOf="@+id/conditionn_Tv"
         app:layout_constraintTop_toBottomOf="@+id/promo_val_Tv"
         android:textColor="@color/orange_btn_color"

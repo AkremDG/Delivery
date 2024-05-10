@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -17,8 +18,10 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.deliveryboy.Model.CustomProduit;
 import com.example.deliveryboy.Model.Produit;
 import com.example.deliveryboy.Model.ProduitCondition;
+import com.example.deliveryboy.Model.Responses.LocalPriceAndQuantity;
 import com.example.deliveryboy.R;
 import com.example.deliveryboy.ViewModel.DemandeChargViewModel;
 
@@ -54,27 +57,23 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
 
     @Override
     public void onBindViewHolder(@NonNull ProduitVh holder, int position) {
+        int recyclerPosition = position;
         holder.nomProduit_Tv.setText(produitList.get(position).getAR_Design());
 
-       // holder.produit_Iv.setImageResource(produitList.get(position).getImageProduit());
-        holder.ArRef_Tv.setText("Ref : "+produitList.get(position).getAR_Ref());
-       // holder.qte_Tv.setText(String.valueOf(produitList.get(position).getQuantiteProduit()));
+
+        List<ProduitCondition> produitConditionList = new ArrayList<>();
 
         List<String> stringList = new ArrayList<>();
-
-        demandeChargViewModel.getLocalProductsConditions(context, produitList.get(position).getBoId()).
-                observe(lifecycleOwner, new Observer<List<ProduitCondition>>() {
+        demandeChargViewModel.getLocalProductsConditions(context, produitList.get(position).getBoId()).observe(lifecycleOwner,
+                new Observer<List<ProduitCondition>>() {
             @Override
             public void onChanged(List<ProduitCondition> produitConditions) {
+                produitConditionList.addAll(produitConditions);
 
                 holder.prix_Tv.setText(String.valueOf(produitConditions.get(0).getTC_Prix())+" dt");
-
+                holder.ArRef_Tv.setText(String.valueOf(" Stock : "+produitConditions.get(0).getAS_QteSto()));
 
                 for(ProduitCondition produitCondition : produitConditions){
-
-
-
-
 
                     if(!stringList.contains(produitCondition.getEC_Enumere())){
                         stringList.add(produitCondition.getEC_Enumere());
@@ -84,9 +83,59 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
                     holder.conditionSpinner.setAdapter(adapter);
                 }
 
+
+            }
+
+
+                });
+
+
+        holder.conditionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                demandeChargViewModel.getLocalPriceByIdAndProductId(context,produitList.get(recyclerPosition).getBoId(),
+                        String.valueOf(parent.getItemAtPosition(position))).observe(lifecycleOwner, new Observer<ProduitCondition>() {
+                    @Override
+                    public void onChanged(ProduitCondition produitCondition) {
+
+                        holder.prix_Tv.setText(String.valueOf(produitCondition.getTC_Prix())+" dt");
+                        holder.ArRef_Tv.setText("Stock : "+String.valueOf(produitCondition.getAS_QteSto()));
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 
+
+
+
+        /*
+        holder.conditionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("ITEEEEEEEEEEEEEM", stringList.get(position).toString());
+
+                for(ProduitCondition produitCondition : produitConditionList){
+                    if(produitCondition.getEC_Enumere().equals(stringList.get(position))){
+                        holder.prix_Tv.setText(String.valueOf(produitCondition.getTC_Prix()));
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+         */
 
 
 
@@ -123,17 +172,31 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
             qte_Tv=itemView.findViewById(R.id.qte_Tv);
 
             this.context=context;
+
+
+
+
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    String selectedConditionement = (String) conditionSpinner.getSelectedItem();
                     if(rvInterface != null){
                          pos= getAdapterPosition();
                         if(pos!=RecyclerView.NO_POSITION){
-                            rvInterface.onItemClick(pos);
+                            rvInterface.onItemClickReturnObject(new CustomProduit(
+                                    nomProduit_Tv.getText().toString(),
+                                    prix_Tv.getText().toString(),
+                                    ArRef_Tv.getText().toString(),
+                                    qte_Tv.getText().toString(),
+                                    selectedConditionement
+                            ),pos);
                         }
                     }
                 }
             });
+
+
 
 
 
@@ -150,7 +213,7 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
 
 
 
-            plus_Iv.setOnClickListener(new View.OnClickListener() {
+            plus_Iv.setOnClickListener(new View.OnClickListener() {;
                 @Override
                 public void onClick(View v) {
                     i++;
