@@ -35,4 +35,6 @@ public interface DemadesChargDao {
     @Query("SELECT * FROM ProduitCondition WHERE produitBoId = :boId AND EC_Enumere = :ecEnumere AND DE_Intitule ='DEPOT KSAR SAID' ")
     ProduitCondition getPriceById(String boId, String ecEnumere);
 
+    @Insert
+   void insertAllProductConditions(List<ProduitCondition> list);
 }

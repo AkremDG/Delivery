@@ -21,6 +21,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -61,6 +62,7 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
     private String typeProduit;
     private RecyclerView typeCmd_Rv, produids_rv;
     private List<TypeCommande> typeCommandeList;
+    String selectedConditionSpinner ;
 
     private FloatingActionButton synchro_fab;
     private ImageView panier_pass_cmd_Iv;
@@ -416,47 +418,103 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
 
     }
     public void showAlert(CustomProduit customProduit, int position) {
+        int positionRv = position;
 
         final Dialog dialog = new Dialog(CreateDemande.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.sheet_desc_produit);
 
+        TextView refTv = dialog.findViewById(R.id.promo_val_Tv);
+        refTv.setText(String.valueOf(customProduit.getProductRef()+ " "+customProduit.getProductCondition()));
 
+        TextView conditionn_Tv = dialog.findViewById(R.id.conditionn_Tv);
+        conditionn_Tv.setText(String.valueOf("Réference : "+listProduits.get(positionRv).getAR_Ref()));
+
+
+        MaterialButton btn = dialog.findViewById(R.id.aj_panier_btn);
+
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         TextView prixTv = dialog.findViewById(R.id.prix_val_Tv);
         prixTv.setText(String.valueOf(customProduit.getProductPrice()));
+        ///////SPINERRRRRRRRRR
+        List<String> conditionsStrings = new ArrayList<>();
+
+        Spinner conditionSpinner = dialog.findViewById(R.id.conditionSpinner);
+        conditionsStrings.add(customProduit.getProductCondition());
+
+        demandeChargViewModel.getLocalProductsConditions(CreateDemande.this,listProduits.get(position).getBoId()).observe(CreateDemande.this, new Observer<List<ProduitCondition>>() {
+            @Override
+            public void onChanged(List<ProduitCondition> produitConditions) {
+                Log.i("ConditionnementProduit", produitConditions.toString());
+                for(ProduitCondition produitCondition : produitConditions){
+                    if(!conditionsStrings.contains(produitCondition.getEC_Enumere())){
+                        conditionsStrings.add(produitCondition.getEC_Enumere());
+                    }
+                }
+            }
+        });
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(CreateDemande.this, R.layout.customspinner,R.id.regionName_tv, conditionsStrings);
+        conditionSpinner.setAdapter(adapter);
+
+
+
+        conditionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                demandeChargViewModel.getLocalPriceByIdAndProductId(CreateDemande.this,
+                        listProduits.get(positionRv).getBoId(),
+                        String.valueOf(parent.getItemAtPosition(position))).observe(CreateDemande.this, new Observer<ProduitCondition>() {
+                    @Override
+                    public void onChanged(ProduitCondition produitCondition) {
+
+                        if(produitCondition!=null){
+                            prixTv.setText(String.valueOf(produitCondition.getTC_Prix())+" dt");
+                            refTv.setText("Stock : "+String.valueOf(produitCondition.getAS_QteSto()));
+
+                            if(produitCondition.getAS_QteSto()==0){
+                                refTv.setTextColor(Color.RED);
+                                btn.setEnabled(false);
+                                btn.setBackgroundColor(Color.parseColor("#FEF0DD"));
+
+                            }else {
+                                refTv.setTextColor(Color.parseColor("#49968C"));
+                                btn.setEnabled(true);
+                                btn.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.orange_btn_color));
+
+                            }
+                        }
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        //////////////////////
+
+
+
 
         TextView productName = dialog.findViewById(R.id.nomProduit_Tv);
         productName.setText(String.valueOf(customProduit.getProductName()));
 
-        TextView refTv = dialog.findViewById(R.id.promo_val_Tv);
-        refTv.setText(String.valueOf(customProduit.getProductRef()+ " "+customProduit.getProductCondition()));
-        List<String> stringList = new ArrayList<>();
 
 
-        Spinner conditionSpinner = dialog.findViewById(R.id.conditionSpinner);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(CreateDemande.this, R.layout.customspinner,R.id.regionName_tv, stringList);
-        stringList.add(customProduit.getProductCondition());
-        conditionSpinner.setAdapter(adapter);
-
-
-        /*
-        List<ProduitCondition> produitConditionList = new ArrayList<>();
-        demandeChargViewModel.getLocalProductsConditions(getApplicationContext(), listProduits.get(position).getBoId()).observe(this, new Observer<List<ProduitCondition>>() {
-            @Override
-            public void onChanged(List<ProduitCondition> produitConditions) {
-                for(ProduitCondition produitCondition : produitConditions){
-
-                    if(!produitConditionList.contains(produitCondition.getEC_Enumere())){
-                        stringList.add(produitCondition.getEC_Enumere());
-                    }
-                }
-            }
-
-        });
-
-         */
 
 
 
@@ -494,15 +552,6 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
         });
 
 
-        MaterialButton btn = dialog.findViewById(R.id.aj_panier_btn);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-
-            }
-        });
 
         dialog.show();
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);

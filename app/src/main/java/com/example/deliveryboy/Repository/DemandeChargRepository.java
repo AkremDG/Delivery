@@ -56,7 +56,13 @@ public class DemandeChargRepository {
                                             DatabaseInstance.getInstance(context).demadesChargDao().insertAllProducts(response.body());
 
 
+
+
+                                            /*
+
                                             for(Produit produit : response.body()){
+                                                Log.i("ENTERRRRRRRRRRRRRRR", "STARTTTTTTTTTTT");
+
                                                 for(ProduitCondition produitCondition : produit.getArticleConditionsList()){
                                                     String productBoId = produit.getBoId();
 
@@ -65,6 +71,42 @@ public class DemandeChargRepository {
 
                                                 }
                                             }
+                                            Log.i("ENTERRRRRRRRRRRRRRR", "ENDDDDDDDDD");
+
+                                             */
+
+
+
+
+
+
+
+// Assuming response.body() returns a list of Produit objects
+                                            List<Produit> produits = response.body();
+                                            if (produits != null && !produits.isEmpty()) {
+
+                                                Log.i("ENTERRRRRRRRRRRRRRR", "STARTTTTTTTTTTT");
+
+                                                List<ProduitCondition> allProduitConditions = new ArrayList<>();
+
+                                                for (Produit produit : produits) {
+                                                    String productBoId = produit.getBoId();
+
+                                                    for (ProduitCondition produitCondition : produit.getArticleConditionsList()) {
+                                                        produitCondition.setProduitBoId(productBoId);
+                                                        allProduitConditions.add(produitCondition);
+                                                    }
+                                                }
+
+                                                DatabaseInstance.getInstance(context)
+                                                        .demadesChargDao()
+                                                        .insertAllProductConditions(allProduitConditions);
+
+                                                Log.i("ENTERRRRRRRRRRRRRRR", "ENDDDDDDDDDDD");
+
+                                            }
+
+
 
                                             resultLiveData.postValue(true);
 

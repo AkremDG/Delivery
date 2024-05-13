@@ -1,6 +1,7 @@
 package com.example.deliveryboy.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,13 +83,8 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.customspinner,R.id.regionName_tv, stringList);
                     holder.conditionSpinner.setAdapter(adapter);
                 }
-
-
             }
-
-
-                });
-
+        });
 
         holder.conditionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -99,8 +95,16 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
                     @Override
                     public void onChanged(ProduitCondition produitCondition) {
 
-                        holder.prix_Tv.setText(String.valueOf(produitCondition.getTC_Prix())+" dt");
-                        holder.ArRef_Tv.setText("Stock : "+String.valueOf(produitCondition.getAS_QteSto()));
+                        if(produitCondition!=null){
+                            holder.prix_Tv.setText(String.valueOf(produitCondition.getTC_Prix())+" dt");
+                            holder.ArRef_Tv.setText("Stock : "+String.valueOf(produitCondition.getAS_QteSto()));
+
+                            if(produitCondition.getAS_QteSto()==0){
+                                holder.ArRef_Tv.setTextColor(Color.RED);
+                            }else {
+                                holder.ArRef_Tv.setTextColor(Color.parseColor("#49968C"));
+                            }
+                        }
 
                     }
                 });
@@ -113,40 +117,10 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
             }
         });
 
-
-
-
-        /*
-        holder.conditionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("ITEEEEEEEEEEEEEM", stringList.get(position).toString());
-
-                for(ProduitCondition produitCondition : produitConditionList){
-                    if(produitCondition.getEC_Enumere().equals(stringList.get(position))){
-                        holder.prix_Tv.setText(String.valueOf(produitCondition.getTC_Prix()));
-                    }
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-         */
-
-
-
-
-
-
     }
 
     @Override
     public int getItemCount() {
-
         return produitList.size();
     }
 

@@ -105,4 +105,16 @@ public class ProduitCondition {
         this.TC_Prix = TC_Prix;
     }
 
+    @Override
+    public String toString() {
+        return "ProduitCondition{" +
+                "localIdCondition=" + localIdCondition +
+                ", produitBoId='" + produitBoId + '\'' +
+                ", AS_QteSto=" + AS_QteSto +
+                ", FA_CodeFamille='" + FA_CodeFamille + '\'' +
+                ", DE_Intitule='" + DE_Intitule + '\'' +
+                ", EC_Enumere='" + EC_Enumere + '\'' +
+                ", TC_Prix=" + TC_Prix +
+                '}';
+    }
 }
