@@ -18,6 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:cardCornerRadius="10dp">
 
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -26,7 +27,16 @@
 
             app:layout_constraintTop_toTopOf="parent">
 
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:progressBackgroundTint="@color/orange_btn_color"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
 
+                app:layout_constraintEnd_toEndOf="parent"/>
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_img_left"
                 android:layout_width="wrap_content"
@@ -48,17 +58,18 @@
                 android:orientation="horizontal"
                 app:layout_constraintGuide_percent="0.6" />
 
+
             <ImageView
                 android:id="@+id/produit_Iv"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:src="@drawable/bag"
 
                 app:layout_constraintBottom_toBottomOf="@id/guideline_img_bottom"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/conditionSpinner" />
-
+                app:layout_constraintTop_toBottomOf="@+id/conditionSpinner"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/arRef_tv"

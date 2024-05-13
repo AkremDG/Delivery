@@ -2,6 +2,7 @@ package com.example.deliveryboy.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,12 +10,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +27,8 @@ import com.example.deliveryboy.Model.Produit;
 import com.example.deliveryboy.Model.ProduitCondition;
 import com.example.deliveryboy.Model.Responses.LocalPriceAndQuantity;
 import com.example.deliveryboy.R;
+import com.example.deliveryboy.Utils.UiUtils;
+import com.example.deliveryboy.View.DemandeFragments.CreateDemande;
 import com.example.deliveryboy.ViewModel.DemandeChargViewModel;
 
 import java.util.ArrayList;
@@ -60,11 +65,13 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
     public void onBindViewHolder(@NonNull ProduitVh holder, int position) {
         int recyclerPosition = position;
         holder.nomProduit_Tv.setText(produitList.get(position).getAR_Design());
-
-
         List<ProduitCondition> produitConditionList = new ArrayList<>();
 
         List<String> stringList = new ArrayList<>();
+
+
+        holder.progressBar.setVisibility(View.VISIBLE);
+
         demandeChargViewModel.getLocalProductsConditions(context, produitList.get(position).getBoId()).observe(lifecycleOwner,
                 new Observer<List<ProduitCondition>>() {
             @Override
@@ -83,6 +90,9 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.customspinner,R.id.regionName_tv, stringList);
                     holder.conditionSpinner.setAdapter(adapter);
                 }
+
+                holder.produit_Iv.setImageResource(R.drawable.bag);
+                holder.progressBar.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -129,11 +139,16 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
         ImageView produit_Iv,moins_Iv,plus_Iv;
         Spinner conditionSpinner;
         TextView pack_Tv,qte_surSomme_Tv,nomProduit_Tv,ArRef_Tv,prix_Tv,qte_Tv;
+        ProgressBar progressBar;
         int i=1 ;
         int pos;
 
         public ProduitVh(@NonNull View itemView, RvInterface rvInterface, quantiteInterface quantiteInterface) {
             super(itemView);
+// Find the ProgressBar in your RecyclerView item
+             progressBar = itemView.findViewById(R.id.progressBar);
+
+
             produit_Iv=itemView.findViewById(R.id.produit_Iv);
             moins_Iv=itemView.findViewById(R.id.moins_Iv);
             conditionSpinner = itemView.findViewById(R.id.conditionSpinner);
@@ -170,20 +185,6 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
                 }
             });
 
-
-
-
-
-            /*
-            List<String> stringList = new ArrayList<>();
-
-            stringList.add("Présentoir");
-            stringList.add("Pack");
-
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(itemView.getContext(), R.layout.customspinner,R.id.regionName_tv, stringList);
-            conditionSpinner.setAdapter(adapter);
-
-             */
 
 
 

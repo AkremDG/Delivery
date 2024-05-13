@@ -190,7 +190,7 @@
             android:layout_marginTop="15dp"
             android:background="@drawable/bg_choix_qte"
             android:padding="5dp"
-            app:layout_constraintBottom_toTopOf="@id/aj_panier_btn"
+            app:layout_constraintBottom_toTopOf="@id/ajout_btn"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@id/guideline_bottom"
             app:layout_constraintTop_toBottomOf="@id/prix_Tv">
@@ -200,7 +200,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-android:paddingHorizontal="20dp"
+                android:paddingHorizontal="20dp"
 
                 android:src="@drawable/baseline_remove_circle_24_orange"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -241,8 +241,19 @@ android:paddingHorizontal="20dp"
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <ImageView
+            android:id="@+id/animationIcon"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/ajout_btn"
+            app:layout_constraintTop_toTopOf="@+id/ajout_btn"
+            android:src="@drawable/baseline_verified_24"
+            app:layout_constraintStart_toStartOf="@+id/ajout_btn"
+            app:layout_constraintEnd_toEndOf="@+id/ajout_btn"
+            />
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/aj_panier_btn"
+            android:id="@+id/ajout_btn"
             app:layout_constraintTop_toBottomOf="@id/constraint"
             app:hintTextColor="@color/white"
             app:iconGravity="textEnd"
@@ -254,6 +265,9 @@ android:paddingHorizontal="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:cornerRadius="10dp"
+            android:clickable="true"
+
+
             android:fontFamily="@font/exo"
             android:paddingVertical="11sp"
             app:backgroundTint="@color/orange_btn_color"

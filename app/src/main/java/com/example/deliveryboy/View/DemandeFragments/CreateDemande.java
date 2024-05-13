@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
@@ -21,6 +24,10 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -28,6 +35,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.deliveryboy.Adapters.CategoriesAdapter.CatalogClick;
 import com.example.deliveryboy.Adapters.CategoriesAdapter.ProductCatalogRv;
@@ -424,22 +432,46 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.sheet_desc_produit);
 
+        MaterialButton addButton = dialog.findViewById(R.id.ajout_btn);
+
         TextView refTv = dialog.findViewById(R.id.promo_val_Tv);
-        refTv.setText(String.valueOf(customProduit.getProductRef()+ " "+customProduit.getProductCondition()));
+        refTv.setText(String.valueOf(customProduit.getProductRef()));
 
         TextView conditionn_Tv = dialog.findViewById(R.id.conditionn_Tv);
         conditionn_Tv.setText(String.valueOf("Réference : "+listProduits.get(positionRv).getAR_Ref()));
 
 
-        MaterialButton btn = dialog.findViewById(R.id.aj_panier_btn);
-
-
-        btn.setOnClickListener(new View.OnClickListener() {
+        addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Animate the icon moving up
+                ImageView basketIcon = dialog.findViewById(R.id.produit_Iv);
 
+                ObjectAnimator translateY = ObjectAnimator.ofFloat(basketIcon, "translationY", 0, -200);
+                translateY.setDuration(500); // Adjust duration as needed
+                translateY.start();
+
+                // Animate the icon fading out
+                ObjectAnimator alpha = ObjectAnimator.ofFloat(basketIcon, View.ALPHA, 1.0f, 0.0f);
+                alpha.setDuration(500); // Adjust duration as needed
+                alpha.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        // Remove the icon from the dialog after animation ends
+                        ViewGroup parent = (ViewGroup) basketIcon.getParent();
+                        if (parent != null) {
+                            parent.removeView(basketIcon);
+                            dialog.dismiss();
+                        }
+                    }
+                });
+                alpha.start();
             }
         });
+
+
+
+
 
         TextView prixTv = dialog.findViewById(R.id.prix_val_Tv);
         prixTv.setText(String.valueOf(customProduit.getProductPrice()));
@@ -483,13 +515,13 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
 
                             if(produitCondition.getAS_QteSto()==0){
                                 refTv.setTextColor(Color.RED);
-                                btn.setEnabled(false);
-                                btn.setBackgroundColor(Color.parseColor("#FEF0DD"));
+                                addButton.setEnabled(false);
+                                addButton.setBackgroundColor(Color.parseColor("#FEF0DD"));
 
                             }else {
                                 refTv.setTextColor(Color.parseColor("#49968C"));
-                                btn.setEnabled(true);
-                                btn.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.orange_btn_color));
+                                addButton.setEnabled(true);
+                                addButton.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.orange_btn_color));
 
                             }
                         }
