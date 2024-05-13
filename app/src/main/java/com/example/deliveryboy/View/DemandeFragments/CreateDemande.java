@@ -58,6 +58,8 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -65,6 +67,7 @@ import java.util.Locale;
 public class CreateDemande extends AppCompatActivity implements RvInterface, quantiteInterface, TypeProduitInterface, CatalogClick {
     private MaterialToolbar materialToolbar;
     ProduitRvAdapter productsAdapter;
+    Double actualStock=0.0;
     private EditText searchBar_pass_cmd;
     private List<Produit> filtredProducts = new ArrayList<>();
     private String typeProduit;
@@ -172,6 +175,7 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
                     if(produits.size()>0){
 
                         progressBar.setVisibility(View.INVISIBLE);
+                        produids_rv.setVisibility(View.VISIBLE);
 
                         listProduits.clear();
                         listProduits.addAll(produits);
@@ -211,7 +215,6 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
                                 getAndDisplayLocalProducts();
                             }else {
                                 internetBg.setVisibility(View.GONE);
-                                 produids_rv.setVisibility(View.VISIBLE);
 
                                 getAndDisplayLocalProducts();
 
@@ -428,6 +431,7 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
     public void showAlert(CustomProduit customProduit, int position) {
         int positionRv = position;
 
+
         final Dialog dialog = new Dialog(CreateDemande.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.sheet_desc_produit);
@@ -437,13 +441,104 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
         TextView refTv = dialog.findViewById(R.id.promo_val_Tv);
         refTv.setText(String.valueOf(customProduit.getProductRef()));
 
+
         TextView conditionn_Tv = dialog.findViewById(R.id.conditionn_Tv);
         conditionn_Tv.setText(String.valueOf("Réference : "+listProduits.get(positionRv).getAR_Ref()));
+
+
+
+
+
+        TextView qte_Tv = dialog.findViewById(R.id.qte_Tv);
+        qte_Tv.setText(String.valueOf(quantite));
+
+
+
+
+
+
+
+        ImageView plus = dialog.findViewById(R.id.plus_Iv);
+        ImageView moins = dialog.findViewById(R.id.moins_Iv);
+
+
+
+
+        plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                quantite++;
+
+
+
+                int stock = (int) Math.floor(actualStock);
+
+                if(quantite>stock){
+                    qte_Tv.setBackgroundColor(Color.RED);
+                }
+
+                qte_Tv.setText(String.valueOf(quantite));
+
+
+            }
+        });
+
+        moins.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                quantite--;
+                qte_Tv.setText(String.valueOf(quantite));
+            }
+        });
+        qte_Tv.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                try {
+
+                    String val = String.valueOf(s);
+                    quantite = Integer.valueOf(val);
+
+                    int stock = (int) Math.floor(actualStock);
+
+                    if(quantite>stock){
+                        qte_Tv.setText(String.valueOf(actualStock));
+                        qte_Tv.setTextColor(getResources().getColor(R.color.orange_btn_color));
+                    }else{
+                        qte_Tv.setTextColor(Color.parseColor("#FFA5A5A5"));
+
+                    }
+
+
+                }catch (Exception e){
+
+                }
+
+
+                    }
+
+
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
+
                 // Animate the icon moving up
                 ImageView basketIcon = dialog.findViewById(R.id.produit_Iv);
 
@@ -462,14 +557,13 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
                         if (parent != null) {
                             parent.removeView(basketIcon);
                             dialog.dismiss();
+                            quantite =1;
                         }
                     }
                 });
                 alpha.start();
             }
         });
-
-
 
 
 
@@ -510,8 +604,10 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
                     public void onChanged(ProduitCondition produitCondition) {
 
                         if(produitCondition!=null){
+
                             prixTv.setText(String.valueOf(produitCondition.getTC_Prix())+" dt");
                             refTv.setText("Stock : "+String.valueOf(produitCondition.getAS_QteSto()));
+                             actualStock = produitCondition.getAS_QteSto();
 
                             if(produitCondition.getAS_QteSto()==0){
                                 refTv.setTextColor(Color.RED);
@@ -545,44 +641,15 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
         productName.setText(String.valueOf(customProduit.getProductName()));
 
 
-
-
-
-
-
-        ImageView plus = dialog.findViewById(R.id.plus_Iv);
-        ImageView moins = dialog.findViewById(R.id.moins_Iv);
-
-
-        TextView qte_Tv = dialog.findViewById(R.id.qte_Tv);
-        qte_Tv.setText(String.valueOf(quantite));
-
-
         ImageView closeIv = dialog.findViewById(R.id.close_descProduit_iv);
         closeIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                quantite =1;
+
             }
         });
-
-
-        plus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                quantite++;
-                qte_Tv.setText(String.valueOf(quantite));
-            }
-        });
-        moins.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                quantite--;
-                qte_Tv.setText(String.valueOf(quantite));
-            }
-        });
-
 
 
         dialog.show();

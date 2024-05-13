@@ -146,8 +146,7 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
         public ProduitVh(@NonNull View itemView, RvInterface rvInterface, quantiteInterface quantiteInterface) {
             super(itemView);
 // Find the ProgressBar in your RecyclerView item
-             progressBar = itemView.findViewById(R.id.progressBar);
-
+            progressBar = itemView.findViewById(R.id.progressBar);
 
             produit_Iv=itemView.findViewById(R.id.produit_Iv);
             moins_Iv=itemView.findViewById(R.id.moins_Iv);
@@ -161,7 +160,6 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
             qte_Tv=itemView.findViewById(R.id.qte_Tv);
 
             this.context=context;
-
 
 
 
@@ -192,8 +190,10 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
                 @Override
                 public void onClick(View v) {
                     i++;
-                    qte_Tv.setText(String.valueOf(i));
 
+
+
+                    qte_Tv.setText(String.valueOf(i));
 
                     quantiteInterface.onValidQte(i);
 
