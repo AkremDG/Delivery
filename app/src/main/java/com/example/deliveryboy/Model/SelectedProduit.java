@@ -14,12 +14,13 @@ public class SelectedProduit implements Serializable {
 
     private Integer localArticleId;
 
-
     private Double unitProductPrice;
 
     private Double selectedProductPrice;
 
+
     private Integer selectedProductQuantity;
+
 
     private String boId;
 
@@ -34,17 +35,12 @@ public class SelectedProduit implements Serializable {
 
     private List<String> articlesConditionsStrings ;
 
+    private Double selectedProductStock;
 
-    public SelectedProduit(Integer localArticleId,
-                           Double unitProductPrice,
-                           Double selectedProductPrice,
-                           Integer selectedProductQuantity,
+    private Double selectedProductTotalPrice;
 
-                           String boId,
-                           String AR_Ref,
-                           String AR_Design,
-                           List<ProduitCondition> articleConditionsList,
-                           List<String> articlesConditionsStrings) {
+
+    public SelectedProduit(Integer localArticleId, Double unitProductPrice, Double selectedProductPrice, Integer selectedProductQuantity, String boId, String AR_Ref, String AR_Design, List<ProduitCondition> articleConditionsList, List<String> articlesConditionsStrings, Double selectedProductStock, Double selectedProductTotalPrice) {
         this.localArticleId = localArticleId;
         this.unitProductPrice = unitProductPrice;
         this.selectedProductPrice = selectedProductPrice;
@@ -54,6 +50,8 @@ public class SelectedProduit implements Serializable {
         this.AR_Design = AR_Design;
         this.articleConditionsList = articleConditionsList;
         this.articlesConditionsStrings = articlesConditionsStrings;
+        this.selectedProductStock = selectedProductStock;
+        this.selectedProductTotalPrice = selectedProductTotalPrice;
     }
 
     public Integer getLocalArticleId() {
@@ -128,18 +126,19 @@ public class SelectedProduit implements Serializable {
         this.articlesConditionsStrings = articlesConditionsStrings;
     }
 
-    @Override
-    public String toString() {
-        return "SelectedProduit{" +
-                "localArticleId=" + localArticleId +
-                ", unitProductPrice=" + unitProductPrice +
-                ", selectedProductPrice=" + selectedProductPrice +
-                ", selectedProductQuantity=" + selectedProductQuantity +
-                ", boId='" + boId + '\'' +
-                ", AR_Ref='" + AR_Ref + '\'' +
-                ", AR_Design='" + AR_Design + '\'' +
-                ", articleConditionsList=" + articleConditionsList +
-                ", articlesConditionsStrings=" + articlesConditionsStrings +
-                '}';
+    public Double getSelectedProductStock() {
+        return selectedProductStock;
+    }
+
+    public void setSelectedProductStock(Double selectedProductStock) {
+        this.selectedProductStock = selectedProductStock;
+    }
+
+    public Double getSelectedProductTotalPrice() {
+        return selectedProductTotalPrice;
+    }
+
+    public void setSelectedProductTotalPrice(Double selectedProductTotalPrice) {
+        this.selectedProductTotalPrice = selectedProductTotalPrice;
     }
 }

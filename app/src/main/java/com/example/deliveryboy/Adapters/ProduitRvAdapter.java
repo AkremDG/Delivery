@@ -92,7 +92,6 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
 
                 holder.produit_Iv.setImageResource(R.drawable.bag);
                 holder.nomProduit_Tv.setText(produitList.get(position).getAR_Design());
-
                 holder.progressBar.setVisibility(View.INVISIBLE);
             }
         });

@@ -84,7 +84,7 @@
 
         app:layout_constraintEnd_toEndOf="parent"
         android:text="Lait demi-ecrémé"
-        android:textColor="@color/se_con_col"
+        android:textColor="@color/blue_reset_password"
         app:layout_constraintTop_toTopOf="@+id/produit_Iv"
         app:layout_constraintStart_toEndOf="@+id/produit_Iv"
         android:layout_marginLeft="10dp"
@@ -154,7 +154,8 @@
         android:id="@+id/prix_Tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Prix : "
+        android:text="Prix Unitaire : "
+
         app:layout_constraintStart_toStartOf="@id/nomProduit_Tv"
         app:layout_constraintTop_toBottomOf="@+id/conditionn_Tv"
         android:textColor="@color/se_con_col"
@@ -166,18 +167,66 @@
 
     <TextView
         android:id="@+id/prix_val_Tv"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="1.200 DT "
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/prix_Tv"
         app:layout_constraintTop_toBottomOf="@+id/conditionn_Tv"
-        android:textColor="@color/blue_reset_password"
+        android:textColor="@color/se_con_col"
         android:fontFamily="@font/exo"
         android:textSize="16sp"
         android:layout_marginTop="5dp"
-        android:textStyle="bold"
 
         />
+
+
+        <TextView
+            android:id="@+id/prixTotTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prix Total : "
+            app:layout_constraintStart_toStartOf="@id/nomProduit_Tv"
+            app:layout_constraintTop_toBottomOf="@+id/prix_Tv"
+            android:textColor="@color/se_con_col"
+            android:fontFamily="@font/exo"
+            android:textSize="16sp"
+            android:layout_marginTop="5dp"
+            />
+
+
+        <TextView
+            android:id="@+id/prixTotTvVal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="1.200 DT "
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/prixTotTv"
+            app:layout_constraintTop_toBottomOf="@+id/prix_Tv"
+            android:textColor="@color/se_con_col"
+            android:fontFamily="@font/exo"
+            android:textSize="16sp"
+            android:layout_marginTop="5dp"
+            android:textStyle="bold"
+
+            />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <TextView
         android:id="@+id/conditionn_val_Tv"
@@ -206,7 +255,7 @@
             app:layout_constraintBottom_toTopOf="@id/ajout_btn"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@id/guideline_bottom"
-            app:layout_constraintTop_toBottomOf="@id/prix_Tv">
+            app:layout_constraintTop_toBottomOf="@id/prixTotTv">
 
             <ImageView
                 android:id="@+id/moins_Iv"
@@ -236,7 +285,6 @@
             app:layout_constraintEnd_toStartOf="@id/plus_Iv"
             app:layout_constraintStart_toEndOf="@id/moins_Iv"
             app:layout_constraintTop_toTopOf="parent" />
-
 
 
             <ImageView

@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.deliveryboy.Model.Produit;
+import com.example.deliveryboy.Model.SelectedProduit;
 import com.example.deliveryboy.R;
 
 import java.util.List;
@@ -18,12 +19,12 @@ import java.util.List;
 public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.PanierVH>{
 
     Context context;
-    List<Produit> listProduit;
+    List<SelectedProduit> listProduit;
     quantiteInterface quantiteInterface;
     int quantite;
 
 
-    public PanierRvAdapter(Context context, List<Produit> listProduit,quantiteInterface quantiteInterface) {
+    public PanierRvAdapter(Context context, List<SelectedProduit> listProduit,quantiteInterface quantiteInterface) {
         this.context = context;
         this.listProduit = listProduit;
         this.quantiteInterface=quantiteInterface;
@@ -44,11 +45,18 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
 
     @Override
     public void onBindViewHolder(@NonNull PanierVH holder, int position) {
-        holder.panier_produit_Iv.setImageResource(R.drawable.seven);
+
+        holder.unitPriceValTv.setText(String.valueOf(listProduit.get(position).getSelectedProductPrice()));
+
+        holder.panier_produit_Iv.setImageResource(R.drawable.bag);
         holder.nomProdPanier_Tv.setText(listProduit.get(position).getAR_Design());
 
+        holder.stockValTv.setText(String.valueOf(listProduit.get(position).getSelectedProductStock()));
+
+        holder.totalVal_tv.setText(String.valueOf(listProduit.get(position).getSelectedProductTotalPrice())+ " dt");
+
+        holder.qte_Tv.setText(String.valueOf(listProduit.get(position).getSelectedProductQuantity()));
         //holder.promoPanier_tv.setText(null);
-       // holder.totalVal_tv.setText(String.valueOf(listProduit.get(position).getTotalPrix())+ " dt");
        // holder.qte_Tv.setText(String.valueOf(listProduit.get(position).getQuantiteProduit()));
        // quantite = listProduit.get(position).getQuantiteProduit();
     }
@@ -60,12 +68,17 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
 
     public static class PanierVH extends RecyclerView.ViewHolder {
         ImageView panier_produit_Iv;
-        TextView nomProdPanier_Tv, promoPanier_tv, totalVal_tv, qte_Tv;
+        TextView nomProdPanier_Tv, promoPanier_tv, totalVal_tv, qte_Tv,stockValTv,unitPriceValTv;
         ImageView moins_Iv,plus_Iv;
         int i=1;
 
         public PanierVH(@NonNull View itemView, com.example.deliveryboy.Adapters.quantiteInterface quantiteInterface) {
             super(itemView);
+
+            unitPriceValTv = itemView.findViewById(R.id.unitPriceValTv);
+
+            stockValTv = itemView.findViewById(R.id.promoPanierVal_tv);
+
             panier_produit_Iv = itemView.findViewById(R.id.panier_produit_Iv);
             nomProdPanier_Tv = itemView.findViewById(R.id.nomProdPanier_Tv);
             promoPanier_tv = itemView.findViewById(R.id.promoPanier_tv);

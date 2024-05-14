@@ -101,6 +101,7 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
     private ImageView arrow_pass_cmd_Iv;
     private TextView nomClient_Tv;
     private int quantite = 1;
+    private Double totalProductPrice;
     private User user;
     private int itemCickedPos;
     ConstraintLayout view;
@@ -497,6 +498,11 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
         ImageView moins = dialog.findViewById(R.id.moins_Iv);
 
 
+        TextView prixTv = dialog.findViewById(R.id.prix_val_Tv);
+        prixTv.setText(String.valueOf(customProduit.getProductPrice()));
+
+        TextView prixTotTvVal = dialog.findViewById(R.id.prixTotTvVal);
+        prixTotTvVal.setText(String.valueOf(customProduit.getProductPrice()));
 
 
         plus.setOnClickListener(new View.OnClickListener() {
@@ -506,8 +512,6 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
                 quantite++;
 
                 int stock = (int) Math.floor(actualStock);
-
-
 
                 qte_Tv.setText(String.valueOf(quantite));
 
@@ -573,6 +577,16 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
                         qte_Tv.setTextColor(Color.parseColor("#FFA5A5A5"));
 
                     }
+                    String stringUnitPrice =   prixTv.getText().toString();
+                    totalProductPrice = quantite * Double.valueOf(stringUnitPrice);
+
+                    /*
+                    DecimalFormat df = new DecimalFormat("#.###");
+                    String formattedTotalPrice = df.format(totalProductPrice);
+
+                     */
+
+                    prixTotTvVal.setText(String.valueOf(String.valueOf(totalProductPrice)));
 
 
                 }catch (Exception e){
@@ -590,9 +604,6 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
             }
         });
 
-
-        TextView prixTv = dialog.findViewById(R.id.prix_val_Tv);
-        prixTv.setText(String.valueOf(customProduit.getProductPrice()));
         ///////SPINERRRRRRRRRR
         List<String> conditionsStrings = new ArrayList<>();
 
@@ -631,7 +642,13 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
 
                         if(produitCondition!=null){
 
+                            quantite = 1;
+                            totalProductPrice = produitCondition.getTC_Prix();
+
                             prixTv.setText(String.valueOf(produitCondition.getTC_Prix()));
+
+                            prixTotTvVal.setText(String.valueOf(totalProductPrice));
+
                             refTv.setText(String.valueOf(produitCondition.getAS_QteSto()));
                             actualStock = produitCondition.getAS_QteSto();
 
@@ -689,23 +706,30 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
 
 
                 String stringUnitPrice =   prixTv.getText().toString();
-                 String stringQuantity =    refTv.getText().toString();
-                 Double qteDouble = Double.parseDouble(stringQuantity);
+
+                String.valueOf(refTv.getText().toString());
+
+                Double selectedStock = Double.valueOf(refTv.getText().toString()) ;
+
+                 String selectedQuantity =    qte_Tv.getText().toString();
 
 
-                int selectedProductQuantity = (int) Math.floor(qteDouble);
+                String totalPrice =  prixTotTvVal.getText().toString();
+
 
                     SelectedProduit selectedProduit = new SelectedProduit(
                             listProduits.get(position).getLocalArticleId(),
                             Double.parseDouble(customProduit.getProductPrice()),
                             Double.parseDouble(stringUnitPrice),
-                            selectedProductQuantity,
+                            Integer.valueOf(selectedQuantity),
 
                             listProduits.get(position).getBoId(),
                             listProduits.get(position).getAR_Ref(),
                             listProduits.get(position).getAR_Design(),
                             selectedProduitsConditionArticleX,
-                            conditionsStrings
+                            conditionsStrings,
+                            selectedStock,
+                            Double.valueOf(totalPrice)
 
                             );
 

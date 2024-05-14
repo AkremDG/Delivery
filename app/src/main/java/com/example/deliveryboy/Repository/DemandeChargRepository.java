@@ -6,8 +6,10 @@ import android.util.Pair;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.deliveryboy.Apis.DemandsApi;
 import com.example.deliveryboy.Apis.ProductsApi;
 import com.example.deliveryboy.Database.DatabaseInstance;
+import com.example.deliveryboy.Model.Demande;
 import com.example.deliveryboy.Model.Produit;
 import com.example.deliveryboy.Model.ProduitCondition;
 import com.example.deliveryboy.Model.Responses.LocalPriceAndQuantity;
@@ -198,4 +200,35 @@ public class DemandeChargRepository {
         });
         return listMutableLiveData;
     }
+
+
+
+    public MutableLiveData<Boolean> sendDemandApi(Context context, Demande demande){
+        MutableLiveData<Boolean> returnedResult = new MutableLiveData<>();
+
+        RetrofitClientInstance.getRetrofitClient().create(DemandsApi.class).postDemande(demande, SessionManager.getInstance().getToken(context
+        )).clone().enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()){
+                    returnedResult.postValue(true);
+                }else {
+                    returnedResult.postValue(false);
+                    Log.i("sendDemandApi","FAIL"+ response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                returnedResult.postValue(false);
+                Log.i("sendDemandApi", t.getMessage());
+
+            }
+        });
+        return returnedResult;
+
+    }
+
+
+
 }
