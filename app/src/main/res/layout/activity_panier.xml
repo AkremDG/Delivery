@@ -11,70 +11,46 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/title_Tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/exo"
-        android:text="Panier"
-        android:textColor="@color/black"
-
-        style="@style/TextAppearance.MaterialComponents.Headline6"
-        app:layout_constraintBottom_toBottomOf="@+id/arrow_pass_cmd_Iv"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/arrow_pass_cmd_Iv" />
 
 
-    <ImageView
-        android:id="@+id/arrow_pass_cmd_Iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:clickable="true"
-        android:src="@drawable/arrow_back_icon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/panierAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/white"
 
 
-    <TextView
-        android:id="@+id/nomClient_Tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/exo"
-        android:text="Akrem ben dhia"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/client_Tv"
-        app:layout_constraintTop_toBottomOf="@+id/title_Tv" />
+            android:elevation="0dp">
 
-    <TextView
-        android:id="@+id/client_Tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/exo"
-        android:text="Client : "
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toStartOf="@+id/nomClient_Tv"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_Tv" />
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/panierToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:title="Validation demande"
+                app:titleCentered="true"
+                android:elevation="0dp"
+                app:navigationIcon="@drawable/baseline_arrow_back_24"
+                style="@style/CustomToolbar"
+                />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+
+
+
+
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/panier_produids_rv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="5dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="8sp"
+        android:layout_marginTop="20dp"
         app:layout_constraintHeight_default="wrap"
-        app:layout_constraintTop_toBottomOf="@+id/client_Tv"
+        app:layout_constraintTop_toBottomOf="@+id/panierAppBar"
         app:layout_constraintVertical_bias="0" />
 
 

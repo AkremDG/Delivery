@@ -12,47 +12,38 @@ import java.util.List;
 @Entity
 public class Demande {
 
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "localDemandId")
-    private int localDemandId;
+    @SerializedName("items")
+    private List<DemandeProduitItem> demandeProduitItemList;
 
-    @ColumnInfo(name = "boId")
-    @SerializedName("id")
-    private int boId;
+    @SerializedName("total")
+    private Double total;
 
-    @ColumnInfo(name = "ctNum")
-    @SerializedName("ctNum")
-    private int ctNum;
+    public Demande(List<DemandeProduitItem> demandeProduitItemList, Double total) {
+        this.demandeProduitItemList = demandeProduitItemList;
+        this.total = total;
+    }
 
+    public List<DemandeProduitItem> getDemandeProduitItemList() {
+        return demandeProduitItemList;
+    }
 
-    @ColumnInfo(name = "numCmd")
-    @SerializedName("NumCmd")
-    private int numCmd;
+    public void setDemandeProduitItemList(List<DemandeProduitItem> demandeProduitItemList) {
+        this.demandeProduitItemList = demandeProduitItemList;
+    }
 
+    public Double getTotal() {
+        return total;
+    }
 
-    @ColumnInfo(name = "doPiece")
-    @SerializedName("Do_Piece")
-    private int doPiece;
+    public void setTotal(Double total) {
+        this.total = total;
+    }
 
-
-    @ColumnInfo(name = "doDate")
-    @SerializedName("DO_Date")
-    private int doDate;
-
-    @ColumnInfo(name = "doTotalHt")
-    @SerializedName("doTotalHt")
-    private int doTotalHt;
-
-    @ColumnInfo(name = "isSync")
-    @SerializedName("isSync")
-    private Boolean isSync;
-
-    @ColumnInfo(name = "statut")
-    @SerializedName("Statut")
-    private String statut;
-
-
-    @Ignore
-    @SerializedName("cmdLignes")
-    private List<CmdLigne> cmdLignes;
+    @Override
+    public String toString() {
+        return "Demande{" +
+                "demandeProduitItemList=" + demandeProduitItemList +
+                ", total=" + total +
+                '}';
+    }
 }

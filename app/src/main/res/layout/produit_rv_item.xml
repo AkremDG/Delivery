@@ -35,7 +35,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-
                 app:layout_constraintEnd_toEndOf="parent"/>
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_img_left"
@@ -77,7 +76,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:paddingHorizontal="10dp"
-                android:text="AR43434348349"
                 android:textAlignment="center"
 
                 android:textColor="@color/green"
@@ -97,7 +95,6 @@
 
                 android:fontFamily="@font/exo"
                 android:paddingHorizontal="5dp"
-                android:text="Lait demi-écrémé"
                 android:textAlignment="center"
                 android:textColor="@color/se_con_col"
                 android:textSize="16sp"
@@ -116,7 +113,6 @@
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/exo"
                 android:paddingBottom="5dp"
-                android:text="1.200 dt"
 
                 android:textAlignment="center"
 

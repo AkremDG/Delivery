@@ -6,8 +6,10 @@ import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 @Entity
-public class ProduitCondition {
+public class ProduitCondition implements Serializable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name ="localIdCondition")
     private Integer localIdCondition;

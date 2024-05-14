@@ -64,13 +64,12 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
     @Override
     public void onBindViewHolder(@NonNull ProduitVh holder, int position) {
         int recyclerPosition = position;
-        holder.nomProduit_Tv.setText(produitList.get(position).getAR_Design());
         List<ProduitCondition> produitConditionList = new ArrayList<>();
 
         List<String> stringList = new ArrayList<>();
 
 
-        holder.progressBar.setVisibility(View.VISIBLE);
+        //holder.progressBar.setVisibility(View.VISIBLE);
 
         demandeChargViewModel.getLocalProductsConditions(context, produitList.get(position).getBoId()).observe(lifecycleOwner,
                 new Observer<List<ProduitCondition>>() {
@@ -78,7 +77,7 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
             public void onChanged(List<ProduitCondition> produitConditions) {
                 produitConditionList.addAll(produitConditions);
 
-                holder.prix_Tv.setText(String.valueOf(produitConditions.get(0).getTC_Prix())+" dt");
+                holder.prix_Tv.setText(String.valueOf(produitConditions.get(0).getTC_Prix()));
                 holder.ArRef_Tv.setText(String.valueOf(" Stock : "+produitConditions.get(0).getAS_QteSto()));
 
                 for(ProduitCondition produitCondition : produitConditions){
@@ -92,6 +91,8 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
                 }
 
                 holder.produit_Iv.setImageResource(R.drawable.bag);
+                holder.nomProduit_Tv.setText(produitList.get(position).getAR_Design());
+
                 holder.progressBar.setVisibility(View.INVISIBLE);
             }
         });
@@ -106,7 +107,7 @@ public class ProduitRvAdapter extends RecyclerView.Adapter<ProduitRvAdapter.Prod
                     public void onChanged(ProduitCondition produitCondition) {
 
                         if(produitCondition!=null){
-                            holder.prix_Tv.setText(String.valueOf(produitCondition.getTC_Prix())+" dt");
+                            holder.prix_Tv.setText(String.valueOf(produitCondition.getTC_Prix()));
                             holder.ArRef_Tv.setText("Stock : "+String.valueOf(produitCondition.getAS_QteSto()));
 
                             if(produitCondition.getAS_QteSto()==0){

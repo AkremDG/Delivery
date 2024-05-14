@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/date_picker_actions"
+    <item android:id="@+id/panier"
         android:title="panier"
         android:icon="@drawable/empty_panier_icon"
         app:showAsAction="always"

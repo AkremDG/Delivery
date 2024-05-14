@@ -2,6 +2,7 @@ package com.example.deliveryboy.View.DemandeFragments;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -13,6 +14,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -21,6 +23,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -44,20 +48,25 @@ import com.example.deliveryboy.Adapters.RvInterface;
 import com.example.deliveryboy.Adapters.TypeProduitInterface;
 import com.example.deliveryboy.Adapters.quantiteInterface;
 import com.example.deliveryboy.Model.CustomProduit;
+import com.example.deliveryboy.Model.Demande;
+import com.example.deliveryboy.Model.DemandeProduitItem;
 import com.example.deliveryboy.Model.Produit;
 import com.example.deliveryboy.Model.ProduitCondition;
+import com.example.deliveryboy.Model.SelectedProduit;
 import com.example.deliveryboy.Model.TypeCommande;
 import com.example.deliveryboy.Model.User;
 import com.example.deliveryboy.R;
 import com.example.deliveryboy.Utils.InternetChecker;
 import com.example.deliveryboy.Utils.UiUtils;
 import com.example.deliveryboy.View.BottomNagContainerActivity;
+import com.example.deliveryboy.View.PanierActivity;
 import com.example.deliveryboy.ViewModel.DemandeChargViewModel;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -66,8 +75,14 @@ import java.util.Locale;
 
 public class CreateDemande extends AppCompatActivity implements RvInterface, quantiteInterface, TypeProduitInterface, CatalogClick {
     private MaterialToolbar materialToolbar;
-    ProduitRvAdapter productsAdapter;
-    Double actualStock=0.0;
+    int id =0;
+    private List<ProduitCondition> selectedProduitsConditionArticleX = new ArrayList<>();
+    List<SelectedProduit> selectedProducts = new ArrayList<>();
+
+    float x1,y1,x2,y2;
+
+    private ProduitRvAdapter productsAdapter;
+    private Double actualStock=0.0;
     private EditText searchBar_pass_cmd;
     private List<Produit> filtredProducts = new ArrayList<>();
     private String typeProduit;
@@ -193,6 +208,7 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
     }
 
     public void uiListeners() {
+
         synchro_fab.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("FragmentLiveDataObserve")
             @Override
@@ -259,13 +275,30 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
             }
         });
 
-        materialToolbar.setOnClickListener(new View.OnClickListener() {
+        materialToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CreateDemande.this, BottomNagContainerActivity.class);
                 startActivity(intent);
             }
         });
+
+        materialToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                // Check the ID of the clicked MenuItem
+                switch (item.getItemId()) {
+                    case R.id.panier:
+                    {
+                        Intent intent = new Intent(CreateDemande.this, PanierActivity.class);
+                        intent.putExtra("selectedItems",(Serializable) selectedProducts);
+                        startActivity(intent);
+                    }
+                }
+                return false; // Return false for items that are not handled here
+            }
+        });
+
 
 
 
@@ -429,12 +462,20 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
 
     }
     public void showAlert(CustomProduit customProduit, int position) {
+
         int positionRv = position;
 
 
         final Dialog dialog = new Dialog(CreateDemande.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.sheet_desc_produit);
+
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                quantite=1;
+            }
+        });
 
         MaterialButton addButton = dialog.findViewById(R.id.ajout_btn);
 
@@ -447,14 +488,8 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
 
 
 
-
-
         TextView qte_Tv = dialog.findViewById(R.id.qte_Tv);
         qte_Tv.setText(String.valueOf(quantite));
-
-
-
-
 
 
 
@@ -468,18 +503,15 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
             @Override
             public void onClick(View v) {
 
-
                 quantite++;
-
-
 
                 int stock = (int) Math.floor(actualStock);
 
-                if(quantite>stock){
-                    qte_Tv.setBackgroundColor(Color.RED);
-                }
+
 
                 qte_Tv.setText(String.valueOf(quantite));
+
+
 
 
             }
@@ -488,18 +520,24 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
         moins.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 quantite--;
                 qte_Tv.setText(String.valueOf(quantite));
+
+
             }
         });
+
+
         qte_Tv.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
+
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
 
                 try {
 
@@ -509,9 +547,29 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
                     int stock = (int) Math.floor(actualStock);
 
                     if(quantite>stock){
-                        qte_Tv.setText(String.valueOf(actualStock));
+                        quantite = (int) Math.floor(actualStock);
+
+                        qte_Tv.setText(String.valueOf(quantite));
                         qte_Tv.setTextColor(getResources().getColor(R.color.orange_btn_color));
-                    }else{
+
+
+                        //quantite = actualStock;
+
+                        qte_Tv.setOnTouchListener(new View.OnTouchListener() {
+                            @Override
+                            public boolean onTouch(View v, MotionEvent event) {
+                                qte_Tv.setText("");
+                                qte_Tv.setCursorVisible(true);
+                                return false;
+                            }
+                        });
+
+                    }if(quantite==0){
+                        quantite = 1;
+                        qte_Tv.setText("1");
+
+                    }
+                    else{
                         qte_Tv.setTextColor(Color.parseColor("#FFA5A5A5"));
 
                     }
@@ -522,7 +580,7 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
                 }
 
 
-                    }
+            }
 
 
 
@@ -531,40 +589,6 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
 
             }
         });
-
-
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-
-                // Animate the icon moving up
-                ImageView basketIcon = dialog.findViewById(R.id.produit_Iv);
-
-                ObjectAnimator translateY = ObjectAnimator.ofFloat(basketIcon, "translationY", 0, -200);
-                translateY.setDuration(500); // Adjust duration as needed
-                translateY.start();
-
-                // Animate the icon fading out
-                ObjectAnimator alpha = ObjectAnimator.ofFloat(basketIcon, View.ALPHA, 1.0f, 0.0f);
-                alpha.setDuration(500); // Adjust duration as needed
-                alpha.addListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        // Remove the icon from the dialog after animation ends
-                        ViewGroup parent = (ViewGroup) basketIcon.getParent();
-                        if (parent != null) {
-                            parent.removeView(basketIcon);
-                            dialog.dismiss();
-                            quantite =1;
-                        }
-                    }
-                });
-                alpha.start();
-            }
-        });
-
 
 
         TextView prixTv = dialog.findViewById(R.id.prix_val_Tv);
@@ -578,6 +602,7 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
         demandeChargViewModel.getLocalProductsConditions(CreateDemande.this,listProduits.get(position).getBoId()).observe(CreateDemande.this, new Observer<List<ProduitCondition>>() {
             @Override
             public void onChanged(List<ProduitCondition> produitConditions) {
+                selectedProduitsConditionArticleX.addAll(produitConditions);
                 Log.i("ConditionnementProduit", produitConditions.toString());
                 for(ProduitCondition produitCondition : produitConditions){
                     if(!conditionsStrings.contains(produitCondition.getEC_Enumere())){
@@ -599,20 +624,22 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
 
                 demandeChargViewModel.getLocalPriceByIdAndProductId(CreateDemande.this,
                         listProduits.get(positionRv).getBoId(),
-                        String.valueOf(parent.getItemAtPosition(position))).observe(CreateDemande.this, new Observer<ProduitCondition>() {
+                        String.valueOf(parent.getItemAtPosition(position))).observe(CreateDemande.this,
+                        new Observer<ProduitCondition>() {
                     @Override
                     public void onChanged(ProduitCondition produitCondition) {
 
                         if(produitCondition!=null){
 
-                            prixTv.setText(String.valueOf(produitCondition.getTC_Prix())+" dt");
-                            refTv.setText("Stock : "+String.valueOf(produitCondition.getAS_QteSto()));
-                             actualStock = produitCondition.getAS_QteSto();
+                            prixTv.setText(String.valueOf(produitCondition.getTC_Prix()));
+                            refTv.setText(String.valueOf(produitCondition.getAS_QteSto()));
+                            actualStock = produitCondition.getAS_QteSto();
 
                             if(produitCondition.getAS_QteSto()==0){
+                                addButton.setBackgroundColor(Color.parseColor("#FEF0DD"));
+
                                 refTv.setTextColor(Color.RED);
                                 addButton.setEnabled(false);
-                                addButton.setBackgroundColor(Color.parseColor("#FEF0DD"));
 
                             }else {
                                 refTv.setTextColor(Color.parseColor("#49968C"));
@@ -652,6 +679,77 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
         });
 
 
+
+
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+                String stringUnitPrice =   prixTv.getText().toString();
+                 String stringQuantity =    refTv.getText().toString();
+                 Double qteDouble = Double.parseDouble(stringQuantity);
+
+
+                int selectedProductQuantity = (int) Math.floor(qteDouble);
+
+                    SelectedProduit selectedProduit = new SelectedProduit(
+                            listProduits.get(position).getLocalArticleId(),
+                            Double.parseDouble(customProduit.getProductPrice()),
+                            Double.parseDouble(stringUnitPrice),
+                            selectedProductQuantity,
+
+                            listProduits.get(position).getBoId(),
+                            listProduits.get(position).getAR_Ref(),
+                            listProduits.get(position).getAR_Design(),
+                            selectedProduitsConditionArticleX,
+                            conditionsStrings
+
+                            );
+
+                    selectedProducts.add(selectedProduit);
+                    // Animate the icon moving up
+                    ImageView basketIcon = dialog.findViewById(R.id.produit_Iv);
+
+                    ObjectAnimator translateY = ObjectAnimator.ofFloat(basketIcon, "translationY", 0, -200);
+                    translateY.setDuration(500); // Adjust duration as needed
+                    translateY.start();
+
+                    // Animate the icon fading out
+                    ObjectAnimator alpha = ObjectAnimator.ofFloat(basketIcon, View.ALPHA, 1.0f, 0.0f);
+                    alpha.setDuration(500); // Adjust duration as needed
+                    alpha.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            // Remove the icon from the dialog after animation ends
+                            ViewGroup parent = (ViewGroup) basketIcon.getParent();
+                            if (parent != null) {
+                                parent.removeView(basketIcon);
+                                dialog.dismiss();
+                                quantite =1;
+                            }
+                        }
+                    });
+                    alpha.start();
+
+
+
+
+
+
+            }
+        });
+
+
+
+
+
+
+
+
+
         dialog.show();
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -673,4 +771,6 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
         produids_rv.setAdapter(productsAdapter);
 
     }
+
+
 }

@@ -3,6 +3,7 @@ package com.example.deliveryboy.Model;
 public class CustomProduit {
     private String productName;
     private String productPrice;
+
     private String productRef;
     private String productQuantity;
     private String productCondition;
