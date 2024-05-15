@@ -710,21 +710,14 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
             public void onClick(View v) {
 
                String selectedondition =  conditionSpinner.getSelectedItem().toString();
-
-
                 String stringUnitPrice =   prixTv.getText().toString();
-
                 String.valueOf(refTv.getText().toString());
-
                 Double selectedStock = Double.valueOf(refTv.getText().toString()) ;
-
                  String selectedQuantity =    qte_Tv.getText().toString();
-
-
                 String totalPrice =  prixTotTvVal.getText().toString();
 
+                SelectedProduit selectedProduit = new SelectedProduit(
 
-                    SelectedProduit selectedProduit = new SelectedProduit(
                             selectedondition,
                             listProduits.get(position).getLocalArticleId(),
                             Double.parseDouble(customProduit.getProductPrice()),
@@ -739,9 +732,7 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
                             selectedStock,
                             Double.valueOf(totalPrice)
 
-                            );
-
-
+                );
 
                     selectedProducts.add(selectedProduit);
                     // Animate the icon moving up

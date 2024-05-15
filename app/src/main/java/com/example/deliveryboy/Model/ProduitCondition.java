@@ -39,9 +39,16 @@ public class ProduitCondition implements Serializable {
     @SerializedName("TC_Prix")
     private Double TC_Prix;
 
+
+    @SerializedName("idart")
+    @ColumnInfo(name ="idart")
+    private String idart;
+
+
     public ProduitCondition(){}
 
-    public ProduitCondition(Integer localIdCondition, String produitBoId, Double AS_QteSto, String FA_CodeFamille, String DE_Intitule, String EC_Enumere, Double TC_Prix) {
+    public ProduitCondition(Integer localIdCondition, String produitBoId, Double AS_QteSto, String FA_CodeFamille,
+                            String DE_Intitule, String EC_Enumere, Double TC_Prix, String idart) {
         this.localIdCondition = localIdCondition;
         this.produitBoId = produitBoId;
         this.AS_QteSto = AS_QteSto;
@@ -49,6 +56,15 @@ public class ProduitCondition implements Serializable {
         this.DE_Intitule = DE_Intitule;
         this.EC_Enumere = EC_Enumere;
         this.TC_Prix = TC_Prix;
+        this.idart = idart;
+    }
+
+    public String getIdart() {
+        return idart;
+    }
+
+    public void setIdart(String idart) {
+        this.idart = idart;
     }
 
     public Integer getLocalIdCondition() {
@@ -107,6 +123,7 @@ public class ProduitCondition implements Serializable {
         this.TC_Prix = TC_Prix;
     }
 
+
     @Override
     public String toString() {
         return "ProduitCondition{" +
@@ -117,6 +134,7 @@ public class ProduitCondition implements Serializable {
                 ", DE_Intitule='" + DE_Intitule + '\'' +
                 ", EC_Enumere='" + EC_Enumere + '\'' +
                 ", TC_Prix=" + TC_Prix +
+                ", idart='" + idart + '\'' +
                 '}';
     }
 }

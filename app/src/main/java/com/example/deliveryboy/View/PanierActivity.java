@@ -175,6 +175,7 @@ public class PanierActivity extends AppCompatActivity implements quantiteInterfa
                     totalPanierHint_tv.setVisibility(View.INVISIBLE);
                     totalVal_Tv.setVisibility(View.INVISIBLE);
                     annuler_btn.setVisibility(View.INVISIBLE);
+                    annuler_btn.setVisibility(View.INVISIBLE);
                     valid_btn.setVisibility(View.INVISIBLE);
 
 
@@ -183,9 +184,13 @@ public class PanierActivity extends AppCompatActivity implements quantiteInterfa
 
                     List<DemandeProduitItem> demandeProduitItemList = new ArrayList<>();
 
+
+
+
                     for(SelectedProduit selectedProduit : selectedProduits){
                         DemandeProduitItem demandeProduitItem = new DemandeProduitItem(
-                                id,Integer.valueOf(selectedProduit.getBoId()) ,
+                                id,
+                                Integer.valueOf(selectedProduit.getBoId()) ,
                                 selectedProduit.getSelectedProductPrice(),
                                 selectedProduit.getSelectedProductQuantity() );
                         demandeProduitItemList.add(demandeProduitItem);
