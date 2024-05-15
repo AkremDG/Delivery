@@ -559,16 +559,16 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
 
                         //quantite = actualStock;
 
-                        qte_Tv.setOnTouchListener(new View.OnTouchListener() {
+
+                        qte_Tv.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public boolean onTouch(View v, MotionEvent event) {
-                                qte_Tv.setText("");
-                                qte_Tv.setCursorVisible(true);
-                                return false;
+                            public void onClick(View v) {
+                                qte_Tv.setText("1");
+                                quantite = 1;
+
                             }
                         });
-
-                    }if(quantite==0){
+                    }if(quantite<=0){
                         quantite = 1;
                         qte_Tv.setText("1");
 
@@ -580,11 +580,11 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
                     String stringUnitPrice =   prixTv.getText().toString();
                     totalProductPrice = quantite * Double.valueOf(stringUnitPrice);
 
-                    /*
+
                     DecimalFormat df = new DecimalFormat("#.###");
                     String formattedTotalPrice = df.format(totalProductPrice);
 
-                     */
+
 
                     prixTotTvVal.setText(String.valueOf(String.valueOf(totalProductPrice)));
 
@@ -629,9 +629,11 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
 
 
 
+
         conditionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
 
                 demandeChargViewModel.getLocalPriceByIdAndProductId(CreateDemande.this,
                         listProduits.get(positionRv).getBoId(),
@@ -643,6 +645,10 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
                         if(produitCondition!=null){
 
                             quantite = 1;
+                            if(!qte_Tv.getText().toString().equals("1") ){
+                                qte_Tv.setText("1");
+                            }
+
                             totalProductPrice = produitCondition.getTC_Prix();
 
                             prixTv.setText(String.valueOf(produitCondition.getTC_Prix()));
@@ -703,6 +709,7 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
             @Override
             public void onClick(View v) {
 
+               String selectedondition =  conditionSpinner.getSelectedItem().toString();
 
 
                 String stringUnitPrice =   prixTv.getText().toString();
@@ -718,6 +725,7 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
 
 
                     SelectedProduit selectedProduit = new SelectedProduit(
+                            selectedondition,
                             listProduits.get(position).getLocalArticleId(),
                             Double.parseDouble(customProduit.getProductPrice()),
                             Double.parseDouble(stringUnitPrice),
@@ -732,6 +740,8 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
                             Double.valueOf(totalPrice)
 
                             );
+
+
 
                     selectedProducts.add(selectedProduit);
                     // Animate the icon moving up

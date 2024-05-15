@@ -207,10 +207,13 @@ public class DemandeChargRepository {
         MutableLiveData<Boolean> returnedResult = new MutableLiveData<>();
 
         RetrofitClientInstance.getRetrofitClient().create(DemandsApi.class).postDemande(demande, SessionManager.getInstance().getToken(context
-        )).clone().enqueue(new Callback<String>() {
+        )).clone().enqueue(new Callback<Object>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<Object> call, Response<Object> response) {
                 if(response.isSuccessful()){
+
+                    Log.i("sendDemandApi","success"+ response.message());
+
                     returnedResult.postValue(true);
                 }else {
                     returnedResult.postValue(false);
@@ -219,7 +222,7 @@ public class DemandeChargRepository {
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<Object> call, Throwable t) {
                 returnedResult.postValue(false);
                 Log.i("sendDemandApi", t.getMessage());
 

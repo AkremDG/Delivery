@@ -13,7 +13,7 @@ import retrofit2.http.POST;
 public interface DemandsApi {
 
     @POST("/api/cmd/mobile")
-   Call<String> postDemande(@Body Demande demande, @Header("Authorization")String auth);
+   Call<Object> postDemande(@Body Demande demande, @Header("Authorization")String auth);
 
 
 }

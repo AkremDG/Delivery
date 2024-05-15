@@ -8,9 +8,27 @@
     tools:context=".View.PanierActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintRoot"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+        <TextView
+            android:id="@+id/noCmdHint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/exo"
+            android:text="Pas de demande à valider"
+            android:textColor="@color/se_con_col"
+
+            android:visibility="gone"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            />
 
 
         <com.google.android.material.appbar.AppBarLayout
@@ -19,8 +37,6 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             android:background="@color/white"
-
-
             android:elevation="0dp">
 
             <com.google.android.material.appbar.MaterialToolbar
@@ -52,14 +68,24 @@
         app:layout_constraintTop_toBottomOf="@+id/panierAppBar"
         app:layout_constraintVertical_bias="0" />
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="@+id/panier_produids_rv"
+            app:layout_constraintBottom_toBottomOf="@+id/panier_produids_rv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
+        android:id="@+id/totalPanierHint_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:layout_marginRight="5dp"
         android:fontFamily="@font/exo"
-        android:text="Total panier :"
+        android:text="Total demande :"
         android:textColor="@color/black"
 
         android:textSize="18sp"

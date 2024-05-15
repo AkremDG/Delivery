@@ -11,6 +11,7 @@ import java.util.List;
 
 public class SelectedProduit implements Serializable {
 
+    private String selectedCondition;
 
     private Integer localArticleId;
 
@@ -40,7 +41,8 @@ public class SelectedProduit implements Serializable {
     private Double selectedProductTotalPrice;
 
 
-    public SelectedProduit(Integer localArticleId, Double unitProductPrice, Double selectedProductPrice, Integer selectedProductQuantity, String boId, String AR_Ref, String AR_Design, List<ProduitCondition> articleConditionsList, List<String> articlesConditionsStrings, Double selectedProductStock, Double selectedProductTotalPrice) {
+    public SelectedProduit(String selectedCondition, Integer localArticleId, Double unitProductPrice, Double selectedProductPrice, Integer selectedProductQuantity, String boId, String AR_Ref, String AR_Design, List<ProduitCondition> articleConditionsList, List<String> articlesConditionsStrings, Double selectedProductStock, Double selectedProductTotalPrice) {
+        this.selectedCondition = selectedCondition;
         this.localArticleId = localArticleId;
         this.unitProductPrice = unitProductPrice;
         this.selectedProductPrice = selectedProductPrice;
@@ -52,6 +54,14 @@ public class SelectedProduit implements Serializable {
         this.articlesConditionsStrings = articlesConditionsStrings;
         this.selectedProductStock = selectedProductStock;
         this.selectedProductTotalPrice = selectedProductTotalPrice;
+    }
+
+    public String getSelectedCondition() {
+        return selectedCondition;
+    }
+
+    public void setSelectedCondition(String selectedCondition) {
+        this.selectedCondition = selectedCondition;
     }
 
     public Integer getLocalArticleId() {
@@ -140,5 +150,23 @@ public class SelectedProduit implements Serializable {
 
     public void setSelectedProductTotalPrice(Double selectedProductTotalPrice) {
         this.selectedProductTotalPrice = selectedProductTotalPrice;
+    }
+
+    @Override
+    public String toString() {
+        return "SelectedProduit{" +
+                "selectedCondition='" + selectedCondition + '\'' +
+                ", localArticleId=" + localArticleId +
+                ", unitProductPrice=" + unitProductPrice +
+                ", selectedProductPrice=" + selectedProductPrice +
+                ", selectedProductQuantity=" + selectedProductQuantity +
+                ", boId='" + boId + '\'' +
+                ", AR_Ref='" + AR_Ref + '\'' +
+                ", AR_Design='" + AR_Design + '\'' +
+                ", articleConditionsList=" + articleConditionsList +
+                ", articlesConditionsStrings=" + articlesConditionsStrings +
+                ", selectedProductStock=" + selectedProductStock +
+                ", selectedProductTotalPrice=" + selectedProductTotalPrice +
+                '}';
     }
 }

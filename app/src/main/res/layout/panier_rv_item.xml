@@ -6,29 +6,29 @@
     android:layout_marginTop="12dp">
 
 
-
-
     <ImageView
         android:layout_width="70dp"
         android:layout_height="70dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/conditionSpinner"
         app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="5dp"
+
         android:id="@+id/panier_produit_Iv"/>
 
     <TextView
         android:id="@+id/nomProdPanier_Tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="Lait demi écrémé"
         app:layout_constraintStart_toEndOf="@+id/panier_produit_Iv"
         android:layout_marginLeft="5dp"
         android:fontFamily="@font/exo"
         android:textSize="16sp"
-
         android:textStyle="bold"
         android:textColor="@color/blue_reset_password"
-        app:layout_constraintTop_toTopOf="parent"/>
+       app:layout_constraintTop_toBottomOf="@+id/conditionSpinner"/>
 
 
 
@@ -97,11 +97,14 @@
         app:layout_constraintTop_toBottomOf="@id/promoPanier_tv"
         />
 
-
-
-
-
-
+    <Spinner
+        android:id="@+id/conditionSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/bg_transparant"
+        />
 
 
 
@@ -140,7 +143,6 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_choix_qte"
         android:paddingVertical="5dp"
-        android:visibility="gone"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/totalVal_tv">
