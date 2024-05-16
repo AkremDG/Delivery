@@ -34,6 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.PanierVH>{
+    Double newTotalPanier = 0.0;
+
     ProduitCondition newSelectedCondition;
     Double totalPanier = 0.0;
     String selectedCondition;
@@ -240,18 +242,18 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
 
                     }
 
-                    /*
-                    demandeChargViewModel.getLocalPriceByIdAndProductId(context, listProduit.get(rvPosition).getBoId(), holder.conditionSpinner.getSelectedItem().toString()).observe(lifecycleOwner, new Observer<ProduitCondition>() {
-                        @Override
-                        public void onChanged(ProduitCondition produitCondition) {
-                            modifiedListProduit.get(rvPosition).setBoId(produitCondition.getIdart());
-                            Log.i("CONDITIONNNNNNNNNNN", produitCondition.toString());
 
-                        }
-                    });
-
-                     */
                     modifiedListProduit.get(rvPosition).setIdArtConditionnement(newSelectedCondition.getIdart());
+
+                    try {
+                        modifiedListProduit.get(rvPosition).
+                                setSelectedProductTotalPrice(
+                                        Integer.valueOf(holder.qte_Tv.getText().toString()) * Double.valueOf(holder.unitPriceValTv.getText().toString())
+                                );
+                    }catch (Exception e) {
+
+                    }
+
 
 
                     modifiedListProduitLiveData.postValue(modifiedListProduit);
@@ -299,9 +301,14 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
 
                modifiedListProduit.get(rvPosition).setIdArtConditionnement(newSelectedCondition.getIdart());
 
+                modifiedListProduit.get(rvPosition).
+                        setSelectedProductTotalPrice(
+                            Integer.valueOf(holder.qte_Tv.getText().toString()) * Double.valueOf(holder.unitPriceValTv.getText().toString())
+                        );
 
 
                 modifiedListProduitLiveData.postValue(modifiedListProduit);
+
 
 
             }
