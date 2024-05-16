@@ -122,7 +122,6 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
                             Double totalProductPrice = Integer.valueOf(holder.qte_Tv.getText().toString()) * Double.valueOf(newSelectedCondition.getTC_Prix());
                             holder.totalVal_tv.setText(String.valueOf(String.valueOf(totalProductPrice)));
 
-                            holder.totalVal_tv.setText(String.valueOf(totalProductPrice));
 
 
                             if(produitCondition.getAS_QteSto()==0){
@@ -154,12 +153,14 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
 
         holder.stockValTv.setText(String.valueOf(listProduit.get(position).getSelectedProductStock()));
 
-        holder.totalVal_tv.setText(String.valueOf(listProduit.get(position).getSelectedProductTotalPrice())+ " dt");
+        holder.totalVal_tv.setText(String.valueOf(listProduit.get(position).getSelectedProductTotalPrice()));
 
         holder.qte_Tv.setText(String.valueOf(listProduit.get(position).getSelectedProductQuantity()));
 
 
         int itemSelectedQuantitty =1 ;
+
+
 
         holder.qte_Tv.addTextChangedListener(new TextWatcher() {
             @Override
@@ -206,16 +207,20 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
 
                     Double totalProductPrice = Integer.valueOf(holder.qte_Tv.getText().toString()) * Double.valueOf(newSelectedCondition.getTC_Prix());
 
-
                     holder.totalVal_tv.setText(String.valueOf(String.valueOf(totalProductPrice)));
 
 
+                    /*
                     //CALCULATION TOTAL DEMANDE
-                    listProduit.get(rvPosition).setSelectedProductTotalPrice(totalProductPrice);
-                    for(SelectedProduit selectedProduit : listProduit){
+                    modifiedListProduit.get(rvPosition).setSelectedProductTotalPrice(totalProductPrice);
+                    for(SelectedProduit selectedProduit : modifiedListProduit){
                         totalPanier = totalPanier + selectedProduit.getSelectedProductTotalPrice();
                     }
                     panierCallbacks.totalPanierCallback(totalPanier);
+
+                     */
+
+
 
                     ///////////////////////////
 
@@ -245,15 +250,9 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
 
                     modifiedListProduit.get(rvPosition).setIdArtConditionnement(newSelectedCondition.getIdart());
 
-                    try {
-                        modifiedListProduit.get(rvPosition).
-                                setSelectedProductTotalPrice(
-                                        Integer.valueOf(holder.qte_Tv.getText().toString()) * Double.valueOf(holder.unitPriceValTv.getText().toString())
-                                );
-                    }catch (Exception e) {
 
-                    }
 
+                    modifiedListProduit.get(rvPosition).setSelectedProductTotalPrice(Double.valueOf(holder.totalVal_tv.getText().toString()));
 
 
                     modifiedListProduitLiveData.postValue(modifiedListProduit);
@@ -263,6 +262,25 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
             }
         });
 
+        holder.totalVal_tv.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                modifiedListProduit.get(rvPosition).setSelectedProductTotalPrice(Double.valueOf(s.toString()));
+
+
+                modifiedListProduitLiveData.postValue(modifiedListProduit);
+            }
+        });
 
         holder.unitPriceValTv.addTextChangedListener(new TextWatcher() {
             @Override
@@ -301,10 +319,8 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
 
                modifiedListProduit.get(rvPosition).setIdArtConditionnement(newSelectedCondition.getIdart());
 
-                modifiedListProduit.get(rvPosition).
-                        setSelectedProductTotalPrice(
-                            Integer.valueOf(holder.qte_Tv.getText().toString()) * Double.valueOf(holder.unitPriceValTv.getText().toString())
-                        );
+
+                modifiedListProduit.get(rvPosition).setSelectedProductTotalPrice(Double.valueOf(holder.totalVal_tv.getText().toString()));
 
 
                 modifiedListProduitLiveData.postValue(modifiedListProduit);
@@ -314,6 +330,7 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
             }
 
         });
+
 
 
     }

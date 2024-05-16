@@ -70,6 +70,26 @@ public class PanierActivity extends AppCompatActivity implements quantiteInterfa
         uiSetup();
 
         uiListeners();
+
+        panierRvAdapter.getModifiedListProduit().observe(PanierActivity.this, new Observer<List<SelectedProduit>>() {
+            @Override
+            public void onChanged(List<SelectedProduit> selectedProduits) {
+                
+                totalPanier = 0.0;
+
+                for(SelectedProduit selectedProduit : selectedProduits){
+                    totalPanier = totalPanier+selectedProduit.getSelectedProductTotalPrice();
+                }
+
+                DecimalFormat df = new DecimalFormat("#.###");
+                String formattedTotalPanier = df.format(totalPanier);
+
+                totalVal_Tv.setText(String.valueOf(formattedTotalPanier));
+
+
+               // totalVal_Tv.setText(String.valueOf(totalPanier));
+            }
+        });
     }
 
     private void uiSetup() {
@@ -142,6 +162,8 @@ public class PanierActivity extends AppCompatActivity implements quantiteInterfa
         panier_produids_rv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         panier_produids_rv.setAdapter(panierRvAdapter);
 
+
+        /*
          totalPanier = 0.0;
 
         for(SelectedProduit selectedProduit : selectedProduits){
@@ -151,6 +173,10 @@ public class PanierActivity extends AppCompatActivity implements quantiteInterfa
         String formattedTotalPanier = df.format(totalPanier);
 
         totalVal_Tv.setText(String.valueOf(formattedTotalPanier));
+
+         */
+
+
 
     }
 
@@ -192,6 +218,8 @@ public class PanierActivity extends AppCompatActivity implements quantiteInterfa
                     panierRvAdapter.getModifiedListProduit().observe(PanierActivity.this, new Observer<List<SelectedProduit>>() {
                         @Override
                         public void onChanged(List<SelectedProduit> modifiedSelectedProduits) {
+
+
                             id++;
 
                             for(SelectedProduit selectedProduit : modifiedSelectedProduits){
@@ -263,7 +291,7 @@ public class PanierActivity extends AppCompatActivity implements quantiteInterfa
 
     @Override
     public void totalPanierCallback(Double totalPanier) {
-        totalVal_Tv.setText(String.valueOf(String.valueOf(totalPanier)));
+       // totalVal_Tv.setText(String.valueOf(String.valueOf(totalPanier)));
 
     }
 }
