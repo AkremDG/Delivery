@@ -58,6 +58,8 @@ public class PanierActivity extends AppCompatActivity implements quantiteInterfa
     private ProgressBar progressBar;
     private Spinner conditionSpinner;
 
+    PanierRvAdapter panierRvAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,14 +131,16 @@ public class PanierActivity extends AppCompatActivity implements quantiteInterfa
         Log.i("SELECTEDPRODUITS", String.valueOf(selectedProduits));
 
 
-
-        panier_produids_rv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        panier_produids_rv.setAdapter(new PanierRvAdapter(
+        panierRvAdapter = new PanierRvAdapter(
                 PanierActivity.this,
                 getApplicationContext(),
                 selectedProduits,
                 this,
-                this));
+                this);
+
+
+        panier_produids_rv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        panier_produids_rv.setAdapter(panierRvAdapter);
 
          totalPanier = 0.0;
 
@@ -180,21 +184,34 @@ public class PanierActivity extends AppCompatActivity implements quantiteInterfa
 
 
 
-                    id++;
 
                     List<DemandeProduitItem> demandeProduitItemList = new ArrayList<>();
 
 
 
+                    panierRvAdapter.getModifiedListProduit().observe(PanierActivity.this, new Observer<List<SelectedProduit>>() {
+                        @Override
+                        public void onChanged(List<SelectedProduit> modifiedSelectedProduits) {
+                            id++;
 
-                    for(SelectedProduit selectedProduit : selectedProduits){
-                        DemandeProduitItem demandeProduitItem = new DemandeProduitItem(
-                                id,
-                                Integer.valueOf(selectedProduit.getBoId()) ,
-                                selectedProduit.getSelectedProductPrice(),
-                                selectedProduit.getSelectedProductQuantity() );
-                        demandeProduitItemList.add(demandeProduitItem);
-                    }
+                            for(SelectedProduit selectedProduit : modifiedSelectedProduits){
+
+                                DemandeProduitItem demandeProduitItem = new DemandeProduitItem(
+                                        id,
+
+                                        Integer.valueOf(selectedProduit.getIdArtConditionnement()) ,
+
+                                        selectedProduit.getSelectedProductPrice(),
+
+                                        selectedProduit.getSelectedProductQuantity() );
+
+                                demandeProduitItemList.add(demandeProduitItem);
+
+                            }
+
+
+                        }
+                    });
 
                     Demande demande = new Demande(demandeProduitItemList, totalPanier);
 

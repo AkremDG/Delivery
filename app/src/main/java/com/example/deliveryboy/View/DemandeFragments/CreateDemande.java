@@ -730,7 +730,8 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
                             selectedProduitsConditionArticleX,
                             conditionsStrings,
                             selectedStock,
-                            Double.valueOf(totalPrice)
+                            Double.valueOf(totalPrice),
+                            null
 
                 );
 

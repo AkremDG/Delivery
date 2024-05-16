@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,9 +14,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,15 +36,19 @@ import java.util.List;
 public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.PanierVH>{
     ProduitCondition newSelectedCondition;
     Double totalPanier = 0.0;
-
+    String selectedCondition;
     Context context;
     List<SelectedProduit> listProduit;
+    List<SelectedProduit> modifiedListProduit;
+
     quantiteInterface quantiteInterface;
     int quantite;
     LifecycleOwner lifecycleOwner;
 
     DemandeChargViewModel demandeChargViewModel;
     PanierCallbacks panierCallbacks;
+
+    MutableLiveData<List<SelectedProduit>> modifiedListProduitLiveData;
 
     public PanierRvAdapter(LifecycleOwner lifecycleOwner, Context context, List<SelectedProduit> listProduit,
                            quantiteInterface quantiteInterface, PanierCallbacks panierCallbacks) {
@@ -50,6 +58,8 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
         this.lifecycleOwner = lifecycleOwner;
         this.panierCallbacks = panierCallbacks;
         demandeChargViewModel = new DemandeChargViewModel();
+        modifiedListProduitLiveData = new MutableLiveData<>();
+        modifiedListProduit = listProduit;
 
     }
 
@@ -74,20 +84,13 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
 
         /////////// CONDITIONNEMENT
         List<String> itemConditions = new ArrayList<>();
-
         itemConditions.add(listProduit.get(position).getSelectedCondition());
 
         for(String item : listProduit.get(position).getArticlesConditionsStrings()){
-
-
             if(!itemConditions.contains(item)){
                 itemConditions.add(item);
-
             }
-
         }
-
-
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.customspinner,R.id.regionName_tv,
                 itemConditions);
@@ -96,11 +99,10 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
         holder.conditionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedCondition = (String) parent.getItemAtPosition(position).toString();
+                 selectedCondition = (String) parent.getItemAtPosition(position).toString();
 
 
-                demandeChargViewModel.getLocalPriceByIdAndProductId(context,
-                        listProduit.get(rvPosition).getBoId(),
+                demandeChargViewModel.getLocalPriceByIdAndProductId(context, listProduit.get(rvPosition).getBoId(),
 
                                 selectedCondition).
                         observe(lifecycleOwner, new Observer<ProduitCondition>() {
@@ -110,6 +112,7 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
                          newSelectedCondition = produitCondition;
 
                         if(produitCondition!=null){
+
 
                            holder.unitPriceValTv.setText(String.valueOf(produitCondition.getTC_Prix()));
                            holder.stockValTv.setText(String.valueOf(produitCondition.getAS_QteSto()));
@@ -139,12 +142,12 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
             }
         });
 
-
         ///////////////
 
         holder.unitPriceValTv.setText(String.valueOf(listProduit.get(position).getSelectedProductPrice()));
 
         holder.panier_produit_Iv.setImageResource(R.drawable.bag);
+
         holder.nomProdPanier_Tv.setText(listProduit.get(position).getAR_Design());
 
         holder.stockValTv.setText(String.valueOf(listProduit.get(position).getSelectedProductStock()));
@@ -227,11 +230,85 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
             @Override
             public void afterTextChanged(Editable s) {
 
+                if(!s.equals("")) {
+                    modifiedListProduit.get(rvPosition).setSelectedProductPrice(Double.valueOf(holder.unitPriceValTv.getText().toString()));
+
+                    try {
+                        modifiedListProduit.get(rvPosition).setSelectedProductQuantity(Integer.valueOf(s.toString()));
+
+                    }catch (Exception e){
+
+                    }
+
+                    /*
+                    demandeChargViewModel.getLocalPriceByIdAndProductId(context, listProduit.get(rvPosition).getBoId(), holder.conditionSpinner.getSelectedItem().toString()).observe(lifecycleOwner, new Observer<ProduitCondition>() {
+                        @Override
+                        public void onChanged(ProduitCondition produitCondition) {
+                            modifiedListProduit.get(rvPosition).setBoId(produitCondition.getIdart());
+                            Log.i("CONDITIONNNNNNNNNNN", produitCondition.toString());
+
+                        }
+                    });
+
+                     */
+                    modifiedListProduit.get(rvPosition).setIdArtConditionnement(newSelectedCondition.getIdart());
+
+
+                    modifiedListProduitLiveData.postValue(modifiedListProduit);
+                }
+
+
             }
         });
-        //holder.promoPanier_tv.setText(null);
-       // holder.qte_Tv.setText(String.valueOf(listProduit.get(position).getQuantiteProduit()));
-       // quantite = listProduit.get(position).getQuantiteProduit();
+
+
+        holder.unitPriceValTv.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+
+
+
+                modifiedListProduit.get(rvPosition).setSelectedProductPrice(Double.valueOf(s.toString()));
+                modifiedListProduit.get(rvPosition).setSelectedProductQuantity(Integer.valueOf(holder.qte_Tv.getText().toString()));
+
+
+                /*
+
+                demandeChargViewModel.getLocalPriceByIdAndProductId(context, listProduit.get(rvPosition).getBoId(), holder.conditionSpinner.getSelectedItem().toString()).
+                        observe(lifecycleOwner, new Observer<ProduitCondition>() {
+                    @Override
+                    public void onChanged(ProduitCondition produitCondition) {
+                        modifiedListProduit.get(rvPosition).setBoId(newSelectedCondition.getIdart());
+
+                    }
+                });
+
+
+                 */
+
+               modifiedListProduit.get(rvPosition).setIdArtConditionnement(newSelectedCondition.getIdart());
+
+
+
+                modifiedListProduitLiveData.postValue(modifiedListProduit);
+
+
+            }
+
+        });
+
+
     }
 
     @Override
@@ -297,4 +374,7 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
         }
     }
 
+    public MutableLiveData<List<SelectedProduit>> getModifiedListProduit() {
+        return modifiedListProduitLiveData;
+    }
 }

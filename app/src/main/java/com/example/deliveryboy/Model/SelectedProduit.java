@@ -15,12 +15,16 @@ public class SelectedProduit implements Serializable {
 
     private Integer localArticleId;
 
+
+
     private Double unitProductPrice;
 
     private Double selectedProductPrice;
 
 
     private Integer selectedProductQuantity;
+
+
 
 
     private String boId;
@@ -40,8 +44,9 @@ public class SelectedProduit implements Serializable {
 
     private Double selectedProductTotalPrice;
 
+    private String idArtConditionnement;
 
-    public SelectedProduit(String selectedCondition, Integer localArticleId, Double unitProductPrice, Double selectedProductPrice, Integer selectedProductQuantity, String boId, String AR_Ref, String AR_Design, List<ProduitCondition> articleConditionsList, List<String> articlesConditionsStrings, Double selectedProductStock, Double selectedProductTotalPrice) {
+    public SelectedProduit(String selectedCondition, Integer localArticleId, Double unitProductPrice, Double selectedProductPrice, Integer selectedProductQuantity, String boId, String AR_Ref, String AR_Design, List<ProduitCondition> articleConditionsList, List<String> articlesConditionsStrings, Double selectedProductStock, Double selectedProductTotalPrice, String idArtConditionnement) {
         this.selectedCondition = selectedCondition;
         this.localArticleId = localArticleId;
         this.unitProductPrice = unitProductPrice;
@@ -54,6 +59,7 @@ public class SelectedProduit implements Serializable {
         this.articlesConditionsStrings = articlesConditionsStrings;
         this.selectedProductStock = selectedProductStock;
         this.selectedProductTotalPrice = selectedProductTotalPrice;
+        this.idArtConditionnement = idArtConditionnement;
     }
 
     public String getSelectedCondition() {
@@ -152,6 +158,14 @@ public class SelectedProduit implements Serializable {
         this.selectedProductTotalPrice = selectedProductTotalPrice;
     }
 
+    public String getIdArtConditionnement() {
+        return idArtConditionnement;
+    }
+
+    public void setIdArtConditionnement(String idArtConditionnement) {
+        this.idArtConditionnement = idArtConditionnement;
+    }
+
     @Override
     public String toString() {
         return "SelectedProduit{" +
@@ -167,6 +181,7 @@ public class SelectedProduit implements Serializable {
                 ", articlesConditionsStrings=" + articlesConditionsStrings +
                 ", selectedProductStock=" + selectedProductStock +
                 ", selectedProductTotalPrice=" + selectedProductTotalPrice +
+                ", idArtConditionnement='" + idArtConditionnement + '\'' +
                 '}';
     }
 }
