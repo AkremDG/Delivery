@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -27,6 +28,7 @@ import com.example.deliveryboy.Model.Produit;
 import com.example.deliveryboy.Model.ProduitCondition;
 import com.example.deliveryboy.Model.SelectedProduit;
 import com.example.deliveryboy.R;
+import com.example.deliveryboy.Utils.UiUtils;
 import com.example.deliveryboy.ViewModel.DemandeChargViewModel;
 
 import java.text.DecimalFormat;
@@ -52,6 +54,9 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
 
     MutableLiveData<List<SelectedProduit>> modifiedListProduitLiveData;
 
+    MutableLiveData<Boolean> isErrorDetectedLiveData;
+
+
     public PanierRvAdapter(LifecycleOwner lifecycleOwner, Context context, List<SelectedProduit> listProduit,
                            quantiteInterface quantiteInterface, PanierCallbacks panierCallbacks) {
         this.context = context;
@@ -61,6 +66,7 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
         this.panierCallbacks = panierCallbacks;
         demandeChargViewModel = new DemandeChargViewModel();
         modifiedListProduitLiveData = new MutableLiveData<>();
+        isErrorDetectedLiveData = new MutableLiveData<>();
         modifiedListProduit = listProduit;
 
     }
@@ -173,7 +179,7 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
 
                 try {
 
-                    int selectedQuantity = Integer.valueOf(s.toString());
+                    Integer selectedQuantity = Integer.valueOf(s.toString());
 
                    String strStock = holder.stockValTv.getText().toString();
 
@@ -182,8 +188,11 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
 
 
                     if(selectedQuantity>formattedActualStock){
+
+
                         holder.qte_Tv.setText(String.valueOf(holder.stockValTv.getText().toString()));
                         holder.qte_Tv.setTextColor(context.getResources().getColor(R.color.orange_btn_color));
+                        holder.errorQteTv.setVisibility(View.VISIBLE);
 
 
 
@@ -196,14 +205,20 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
                         });
 
 
-                    }else if (selectedQuantity<=0){
-                        holder.qte_Tv.setText(String.valueOf(1));
+
+                    }
+                    else if (selectedQuantity<=0){
+                        holder.qte_Tv.setTextColor(Color.parseColor("#FFA5A5A5"));
+                        holder.errorQteTv.setVisibility(View.GONE);
+                        holder.qte_Tv.setText("1");
 
                     }
                     else {
                         holder.qte_Tv.setTextColor(Color.parseColor("#FFA5A5A5"));
+                        holder.errorQteTv.setVisibility(View.GONE);
 
                     }
+
 
                     Double totalProductPrice = Integer.valueOf(holder.qte_Tv.getText().toString()) * Double.valueOf(newSelectedCondition.getTC_Prix());
 
@@ -237,7 +252,24 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
             @Override
             public void afterTextChanged(Editable s) {
 
-                if(!s.equals("")) {
+                if(s.toString().equals("")){
+                    holder.errorQteTv.setVisibility(View.VISIBLE);
+                    holder.errorQteTv.setText("Choisir la quantitée !");
+                    holder.conditionSpinner.setVisibility(View.GONE);
+
+                    isErrorDetectedLiveData.postValue(true);
+                }else {
+                    holder.errorQteTv.setVisibility(View.GONE);
+                    holder.errorQteTv.setText("Stock indisponible !");
+                    holder.conditionSpinner.setVisibility(View.VISIBLE);
+
+                    isErrorDetectedLiveData.postValue(false);
+
+                }
+
+
+                if(!s.equals(""))
+                {
                     modifiedListProduit.get(rvPosition).setSelectedProductPrice(Double.valueOf(holder.unitPriceValTv.getText().toString()));
 
                     try {
@@ -259,7 +291,11 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
                 }
 
 
-            }
+
+                }
+
+
+
         });
 
         holder.totalVal_tv.addTextChangedListener(new TextWatcher() {
@@ -300,6 +336,7 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
 
 
                 modifiedListProduit.get(rvPosition).setSelectedProductPrice(Double.valueOf(s.toString()));
+
                 modifiedListProduit.get(rvPosition).setSelectedProductQuantity(Integer.valueOf(holder.qte_Tv.getText().toString()));
 
 
@@ -332,6 +369,44 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
         });
 
 
+        holder.plus_Iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                try {
+                    int valQuantity = Integer.valueOf(holder.qte_Tv.getText().toString());
+                    valQuantity++;
+
+
+                    holder.qte_Tv.setText(String.valueOf(
+                            valQuantity
+                    ));
+                }catch (Exception e){
+
+                }
+
+
+            }
+        });
+
+
+        holder.moins_Iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    int valQuantity = Integer.valueOf(holder.qte_Tv.getText().toString());
+                    valQuantity--;
+
+                    holder.qte_Tv.setText(String.valueOf(
+                            valQuantity
+                    ));
+
+                }catch (Exception e){
+
+                }
+
+            }
+        });
 
     }
 
@@ -342,7 +417,7 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
 
     public static class PanierVH extends RecyclerView.ViewHolder {
         ImageView panier_produit_Iv;
-        TextView nomProdPanier_Tv, promoPanier_tv, totalVal_tv, qte_Tv,stockValTv,unitPriceValTv;
+        TextView nomProdPanier_Tv, promoPanier_tv, totalVal_tv, qte_Tv,stockValTv,unitPriceValTv,errorQteTv;
         ImageView moins_Iv,plus_Iv;
         Spinner   conditionSpinner ;
 
@@ -350,6 +425,7 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
 
         public PanierVH(@NonNull View itemView, com.example.deliveryboy.Adapters.quantiteInterface quantiteInterface) {
             super(itemView);
+            errorQteTv= itemView.findViewById(R.id.errorQteTv);
             conditionSpinner = itemView.findViewById(R.id.conditionSpinner);
 
             unitPriceValTv = itemView.findViewById(R.id.unitPriceValTv);
@@ -364,41 +440,15 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
 
 
 
-            plus_Iv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    /*
-                    i++;
-                    qte_Tv.setText(String.valueOf(i));
-                    quantiteInterface.onValidQte(i);
 
-                     */
-
-                }
-            });
-            quantiteInterface.onValidQte(i);
-
-            moins_Iv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-
-                    /*
-                    i--;
-                    qte_Tv.setText(String.valueOf(i));
-                    if(i<2){
-                        i=1;
-                        qte_Tv.setText("1");
-                        quantiteInterface.onValidQte(i);
-                    }
-
-                     */
-                }
-            });
         }
     }
 
     public MutableLiveData<List<SelectedProduit>> getModifiedListProduit() {
         return modifiedListProduitLiveData;
+    }
+
+    public MutableLiveData<Boolean> getIsErrorDetectedLiveData() {
+        return isErrorDetectedLiveData;
     }
 }

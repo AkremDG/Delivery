@@ -251,7 +251,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:background="@drawable/bg_choix_qte"
-            android:padding="5dp"
+            android:paddingVertical="5dp"
+
             app:layout_constraintBottom_toTopOf="@id/ajout_btn"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@id/guideline_bottom"
@@ -304,6 +305,20 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <TextView
+            android:id="@+id/errorQteTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stock indisponible !"
+            android:textColor="@color/orange_btn_color"
+
+            android:visibility="gone"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/constraint"
+            app:layout_constraintStart_toStartOf="@id/constraint"
+
+            app:layout_constraintTop_toBottomOf="@id/constraint" />
+
         <ImageView
             android:id="@+id/animationIcon"
             android:visibility="gone"
@@ -317,7 +332,7 @@
             />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/ajout_btn"
-            app:layout_constraintTop_toBottomOf="@id/constraint"
+            app:layout_constraintTop_toBottomOf="@id/errorQteTv"
             app:hintTextColor="@color/white"
             app:iconGravity="textEnd"
             app:icon="@drawable/baseline_add_shopping_cart_24"

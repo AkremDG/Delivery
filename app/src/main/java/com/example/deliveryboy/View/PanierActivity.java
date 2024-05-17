@@ -90,6 +90,19 @@ public class PanierActivity extends AppCompatActivity implements quantiteInterfa
                // totalVal_Tv.setText(String.valueOf(totalPanier));
             }
         });
+
+        panierRvAdapter.getIsErrorDetectedLiveData().observe(PanierActivity.this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if(aBoolean){
+                    valid_btn.setVisibility(View.GONE);
+
+                }else {
+                    valid_btn.setVisibility(View.VISIBLE);
+
+                }
+            }
+        });
     }
 
     private void uiSetup() {
@@ -240,6 +253,7 @@ public class PanierActivity extends AppCompatActivity implements quantiteInterfa
 
                         }
                     });
+
 
                     Demande demande = new Demande(demandeProduitItemList, totalPanier);
 

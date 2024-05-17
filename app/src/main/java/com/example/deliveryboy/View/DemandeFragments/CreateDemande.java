@@ -14,6 +14,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -32,6 +33,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -483,6 +485,8 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
         TextView refTv = dialog.findViewById(R.id.promo_val_Tv);
         refTv.setText(String.valueOf(customProduit.getProductRef()));
 
+        TextView errorQteTv = dialog.findViewById(R.id.errorQteTv);
+
 
         TextView conditionn_Tv = dialog.findViewById(R.id.conditionn_Tv);
         conditionn_Tv.setText(String.valueOf("Réference : "+listProduits.get(positionRv).getAR_Ref()));
@@ -551,40 +555,42 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
                     int stock = (int) Math.floor(actualStock);
 
                     if(quantite>stock){
+
+
+
                         quantite = (int) Math.floor(actualStock);
 
                         qte_Tv.setText(String.valueOf(quantite));
                         qte_Tv.setTextColor(getResources().getColor(R.color.orange_btn_color));
 
+                        errorQteTv.setVisibility(View.VISIBLE);
 
                         //quantite = actualStock;
-
-
                         qte_Tv.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                qte_Tv.setText("1");
+                                qte_Tv.setText("");
                                 quantite = 1;
 
                             }
                         });
-                    }if(quantite<=0){
+
+
+                    }else if(quantite<=0){
                         quantite = 1;
                         qte_Tv.setText("1");
 
                     }
-                    else{
+                    else if(quantite<=stock){
                         qte_Tv.setTextColor(Color.parseColor("#FFA5A5A5"));
+                        errorQteTv.setVisibility(View.GONE);
 
                     }
                     String stringUnitPrice =   prixTv.getText().toString();
                     totalProductPrice = quantite * Double.valueOf(stringUnitPrice);
 
-
                     DecimalFormat df = new DecimalFormat("#.###");
                     String formattedTotalPrice = df.format(totalProductPrice);
-
-
 
                     prixTotTvVal.setText(String.valueOf(String.valueOf(totalProductPrice)));
 
@@ -644,16 +650,19 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
 
                         if(produitCondition!=null){
 
-                            quantite = 1;
+                            quantite = Integer.valueOf(qte_Tv.getText().toString());
+                            /*
                             if(!qte_Tv.getText().toString().equals("1") ){
                                 qte_Tv.setText("1");
                             }
 
-                            totalProductPrice = produitCondition.getTC_Prix();
+                             */
+
+                            totalProductPrice = quantite * produitCondition.getTC_Prix();
+                            prixTotTvVal.setText(String.valueOf(totalProductPrice));
 
                             prixTv.setText(String.valueOf(produitCondition.getTC_Prix()));
 
-                            prixTotTvVal.setText(String.valueOf(totalProductPrice));
 
                             refTv.setText(String.valueOf(produitCondition.getAS_QteSto()));
                             actualStock = produitCondition.getAS_QteSto();
