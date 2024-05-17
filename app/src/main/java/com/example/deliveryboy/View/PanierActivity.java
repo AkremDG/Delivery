@@ -38,6 +38,7 @@ import com.google.android.material.button.MaterialButton;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class PanierActivity extends AppCompatActivity implements quantiteInterface, PanierCallbacks {
     int id;
@@ -233,12 +234,12 @@ public class PanierActivity extends AppCompatActivity implements quantiteInterfa
                         public void onChanged(List<SelectedProduit> modifiedSelectedProduits) {
 
 
-                            id++;
 
                             for(SelectedProduit selectedProduit : modifiedSelectedProduits){
+                                 int randomId = new Random().nextInt(61) + 20;
 
                                 DemandeProduitItem demandeProduitItem = new DemandeProduitItem(
-                                        id,
+                                        randomId,
 
                                         Integer.valueOf(selectedProduit.getIdArtConditionnement()) ,
 
@@ -254,8 +255,13 @@ public class PanierActivity extends AppCompatActivity implements quantiteInterfa
                         }
                     });
 
+                    DecimalFormat decimalFormat = new DecimalFormat("#.###");
+                    String formattedValue = decimalFormat.format(totalPanier);
+                    String formattedValueWithoutCommas = formattedValue.replace(",", ".");
 
-                    Demande demande = new Demande(demandeProduitItemList, totalPanier);
+                    double formattedTotalPanier = Double.parseDouble(formattedValueWithoutCommas);
+
+                    Demande demande = new Demande(demandeProduitItemList, formattedTotalPanier);
 
                     Log.i("DEMAAAAAAAAAND", String.valueOf(demande));
                     demandeChargViewModel.sendDemandApi(PanierActivity.this, demande).observe(PanierActivity.this, new Observer<Boolean>() {
