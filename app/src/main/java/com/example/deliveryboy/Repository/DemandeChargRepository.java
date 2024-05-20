@@ -12,6 +12,7 @@ import com.example.deliveryboy.Database.DatabaseInstance;
 import com.example.deliveryboy.Model.Demande;
 import com.example.deliveryboy.Model.Produit;
 import com.example.deliveryboy.Model.ProduitCondition;
+import com.example.deliveryboy.Model.Responses.GETDemandeChargementRes;
 import com.example.deliveryboy.Model.Responses.LocalPriceAndQuantity;
 import com.example.deliveryboy.Utils.SessionManager;
 
@@ -58,32 +59,6 @@ public class DemandeChargRepository {
                                             DatabaseInstance.getInstance(context).demadesChargDao().insertAllProducts(response.body());
 
 
-
-
-                                            /*
-
-                                            for(Produit produit : response.body()){
-                                                Log.i("ENTERRRRRRRRRRRRRRR", "STARTTTTTTTTTTT");
-
-                                                for(ProduitCondition produitCondition : produit.getArticleConditionsList()){
-                                                    String productBoId = produit.getBoId();
-
-                                                    produitCondition.setProduitBoId(productBoId);
-                                                    DatabaseInstance.getInstance(context).demadesChargDao().insertProductCondition(produitCondition);
-
-                                                }
-                                            }
-                                            Log.i("ENTERRRRRRRRRRRRRRR", "ENDDDDDDDDD");
-
-                                             */
-
-
-
-
-
-
-
-// Assuming response.body() returns a list of Produit objects
                                             List<Produit> produits = response.body();
                                             if (produits != null && !produits.isEmpty()) {
 
@@ -233,5 +208,111 @@ public class DemandeChargRepository {
     }
 
 
+    public MutableLiveData<Boolean> getAllDemandesApiAndInsertLocally(Context context){
+        MutableLiveData<Boolean> resultLiveData = new MutableLiveData<>();
+
+        RetrofitClientInstance.getRetrofitClient().create(DemandsApi.class).getAllDemandes(SessionManager.getInstance().getToken(context)).clone()
+                .enqueue(new Callback<List<GETDemandeChargementRes>>() {
+                    @Override
+                    public void onResponse(Call<List<GETDemandeChargementRes>> call, Response<List<GETDemandeChargementRes>> response) {
+                        if(response.isSuccessful()){
+
+
+                            executor.execute(new Runnable() {
+                                @Override
+                                public void run() {
+
+
+                            boolean isOldDemandesDeleted;
+
+                            try {
+                                DatabaseInstance.getInstance(context).demadesChargDao().deleteAllDemandes();
+                                Log.i("DELETEEEEEEEEEEEEEEE","FAILLLLLLL");
+
+                                isOldDemandesDeleted = true;
+                            }catch (Exception e){
+                                Log.i("DELETEEEEEEEEEEEEEEE",e.getMessage());
+
+                                isOldDemandesDeleted = false;
+
+                            }
+
+                            if(isOldDemandesDeleted){
+
+                                executor.execute(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        try {
+                                            DatabaseInstance.getInstance(context).demadesChargDao().insertAllDemandes(response.body());
+                                            resultLiveData.postValue(true);
+                                            Log.i("INSERTTTTTTTTTTTT","SUCCESSSSS");
+
+                                        }catch (Exception e){
+                                            resultLiveData.postValue(false);
+                                            Log.i("INSERTTTTTTTTTTTT", e.getMessage());
+
+                                        }
+
+                                    }
+                                });
+
+
+                            }else {
+                                resultLiveData.postValue(false);
+
+                            }
+
+
+
+
+
+
+
+                                }
+                            });
+
+
+
+
+                        }else {
+                            resultLiveData.postValue(false);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<GETDemandeChargementRes>> call, Throwable t) {
+
+                        resultLiveData.postValue(false);
+                        Log.i("GEEEEEEEEET", t.getMessage());
+
+
+                    }
+                });
+
+        return resultLiveData;
+
+    }
+
+
+    public MutableLiveData<List<GETDemandeChargementRes>> getAllLocalDemandes(Context context){
+
+        MutableLiveData<List<GETDemandeChargementRes>> listMutableLiveData = new MutableLiveData<>();
+
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    listMutableLiveData.postValue(DatabaseInstance.getInstance(context).demadesChargDao().getAllLocalDemandes());
+                    Log.i("GETTTTTTTALLLLLL", "TRUEEEEEEEE: ");
+
+                }catch (Exception e){
+                    listMutableLiveData.postValue(null);
+                    Log.i("GETTTTTTTALLLLLL", e.getMessage());
+                }
+            }
+        });
+        return listMutableLiveData;
+    }
 
 }

@@ -8,6 +8,7 @@ import androidx.room.Query;
 
 import com.example.deliveryboy.Model.Produit;
 import com.example.deliveryboy.Model.ProduitCondition;
+import com.example.deliveryboy.Model.Responses.GETDemandeChargementRes;
 import com.example.deliveryboy.Model.Responses.LocalPriceAndQuantity;
 
 import java.util.List;
@@ -17,6 +18,16 @@ public interface DemadesChargDao {
 
     @Insert
     void insertAllProducts(List<Produit> produitList);
+
+
+    @Insert
+    void insertAllDemandes(List<GETDemandeChargementRes> demandeChargementResList);
+
+    @Query("DELETE FROM GETDemandeChargementRes")
+    void deleteAllDemandes();
+
+    @Query("SELECT * FROM GETDemandeChargementRes")
+    List<GETDemandeChargementRes> getAllLocalDemandes();
 
     @Query("DELETE FROM Produit")
     void deleteAllProducts();

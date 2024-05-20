@@ -536,7 +536,88 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
             }
         });
 
+        ///////SPINERRRRRRRRRR
+        List<String> conditionsStrings = new ArrayList<>();
 
+        Spinner conditionSpinner = dialog.findViewById(R.id.conditionSpinner);
+        conditionsStrings.add(customProduit.getProductCondition());
+
+        demandeChargViewModel.getLocalProductsConditions(CreateDemande.this,listProduits.get(position).getBoId()).observe(CreateDemande.this, new Observer<List<ProduitCondition>>() {
+            @Override
+            public void onChanged(List<ProduitCondition> produitConditions) {
+                selectedProduitsConditionArticleX.addAll(produitConditions);
+                Log.i("ConditionnementProduit", produitConditions.toString());
+                for(ProduitCondition produitCondition : produitConditions){
+                    if(!conditionsStrings.contains(produitCondition.getEC_Enumere())){
+                        conditionsStrings.add(produitCondition.getEC_Enumere());
+                    }
+                }
+            }
+        });
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(CreateDemande.this, R.layout.customspinner,R.id.regionName_tv, conditionsStrings);
+        conditionSpinner.setAdapter(adapter);
+
+
+
+
+        conditionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+
+                demandeChargViewModel.getLocalPriceByIdAndProductId(CreateDemande.this,
+                        listProduits.get(positionRv).getBoId(),
+                        String.valueOf(parent.getItemAtPosition(position))).observe(CreateDemande.this,
+                        new Observer<ProduitCondition>() {
+                            @Override
+                            public void onChanged(ProduitCondition produitCondition) {
+
+                                if(produitCondition!=null){
+
+                                    quantite = Integer.valueOf(qte_Tv.getText().toString());
+                            /*
+                            if(!qte_Tv.getText().toString().equals("1") ){
+                                qte_Tv.setText("1");
+                            }
+
+                             */
+
+                                    totalProductPrice = quantite * produitCondition.getTC_Prix();
+                                    prixTotTvVal.setText(String.valueOf(totalProductPrice));
+
+                                    prixTv.setText(String.valueOf(produitCondition.getTC_Prix()));
+
+
+                                    refTv.setText(String.valueOf(produitCondition.getAS_QteSto()));
+                                    actualStock = produitCondition.getAS_QteSto();
+
+                                    if(produitCondition.getAS_QteSto()==0){
+                                        addButton.setBackgroundColor(Color.parseColor("#FEF0DD"));
+
+                                        refTv.setTextColor(Color.RED);
+                                        addButton.setEnabled(false);
+
+                                    }else {
+                                        refTv.setTextColor(Color.parseColor("#49968C"));
+                                        addButton.setEnabled(true);
+                                        addButton.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.orange_btn_color));
+
+                                    }
+                                }
+
+                            }
+                        });
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        //////////////////////
         qte_Tv.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -559,10 +640,8 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
 
 
                         quantite = (int) Math.floor(actualStock);
-
                         qte_Tv.setText(String.valueOf(quantite));
                         qte_Tv.setTextColor(getResources().getColor(R.color.orange_btn_color));
-
                         errorQteTv.setVisibility(View.VISIBLE);
 
                         //quantite = actualStock;
@@ -607,91 +686,23 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
             @Override
             public void afterTextChanged(Editable s) {
 
-            }
-        });
+                if(s.toString().equals("")){
+                    errorQteTv.setVisibility(View.VISIBLE);
+                    errorQteTv.setText("Choisir la quantitée !");
+                    conditionSpinner.setVisibility(View.GONE);
+                    addButton.setEnabled(false);
 
-        ///////SPINERRRRRRRRRR
-        List<String> conditionsStrings = new ArrayList<>();
+                }else {
+                    errorQteTv.setVisibility(View.GONE);
+                    errorQteTv.setText("Stock indisponible !");
+                    conditionSpinner.setVisibility(View.VISIBLE);
+                    addButton.setEnabled(true);
 
-        Spinner conditionSpinner = dialog.findViewById(R.id.conditionSpinner);
-        conditionsStrings.add(customProduit.getProductCondition());
-
-        demandeChargViewModel.getLocalProductsConditions(CreateDemande.this,listProduits.get(position).getBoId()).observe(CreateDemande.this, new Observer<List<ProduitCondition>>() {
-            @Override
-            public void onChanged(List<ProduitCondition> produitConditions) {
-                selectedProduitsConditionArticleX.addAll(produitConditions);
-                Log.i("ConditionnementProduit", produitConditions.toString());
-                for(ProduitCondition produitCondition : produitConditions){
-                    if(!conditionsStrings.contains(produitCondition.getEC_Enumere())){
-                        conditionsStrings.add(produitCondition.getEC_Enumere());
-                    }
                 }
             }
         });
 
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(CreateDemande.this, R.layout.customspinner,R.id.regionName_tv, conditionsStrings);
-        conditionSpinner.setAdapter(adapter);
-
-
-
-
-        conditionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-
-                demandeChargViewModel.getLocalPriceByIdAndProductId(CreateDemande.this,
-                        listProduits.get(positionRv).getBoId(),
-                        String.valueOf(parent.getItemAtPosition(position))).observe(CreateDemande.this,
-                        new Observer<ProduitCondition>() {
-                    @Override
-                    public void onChanged(ProduitCondition produitCondition) {
-
-                        if(produitCondition!=null){
-
-                            quantite = Integer.valueOf(qte_Tv.getText().toString());
-                            /*
-                            if(!qte_Tv.getText().toString().equals("1") ){
-                                qte_Tv.setText("1");
-                            }
-
-                             */
-
-                            totalProductPrice = quantite * produitCondition.getTC_Prix();
-                            prixTotTvVal.setText(String.valueOf(totalProductPrice));
-
-                            prixTv.setText(String.valueOf(produitCondition.getTC_Prix()));
-
-
-                            refTv.setText(String.valueOf(produitCondition.getAS_QteSto()));
-                            actualStock = produitCondition.getAS_QteSto();
-
-                            if(produitCondition.getAS_QteSto()==0){
-                                addButton.setBackgroundColor(Color.parseColor("#FEF0DD"));
-
-                                refTv.setTextColor(Color.RED);
-                                addButton.setEnabled(false);
-
-                            }else {
-                                refTv.setTextColor(Color.parseColor("#49968C"));
-                                addButton.setEnabled(true);
-                                addButton.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.orange_btn_color));
-
-                            }
-                        }
-
-                    }
-                });
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        //////////////////////
 
 
 

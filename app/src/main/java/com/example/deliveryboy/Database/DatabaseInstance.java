@@ -10,8 +10,9 @@ import com.example.deliveryboy.Model.ProduitCondition;
 import com.example.deliveryboy.Model.Client;
 import com.example.deliveryboy.Model.Mission;
 import com.example.deliveryboy.Model.Produit;
+import com.example.deliveryboy.Model.Responses.GETDemandeChargementRes;
 
-@Database(entities = {Mission.class, Client.class, Produit.class, ProduitCondition.class}, version = 16,exportSchema = false)
+@Database(entities = {Mission.class, Client.class, Produit.class, ProduitCondition.class, GETDemandeChargementRes.class}, version = 17,exportSchema = false)
 public abstract class DatabaseInstance extends RoomDatabase {
 
     public static DatabaseInstance instance;

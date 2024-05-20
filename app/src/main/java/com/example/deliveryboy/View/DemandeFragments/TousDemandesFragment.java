@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,10 +27,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.deliveryboy.Adapters.DemandesAdapter.DemandesRvAdapter;
 import com.example.deliveryboy.Adapters.MissionsRvAdapter;
 import com.example.deliveryboy.Adapters.RvInterface;
 import com.example.deliveryboy.Model.CustomProduit;
 import com.example.deliveryboy.Model.Mission;
+import com.example.deliveryboy.Model.Responses.GETDemandeChargementRes;
 import com.example.deliveryboy.Model.Visite;
 import com.example.deliveryboy.R;
 import com.example.deliveryboy.Utils.InternetChecker;
@@ -47,12 +50,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import retrofit2.http.GET;
+
 
 public class TousDemandesFragment extends Fragment implements RvInterface {
 
     private ConstraintLayout internetBg;
 
-    private List<Mission> missionList = new ArrayList<>();
+    private List<GETDemandeChargementRes> demandesList = new ArrayList<>();
     private RecyclerView listDemandsRv;
     private View view;
     private List<Visite> visiteList ;
@@ -63,7 +68,7 @@ public class TousDemandesFragment extends Fragment implements RvInterface {
 
 
     private ProgressBar progressBar;
-    private MissionsRvAdapter adapter;
+    private DemandesRvAdapter adapter;
 
     private FloatingActionButton addDemandFab,synchro_fab;
 
@@ -120,10 +125,13 @@ public class TousDemandesFragment extends Fragment implements RvInterface {
         });
     }
     private void uiSetup() {
+        demandeChargViewModel = new DemandeChargViewModel();
+
+
         progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(view.getContext(), R.color.orange_btn_color),
                 PorterDuff.Mode.SRC_IN);
 
-        adapter = new MissionsRvAdapter(getContext(), missionList, TousDemandesFragment.this );
+        adapter = new DemandesRvAdapter(getContext(), demandesList );
         listDemandsRv.setLayoutManager(new LinearLayoutManager(getContext()));
         listDemandsRv.setAdapter(adapter);
     }
@@ -215,19 +223,34 @@ public class TousDemandesFragment extends Fragment implements RvInterface {
 
     }
 
-    @SuppressLint("FragmentLiveDataObserve")
     private void DisplayData(List<Visite> visites) {
 
 
-
-
         if(InternetChecker.isConnectedToInternet(getContext())){
+            progressBar.setVisibility(View.VISIBLE);
 
+            demandeChargViewModel.getDemandesApi(getContext()).observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+                @Override
+                public void onChanged(Boolean aBoolean) {
+                    if(aBoolean==false){
+                        internetBg.setVisibility(View.VISIBLE);
+                        listDemandsRv.setVisibility(View.VISIBLE);
+                        getAndDisplayLocalMissions();
+                    }else {
+                        listDemandsRv.setVisibility(View.VISIBLE);
+                        internetBg.setVisibility(View.GONE);
+
+                        getAndDisplayLocalMissions();
+
+                    }
+                }
+            });
 
 
 
         }else {
 
+            UiUtils.showSnackbar(view,"Pas de connexion internet ","Fermer");
         }
 
 
@@ -236,9 +259,36 @@ public class TousDemandesFragment extends Fragment implements RvInterface {
     }
     @SuppressLint("FragmentLiveDataObserve")
     private void getAndDisplayLocalMissions() {
+        demandeChargViewModel.getLocalDemandes(getContext()).observe(TousDemandesFragment.this, new Observer<List<GETDemandeChargementRes>>() {
+            @Override
+            public void onChanged(List<GETDemandeChargementRes> demandeChargementResList) {
+                if(demandeChargementResList!=null){
+
+                    if(demandeChargementResList.size()>0){
+
+                        Log.i("LOCALLLLLL", demandeChargementResList.get(0).toString());
+
+                        progressBar.setVisibility(View.INVISIBLE);
+                        demandesList.clear();
+                        demandesList.addAll(demandeChargementResList);
+                        adapter.notifyDataSetChanged();
 
 
 
+
+
+                    }else {
+                        Log.i("LOCALLLLLL", "null");
+
+                        progressBar.setVisibility(View.VISIBLE);
+
+                    }
+
+
+                }
+
+            }
+        });
     }
 
 
@@ -262,9 +312,12 @@ public class TousDemandesFragment extends Fragment implements RvInterface {
     @Override
     public void onItemClick(int position) {
 
+        /*
         Intent intent = new Intent(getActivity(), MissionDetails.class);
         intent.putExtra("MissionIntent",(Serializable) missionList.get(position));
         startActivity(intent);
+
+         */
 
 
     }

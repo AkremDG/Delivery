@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="12dp"
+
+    >
+
+
+    <View
+        android:layout_marginTop="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+
+        android:background="#EDEDED"
+        app:layout_constraintTop_toBottomOf="@id/calender_iv" />
+
+    <TextView
+        android:id="@+id/idDemande_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/exo"
+        android:textSize="16sp"
+        android:text="Demande : 1"
+        android:textColor="@color/se_con_col"
+
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    <TextView
+        android:id="@+id/type_visite_Tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/exo"
+        android:visibility="gone"
+        android:text="Visite de réactiviation"
+        android:textColor="@color/se_con_col"
+        app:layout_constraintStart_toEndOf="@+id/clients_iv"
+        android:layout_marginLeft="5dp"
+        app:layout_constraintTop_toTopOf="@id/clients_iv"
+        app:layout_constraintBottom_toBottomOf="@+id/idDemande_tv" />
+
+
+    <ImageView
+        android:id="@+id/clients_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/clients_icon_24"
+        android:visibility="gone"
+
+        app:layout_constraintTop_toBottomOf="@id/idDemande_tv"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+    <ImageView
+        android:id="@+id/calender_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/cal_icon"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@id/clients_iv"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
+    <TextView
+        android:id="@+id/startsDate_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/exo"
+
+        android:textSize="14sp"
+        android:text="17/08/2024"
+        android:textColor="@color/se_con_col"
+        app:layout_constraintStart_toEndOf="@+id/calender_iv"
+        android:layout_marginLeft="5dp"
+        app:layout_constraintTop_toTopOf="@id/calender_iv"
+        app:layout_constraintBottom_toBottomOf="@+id/calender_iv" />
+
+
+
+
+
+
+    <TextView
+        android:id="@+id/nbClients_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/exo"
+
+        android:visibility="gone"
+        android:text="2 Clients"
+        android:textColor="@color/se_con_col"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginLeft="5dp"
+        app:layout_constraintTop_toTopOf="@id/nbClients_iv"
+        app:layout_constraintBottom_toBottomOf="@+id/nbClients_iv" />
+
+
+    <ImageView
+        android:id="@+id/nbClients_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/clients_icon"
+        android:layout_marginTop="5dp"
+        android:visibility="gone"
+
+        android:layout_marginRight="5dp"
+        app:layout_constraintTop_toTopOf="@+id/calender_iv"
+        app:layout_constraintBottom_toBottomOf="@id/calender_iv"
+        app:layout_constraintEnd_toStartOf="@id/nbClients_tv"/>
+
+
+
+    <TextView
+        android:id="@+id/status_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="En cours"
+
+        android:textColor="@color/orange_btn_color"
+        app:layout_constraintBottom_toBottomOf="@+id/startsDate_tv"
+
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.deliveryboy.Model.Demande;
 import com.example.deliveryboy.Model.Produit;
 import com.example.deliveryboy.Model.ProduitCondition;
+import com.example.deliveryboy.Model.Responses.GETDemandeChargementRes;
 import com.example.deliveryboy.Model.Responses.LocalPriceAndQuantity;
 import com.example.deliveryboy.Repository.DemandeChargRepository;
 
@@ -39,5 +40,12 @@ public class DemandeChargViewModel {
 
     public MutableLiveData<Boolean> sendDemandApi(Context context, Demande demande){
         return demandeChargRepository.sendDemandApi(context, demande);
+    }
+    public MutableLiveData<Boolean> getDemandesApi(Context context){
+        return demandeChargRepository.getAllDemandesApiAndInsertLocally(context);
+    }
+
+    public MutableLiveData<List<GETDemandeChargementRes>> getLocalDemandes(Context context){
+        return demandeChargRepository.getAllLocalDemandes(context);
     }
 }
