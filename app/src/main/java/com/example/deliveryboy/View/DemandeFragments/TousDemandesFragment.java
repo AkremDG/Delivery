@@ -8,6 +8,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
@@ -42,20 +43,27 @@ import com.example.deliveryboy.View.MissionsFragment.TousFragment;
 import com.example.deliveryboy.ViewModel.DemandeChargViewModel;
 import com.example.deliveryboy.ViewModel.MissionsViewModel;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import retrofit2.http.GET;
 
 
-public class TousDemandesFragment extends Fragment implements RvInterface {
+public class TousDemandesFragment extends Fragment {
 
+    private boolean isSynchronized = true ;
     private ConstraintLayout internetBg;
+
+    private View constraintRootView;
 
     private List<GETDemandeChargementRes> demandesList = new ArrayList<>();
     private RecyclerView listDemandsRv;
@@ -70,7 +78,7 @@ public class TousDemandesFragment extends Fragment implements RvInterface {
     private ProgressBar progressBar;
     private DemandesRvAdapter adapter;
 
-    private FloatingActionButton addDemandFab,synchro_fab;
+    private FloatingActionButton addDemandFab,synchro_fab,dateFab;
 
 
     @Override
@@ -79,15 +87,14 @@ public class TousDemandesFragment extends Fragment implements RvInterface {
         view = inflater.inflate(R.layout.fragment_tous_demandes, container, false);
 
         bindViews();
-        uiSetup();
-        DisplayData(visiteList);
+        uiSetup(demandesList);
+        DisplayData();
         uiListeners();
-        //scrollllllllllll show bar searchhhhhh
-        //HandleEvents();
 
         return view;
     }
     private void uiListeners() {
+
         addDemandFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,159 +105,202 @@ public class TousDemandesFragment extends Fragment implements RvInterface {
 
 
 
-
         synchro_fab.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("FragmentLiveDataObserve")
             @Override
             public void onClick(View v) {
 
-                //.setVisibility(View.VISIBLE);
-                //listDemandsRv.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+                listDemandsRv.setVisibility(View.GONE);
 
 
                 if(InternetChecker.isConnectedToInternet(getContext())){
 
+                    demandeChargViewModel.getDemandesApi(getContext()).observe(TousDemandesFragment.this, new Observer<Boolean>() {
+                        @Override
+                        public void onChanged(Boolean aBoolean) {
+                            if(aBoolean==false){
+                                UiUtils.showSnackbar(view,"Erreur synchronisation","Fermer");
 
+                                internetBg.setVisibility(View.VISIBLE);
+                                isSynchronized = false;
+
+                                listDemandsRv.setVisibility(View.VISIBLE);
+                                getAndDisplayLocalMissions();
+                            }else {
+                                listDemandsRv.setVisibility(View.VISIBLE);
+                                internetBg.setVisibility(View.GONE);
+                                isSynchronized = true;
+
+                                getAndDisplayLocalMissions();
+
+                            }
+                        }
+                    });
 
                 }else {
-                    //progressBar.setVisibility(View.GONE);
-                    //listDemandsRv.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
+                    listDemandsRv.setVisibility(View.VISIBLE);
 
-                    //internetBg.setVisibility(View.VISIBLE);
+                    internetBg.setVisibility(View.VISIBLE);
+                    isSynchronized = false;
 
-                    //UiUtils.showSnackbar(view,"Erreur de connexion internet","Fermer");
+                    UiUtils.showSnackbar(view,"Erreur de connexion internet","Fermer");
                 }
 
             }
         });
+
+
+        dateFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                List<GETDemandeChargementRes> filtredListByDate = new ArrayList<>();
+
+                MaterialDatePicker<Long> materialDatePicker = MaterialDatePicker.Builder.datePicker()
+                        .setTitleText("Choisir la date")
+                        .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                        .build();
+
+
+                materialDatePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
+                    @Override
+                    public void onPositiveButtonClick(Long selection) {
+
+                        String date = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date(selection));
+
+                        Log.i("DATEEEEEEEEE", date);
+
+                        for(GETDemandeChargementRes demandeChargementRes : demandesList){
+                            if(demandeChargementRes.getDO_Date().equals(date)){
+
+                                filtredListByDate.add(demandeChargementRes);
+
+
+
+                            }
+                        }
+
+
+                        if(filtredListByDate.size()>0){
+
+                            uiSetup(filtredListByDate);
+                            synchTv.setText(date);
+
+                            internetBg.setVisibility(View.VISIBLE);
+                            // dont seeeeeeeeeeeeet
+
+                        }
+                    }
+
+                });
+
+                materialDatePicker.addOnNegativeButtonClickListener(new View.OnClickListener() {
+                    @SuppressLint("ResourceType")
+                    @Override
+                    public void onClick(View v) {
+
+
+                        uiSetup(demandesList);
+                        synchTv.setText("Données non synchnorisés");
+
+                        if(isSynchronized == true){
+                            internetBg.setVisibility(View.GONE);
+                        }else {
+                            internetBg.setVisibility(View.VISIBLE);
+
+                        }
+
+                    }
+                });
+                materialDatePicker.show(getChildFragmentManager(), "tag");
+
+            }
+        });
+
+
+
+        listDemandsRv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (dy > 0) {
+                    // Scrolling down
+                    dateFab.hide();
+                    synchro_fab.hide();
+                    addDemandFab.hide();
+                } else if (dy < 0) {
+                    // Scrolling up
+                    dateFab.show();
+                    synchro_fab.show();
+                    addDemandFab.show();
+                }
+            }
+
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    // Scrolling stopped
+                    dateFab.show();
+                    synchro_fab.show();
+                    addDemandFab.show();
+
+                }
+            }
+        });
+
+
+
+
     }
-    private void uiSetup() {
+    private void uiSetup(List<GETDemandeChargementRes> filtredList) {
         demandeChargViewModel = new DemandeChargViewModel();
 
 
         progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(view.getContext(), R.color.orange_btn_color),
                 PorterDuff.Mode.SRC_IN);
 
-        adapter = new DemandesRvAdapter(getContext(), demandesList );
+        adapter = new DemandesRvAdapter(getContext(), filtredList );
         listDemandsRv.setLayoutManager(new LinearLayoutManager(getContext()));
         listDemandsRv.setAdapter(adapter);
     }
 
-    private void HandleEvents() {
-        listDemandsRv.setOnScrollChangeListener(new View.OnScrollChangeListener()     {
-            private int scrollThreshold = 20;
-            private boolean scrolledDown = false;
-            private int oldScrollY = 0;
 
-            @Override
-            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (scrollY > oldScrollY + scrollThreshold) {
-                    // Scrolling down
-                    if (!scrolledDown) {
-                        scrolledDown = true;
-                        // Hide the views with animation
-                        animateViewVisibilityWithFadeOut(searchBar_tt);
-                    }
-                } else if (scrollY < oldScrollY - scrollThreshold) {
-                    // Scrolling up
-                    if (scrolledDown) {
-                        scrolledDown = false;
-                        // Show the views with animation
-                        animateViewVisibilityWithFadeIn(searchBar_tt);
-                    }
-                }
-
-                oldScrollY = scrollY;
-            }
-
-            private void animateViewVisibilityWithFadeOut(final View view) {
-                view.animate()
-                        .alpha(0f)
-                        .withEndAction(new Runnable() {
-                            @Override
-                            public void run() {
-                                view.setVisibility(View.GONE);
-                            }
-                        })
-                        .start();
-            }
-
-            private void animateViewVisibilityWithFadeIn(final View view) {
-                view.setVisibility(View.VISIBLE);
-                view.setAlpha(0f);
-                view.animate()
-                        .alpha(1f)
-                        .start();
-            }
-
-        });
-
-
-        searchBar_tt.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                List<Visite> listVisists = new ArrayList<>();
-                boolean dataFound = false;
-
-                if (newText.length()==0) {
-                    DisplayData(visiteList);
-                }
-                else{
-
-                    for (Visite visite : visiteList) {
-                        if (visite.getTypeVisite().toLowerCase(Locale.ROOT).contains(newText) || visite.getZone().toLowerCase().contains(newText) || visite.getUser().getEmail().toLowerCase(Locale.ROOT).contains(newText)) {
-                            listVisists.add(visite);
-                            dataFound = true;
-                        }
-                    }
-                    if (dataFound) {
-                        DisplayData(listVisists);
-                    } else {
-                        listDemandsRv.setAdapter(null);
-                    }
-
-                }
-                return false;
-            }
-
-        });
-
-
-    }
-
-    private void DisplayData(List<Visite> visites) {
+    @SuppressLint("FragmentLiveDataObserve")
+    private void DisplayData() {
 
 
         if(InternetChecker.isConnectedToInternet(getContext())){
-            progressBar.setVisibility(View.VISIBLE);
 
-            demandeChargViewModel.getDemandesApi(getContext()).observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            demandeChargViewModel.getDemandesApi(getContext()).observe(TousDemandesFragment.this, new Observer<Boolean>() {
                 @Override
                 public void onChanged(Boolean aBoolean) {
                     if(aBoolean==false){
                         internetBg.setVisibility(View.VISIBLE);
-                        listDemandsRv.setVisibility(View.VISIBLE);
+                        isSynchronized = false;
+
                         getAndDisplayLocalMissions();
                     }else {
-                        listDemandsRv.setVisibility(View.VISIBLE);
                         internetBg.setVisibility(View.GONE);
+                        isSynchronized = true;
 
                         getAndDisplayLocalMissions();
-
                     }
                 }
             });
 
-
-
         }else {
 
-            UiUtils.showSnackbar(view,"Pas de connexion internet ","Fermer");
+            progressBar.setVisibility(View.GONE);
+
+            internetBg.setVisibility(View.VISIBLE);
+            isSynchronized = false;
+
+            getAndDisplayLocalMissions();
         }
 
 
@@ -266,19 +316,16 @@ public class TousDemandesFragment extends Fragment implements RvInterface {
 
                     if(demandeChargementResList.size()>0){
 
-                        Log.i("LOCALLLLLL", demandeChargementResList.get(0).toString());
+                        progressBar.setVisibility(View.GONE);
 
                         progressBar.setVisibility(View.INVISIBLE);
                         demandesList.clear();
+
                         demandesList.addAll(demandeChargementResList);
+
                         adapter.notifyDataSetChanged();
 
-
-
-
-
                     }else {
-                        Log.i("LOCALLLLLL", "null");
 
                         progressBar.setVisibility(View.VISIBLE);
 
@@ -292,8 +339,8 @@ public class TousDemandesFragment extends Fragment implements RvInterface {
     }
 
 
-
     public void bindViews(){
+
         internetBg = view.findViewById(R.id.internetBg);
 
         synchTv = view.findViewById(R.id.synchTv);
@@ -307,57 +354,12 @@ public class TousDemandesFragment extends Fragment implements RvInterface {
 
         addDemandFab = view.findViewById(R.id.add_demand_fab);
         synchro_fab = view.findViewById(R.id.synchro_demandes_fab);
-    }
 
-    @Override
-    public void onItemClick(int position) {
-
-        /*
-        Intent intent = new Intent(getActivity(), MissionDetails.class);
-        intent.putExtra("MissionIntent",(Serializable) missionList.get(position));
-        startActivity(intent);
-
-         */
-
+        dateFab = view.findViewById(R.id.tousDemandeDateFac);
 
     }
 
-    @Override
-    public void onCommanderClick(int position) {
-
-    }
-
-    @Override
-    public void onItemClickReturnObject(CustomProduit customProduit, int position) {
-
-    }
-
-    public void showAlert(){
-        final Dialog dialog = new Dialog(getContext());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.bottom_sheet_layout);
-
-        ImageView closeIv = dialog.findViewById(R.id.close_iv);
-
-        closeIv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-        dialog.getWindow().setGravity(Gravity.BOTTOM);
 
 
-    }
 
-    public void fakeMissionsData(){
-        visiteList = new ArrayList<>();
-
-
-    }
 }

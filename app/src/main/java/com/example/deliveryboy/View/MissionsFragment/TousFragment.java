@@ -8,6 +8,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
@@ -82,6 +83,34 @@ public class TousFragment extends Fragment implements RvInterface {
         return view;
     }
     private void uiListeners() {
+        listCmds_Rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (dy > 0) {
+                    // Scrolling down
+                    addClient_fab.hide();
+                    synchro_fab.hide();
+                } else if (dy < 0) {
+                    // Scrolling up
+                    addClient_fab.show();
+                    synchro_fab.show();
+                }
+            }
+
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    // Scrolling stopped
+                    addClient_fab.show();
+                    synchro_fab.show();
+
+                }
+            }
+        });
         addClient_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

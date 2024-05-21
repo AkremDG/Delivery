@@ -28,6 +28,10 @@ public class GETDemandeChargementRes {
     @SerializedName("DO_Date")
     private String DO_Date;
 
+    @ColumnInfo(name = "Do_Time")
+    @SerializedName("Do_Time")
+    private String Do_Time;
+
 
 
     @ColumnInfo(name = "DO_TotalHT")
@@ -47,6 +51,17 @@ public class GETDemandeChargementRes {
 
     public GETDemandeChargementRes(){
 
+    }
+
+    public GETDemandeChargementRes(int localId, int boId, String numCmd, String DO_Date, String do_Time, Double DO_TotalHT, String statut, List<CmdLigne> cmdLigneList) {
+        this.localId = localId;
+        this.boId = boId;
+        NumCmd = numCmd;
+        this.DO_Date = DO_Date;
+        Do_Time = do_Time;
+        this.DO_TotalHT = DO_TotalHT;
+        Statut = statut;
+        this.cmdLigneList = cmdLigneList;
     }
 
     public int getLocalId() {
@@ -81,6 +96,14 @@ public class GETDemandeChargementRes {
         this.DO_Date = DO_Date;
     }
 
+    public String getDo_Time() {
+        return Do_Time;
+    }
+
+    public void setDo_Time(String do_Time) {
+        Do_Time = do_Time;
+    }
+
     public Double getDO_TotalHT() {
         return DO_TotalHT;
     }
@@ -112,6 +135,7 @@ public class GETDemandeChargementRes {
                 ", boId=" + boId +
                 ", NumCmd='" + NumCmd + '\'' +
                 ", DO_Date='" + DO_Date + '\'' +
+                ", Do_Time='" + Do_Time + '\'' +
                 ", DO_TotalHT=" + DO_TotalHT +
                 ", Statut='" + Statut + '\'' +
                 ", cmdLigneList=" + cmdLigneList +

@@ -48,4 +48,8 @@ public class DemandeChargViewModel {
     public MutableLiveData<List<GETDemandeChargementRes>> getLocalDemandes(Context context){
         return demandeChargRepository.getAllLocalDemandes(context);
     }
+
+    public MutableLiveData<List<GETDemandeChargementRes>> getLocalCloturesDemandes(Context context){
+        return demandeChargRepository.getAllLocalDemandesClotures(context);
+    }
 }

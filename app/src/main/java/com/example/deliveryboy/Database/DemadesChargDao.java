@@ -29,6 +29,9 @@ public interface DemadesChargDao {
     @Query("SELECT * FROM GETDemandeChargementRes")
     List<GETDemandeChargementRes> getAllLocalDemandes();
 
+    @Query("SELECT * FROM GETDemandeChargementRes WHERE Statut='Cloturée' ")
+    List<GETDemandeChargementRes> getAllLocalCloturesDemandes();
+
     @Query("DELETE FROM Produit")
     void deleteAllProducts();
 

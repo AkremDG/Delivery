@@ -315,4 +315,26 @@ public class DemandeChargRepository {
         return listMutableLiveData;
     }
 
+
+
+
+    public MutableLiveData<List<GETDemandeChargementRes>> getAllLocalDemandesClotures(Context context){
+
+        MutableLiveData<List<GETDemandeChargementRes>> listMutableLiveData = new MutableLiveData<>();
+
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    listMutableLiveData.postValue(DatabaseInstance.getInstance(context).demadesChargDao().getAllLocalCloturesDemandes());
+                    Log.i("GETTTTTTTALLLLLL", "TRUEEEEEEEE: ");
+
+                }catch (Exception e){
+                    listMutableLiveData.postValue(null);
+                    Log.i("GETTTTTTTALLLLLL", e.getMessage());
+                }
+            }
+        });
+        return listMutableLiveData;
+    }
 }

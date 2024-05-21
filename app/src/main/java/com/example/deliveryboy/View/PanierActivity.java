@@ -270,8 +270,17 @@ public class PanierActivity extends AppCompatActivity implements quantiteInterfa
                             if(aBoolean){
                                 progressBar.setVisibility(View.INVISIBLE);
 
-                                Intent intent = new Intent(PanierActivity.this,BottomNagContainerActivity.class);
-                                startActivity(intent);
+
+                                new android.os.Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        Intent intent = new Intent(PanierActivity.this,BottomNagContainerActivity.class);
+                                        startActivity(intent);
+                                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                                    }
+                                }, 100);
+
 
                             }else
                             {

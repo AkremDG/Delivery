@@ -6,6 +6,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".View.DemandeFragments.TousDemandesFragment">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/tousDemandeDateFac"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/synchro_demandes_fab"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16sp"
+
+        app:srcCompat="@drawable/cal_icon"
+        app:backgroundTint="@color/white"
+        app:tint="@color/orange_btn_color"/>
+
+
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -72,6 +85,10 @@
         app:layout_constraintHeight_default="wrap"
         layout_constrainedHeight="true"
         app:layout_constraintVertical_bias="0"
+
+
+        android:paddingBottom="250dp"
+        android:clipToPadding="false"
         />
 
 
