@@ -4,6 +4,7 @@ import androidx.room.AutoMigration;
 
 import com.example.deliveryboy.Model.Demande;
 import com.example.deliveryboy.Model.DemandeProduitItem;
+import com.example.deliveryboy.Model.Requests.PointagePostBody;
 import com.example.deliveryboy.Model.Responses.GETDemandeChargementRes;
 
 import java.util.List;
@@ -21,5 +22,9 @@ public interface DemandsApi {
 
     @GET("/api/cmd/mobile")
     Call<List<GETDemandeChargementRes>> getAllDemandes(@Header("Authorization")String auth);
+
+
+    @POST("/api/cmd/archive")
+    Call<String> postPointageArticles(@Body PointagePostBody pointagePostBody, @Header("Authorization")String auth);
 
 }

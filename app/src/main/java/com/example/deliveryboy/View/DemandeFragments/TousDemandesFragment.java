@@ -3,6 +3,7 @@ package com.example.deliveryboy.View.DemandeFragments;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
@@ -95,6 +96,15 @@ public class TousDemandesFragment extends Fragment {
     }
     private void uiListeners() {
 
+        adapter.getClickedChargementResMutableLiveData().observe(getViewLifecycleOwner(), new Observer<GETDemandeChargementRes>() {
+            @Override
+            public void onChanged(GETDemandeChargementRes getDemandeChargementRes) {
+                Intent intent = new Intent(getContext(), DemandeDetails.class);
+                intent.putExtra("demandeIntentExtra",getDemandeChargementRes);
+                startActivity(intent);
+            }
+        });
+
         addDemandFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,6 +178,8 @@ public class TousDemandesFragment extends Fragment {
                     @Override
                     public void onPositiveButtonClick(Long selection) {
 
+
+
                         String date = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date(selection));
 
                         Log.i("DATEEEEEEEEE", date);
@@ -200,6 +212,7 @@ public class TousDemandesFragment extends Fragment {
                     @SuppressLint("ResourceType")
                     @Override
                     public void onClick(View v) {
+
 
 
                         uiSetup(demandesList);

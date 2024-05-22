@@ -12,6 +12,8 @@ import com.example.deliveryboy.Database.DatabaseInstance;
 import com.example.deliveryboy.Model.Demande;
 import com.example.deliveryboy.Model.Produit;
 import com.example.deliveryboy.Model.ProduitCondition;
+import com.example.deliveryboy.Model.Requests.PointagePostBody;
+import com.example.deliveryboy.Model.Responses.CmdLigne;
 import com.example.deliveryboy.Model.Responses.GETDemandeChargementRes;
 import com.example.deliveryboy.Model.Responses.LocalPriceAndQuantity;
 import com.example.deliveryboy.Utils.SessionManager;
@@ -24,6 +26,7 @@ import java.util.concurrent.Executors;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.GET;
 
 public class DemandeChargRepository {
     Executor executor;
@@ -245,6 +248,36 @@ public class DemandeChargRepository {
 
                                         try {
                                             DatabaseInstance.getInstance(context).demadesChargDao().insertAllDemandes(response.body());
+                                            DatabaseInstance.getInstance(context).demadesChargDao().deleteAllCmdLignes();
+
+
+
+                                            List<GETDemandeChargementRes> demandes = response.body();
+                                            if (demandes != null && !demandes.isEmpty()) {
+
+                                                Log.i("STARTTTTINSERTION", "STARTTTTTTTTTTT");
+
+                                                List<CmdLigne> allCmdLignes = new ArrayList<>();
+
+                                                for (GETDemandeChargementRes demande : demandes) {
+
+                                                    int demandeBoId = demande.getBoId();
+
+                                                    for (CmdLigne cmdLigne : demande.getCmdLigneList()) {
+                                                        cmdLigne.setDemandeBoId(demandeBoId);
+                                                        allCmdLignes.add(cmdLigne);
+                                                    }
+                                                }
+
+                                                DatabaseInstance.getInstance(context)
+                                                        .demadesChargDao()
+                                                        .insertAllCmdLignes(allCmdLignes);
+
+                                                Log.i("STARTTTTINSERTION", "ENDDDDDDDDDDD");
+
+                                            }
+
+
                                             resultLiveData.postValue(true);
                                             Log.i("INSERTTTTTTTTTTTT","SUCCESSSSS");
 
@@ -337,4 +370,60 @@ public class DemandeChargRepository {
         });
         return listMutableLiveData;
     }
+
+    public MutableLiveData<List<CmdLigne>> getAllLocalCmdLignes(Context context, int boId){
+
+        MutableLiveData<List<CmdLigne>> listMutableLiveData = new MutableLiveData<>();
+
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    listMutableLiveData.postValue(DatabaseInstance.getInstance(context).demadesChargDao().getAllCmdLignes(boId));
+
+                    Log.i("CMDLIGNEEEEEEEEEEEEEEE", "TRUEEEEEEEE: ");
+
+                }catch (Exception e){
+                    listMutableLiveData.postValue(null);
+                    Log.i("CMDLIGNEEEEEEEEEEEEEEE", e.getMessage());
+                }
+            }
+        });
+
+        return listMutableLiveData;
+    }
+
+
+    public MutableLiveData<Boolean> sendPointageArticles(Context context, PointagePostBody pointagePostBody){
+
+        MutableLiveData<Boolean> returnedResult = new MutableLiveData<>();
+
+        RetrofitClientInstance.getRetrofitClient().create(DemandsApi.class).
+                postPointageArticles(pointagePostBody, SessionManager.getInstance().getToken(context
+        )).clone().enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()){
+
+                    Log.i("SENDDDDDDDDDPOINTAGE","success"+ response.message());
+
+                    returnedResult.postValue(true);
+                }else {
+                    returnedResult.postValue(false);
+                    Log.i("SENDDDDDDDDDPOINTAGE","FAIL"+ response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                returnedResult.postValue(false);
+                Log.i("SENDDDDDDDDDPOINTAGE", t.getMessage());
+
+            }
+        });
+        return returnedResult;
+
+    }
+
+
 }

@@ -69,7 +69,6 @@ public class PanierActivity extends AppCompatActivity implements quantiteInterfa
         bindViews();
         DisplayData();
         uiSetup();
-
         uiListeners();
 
         panierRvAdapter.getModifiedListProduit().observe(PanierActivity.this, new Observer<List<SelectedProduit>>() {

@@ -7,6 +7,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.deliveryboy.Model.Demande;
 import com.example.deliveryboy.Model.Produit;
 import com.example.deliveryboy.Model.ProduitCondition;
+import com.example.deliveryboy.Model.Requests.PointagePostBody;
+import com.example.deliveryboy.Model.Responses.CmdLigne;
 import com.example.deliveryboy.Model.Responses.GETDemandeChargementRes;
 import com.example.deliveryboy.Model.Responses.LocalPriceAndQuantity;
 import com.example.deliveryboy.Repository.DemandeChargRepository;
@@ -51,5 +53,13 @@ public class DemandeChargViewModel {
 
     public MutableLiveData<List<GETDemandeChargementRes>> getLocalCloturesDemandes(Context context){
         return demandeChargRepository.getAllLocalDemandesClotures(context);
+    }
+
+    public MutableLiveData<List<CmdLigne>> getLocalCmdLignes(Context context, int idBo){
+        return demandeChargRepository.getAllLocalCmdLignes(context,idBo);
+    }
+
+    public MutableLiveData<Boolean> sendPointageArticles(Context context, PointagePostBody pointagePostBody){
+        return demandeChargRepository.sendPointageArticles(context, pointagePostBody);
     }
 }

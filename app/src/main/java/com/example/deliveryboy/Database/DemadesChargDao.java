@@ -8,6 +8,7 @@ import androidx.room.Query;
 
 import com.example.deliveryboy.Model.Produit;
 import com.example.deliveryboy.Model.ProduitCondition;
+import com.example.deliveryboy.Model.Responses.CmdLigne;
 import com.example.deliveryboy.Model.Responses.GETDemandeChargementRes;
 import com.example.deliveryboy.Model.Responses.LocalPriceAndQuantity;
 
@@ -51,4 +52,15 @@ public interface DemadesChargDao {
 
     @Insert
    void insertAllProductConditions(List<ProduitCondition> list);
+
+    @Insert
+    void insertAllCmdLignes(List<CmdLigne> cmdLigneList);
+
+
+    @Query("SELECT * FROM CmdLigne WHERE demandeBoId=:boId")
+    List<CmdLigne> getAllCmdLignes(int boId);
+
+
+    @Query("DELETE FROM CmdLigne")
+    void deleteAllCmdLignes();
 }

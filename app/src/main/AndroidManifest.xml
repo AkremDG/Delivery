@@ -15,6 +15,9 @@
         android:theme="@style/Theme.DELIVERYBOY"
         tools:targetApi="31">
         <activity
+            android:name=".View.DemandeFragments.DemandeDetails"
+            android:exported="false" />
+        <activity
             android:name=".View.DemandeFragments.CreateDemande"
             android:exported="false" />
         <activity
@@ -38,9 +41,7 @@
             android:exported="false" />
         <activity
             android:name=".View.BottomNagContainerActivity"
-            android:exported="false">
-
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".View.EmailSuccessActivity"
             android:exported="false" />
