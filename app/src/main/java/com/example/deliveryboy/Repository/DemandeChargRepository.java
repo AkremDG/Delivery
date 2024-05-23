@@ -400,9 +400,9 @@ public class DemandeChargRepository {
 
         RetrofitClientInstance.getRetrofitClient().create(DemandsApi.class).
                 postPointageArticles(pointagePostBody, SessionManager.getInstance().getToken(context
-        )).clone().enqueue(new Callback<String>() {
+        )).clone().enqueue(new Callback<Object>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<Object> call, Response<Object> response) {
                 if(response.isSuccessful()){
 
                     Log.i("SENDDDDDDDDDPOINTAGE","success"+ response.message());
@@ -415,7 +415,7 @@ public class DemandeChargRepository {
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<Object> call, Throwable t) {
                 returnedResult.postValue(false);
                 Log.i("SENDDDDDDDDDPOINTAGE", t.getMessage());
 

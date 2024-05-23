@@ -26,6 +26,7 @@ import com.example.deliveryboy.Model.Responses.CmdLigne;
 import com.example.deliveryboy.Model.SelectedProduit;
 import com.example.deliveryboy.R;
 import com.example.deliveryboy.ViewModel.DemandeChargViewModel;
+import com.google.android.material.transition.Hold;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,9 +51,12 @@ public class CmdLigneRvAdapter extends RecyclerView.Adapter<CmdLigneRvAdapter.Pa
 
     MutableLiveData<Boolean> isErrorDetectedLiveData;
 
+    String statut ;
 
-    public CmdLigneRvAdapter(LifecycleOwner lifecycleOwner, Context context, List<CmdLigne> listProduit,
+
+    public CmdLigneRvAdapter(String statut,LifecycleOwner lifecycleOwner, Context context, List<CmdLigne> listProduit,
                              quantiteInterface quantiteInterface, PanierCallbacks panierCallbacks) {
+        this.statut = statut;
         this.context = context;
         this.listProduit = listProduit;
         this.quantiteInterface=quantiteInterface;
@@ -62,6 +66,8 @@ public class CmdLigneRvAdapter extends RecyclerView.Adapter<CmdLigneRvAdapter.Pa
         modifiedListProduitLiveData = new MutableLiveData<>();
         isErrorDetectedLiveData = new MutableLiveData<>();
         modifiedListProduit = listProduit;
+
+
 
     }
 
@@ -84,6 +90,19 @@ public class CmdLigneRvAdapter extends RecyclerView.Adapter<CmdLigneRvAdapter.Pa
         int rvPosition = position;
 
 
+        if(statut.equals("Cloturée")){
+            holder.deleteIv.setVisibility(View.VISIBLE);
+            holder.plus_Iv.setVisibility(View.VISIBLE);
+            holder.moins_Iv.setVisibility(View.VISIBLE);
+            holder.qte_Tv.setEnabled(true);
+
+        }else {
+            holder.deleteIv.setVisibility(View.INVISIBLE);
+            holder.plus_Iv.setVisibility(View.INVISIBLE);
+            holder.moins_Iv.setVisibility(View.INVISIBLE);
+            holder.qte_Tv.setEnabled(false);
+
+        }
         holder.deleteIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -215,16 +234,20 @@ public class CmdLigneRvAdapter extends RecyclerView.Adapter<CmdLigneRvAdapter.Pa
 
                 }
 
-                if(!s.equals(""))
+
+
+                if(!s.toString().equals(""))
                 {
 
-                    modifiedListProduit.get(rvPosition).setDemandedQuantity(Integer.valueOf(holder.qte_Tv.getText().toString()));
+                        modifiedListProduit.get(rvPosition).setDemandedQuantity(Integer.valueOf(holder.qte_Tv.getText().toString()));
 
-                    modifiedListProduit.get(rvPosition).setDemandedTotalPrice(Double.valueOf(holder.totalVal_tv.getText().toString()));
+                        modifiedListProduit.get(rvPosition).setDemandedTotalPrice(Double.valueOf(holder.totalVal_tv.getText().toString()));
 
+                        modifiedListProduitLiveData.postValue(modifiedListProduit);
 
-                    modifiedListProduitLiveData.postValue(modifiedListProduit);
                 }
+
+
 
 
 
@@ -316,6 +339,7 @@ public class CmdLigneRvAdapter extends RecyclerView.Adapter<CmdLigneRvAdapter.Pa
             errorQteTv= itemView.findViewById(R.id.errorQteTv);
             conditionSpinner = itemView.findViewById(R.id.conditionSpinner);
 
+
             deleteIv = itemView.findViewById(R.id.deleteIv);
             unitPriceValTv = itemView.findViewById(R.id.unitPriceValTv);
             stockValTv = itemView.findViewById(R.id.promoPanierVal_tv);
@@ -326,8 +350,6 @@ public class CmdLigneRvAdapter extends RecyclerView.Adapter<CmdLigneRvAdapter.Pa
             qte_Tv = itemView.findViewById(R.id.qte_Tv);
             moins_Iv = itemView.findViewById(R.id.moins_Iv);
             plus_Iv = itemView.findViewById(R.id.plus_Iv);
-
-
             deleteIv.setVisibility(View.VISIBLE);
 
 

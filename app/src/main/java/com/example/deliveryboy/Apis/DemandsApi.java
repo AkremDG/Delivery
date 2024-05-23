@@ -25,6 +25,6 @@ public interface DemandsApi {
 
 
     @POST("/api/cmd/archive")
-    Call<String> postPointageArticles(@Body PointagePostBody pointagePostBody, @Header("Authorization")String auth);
+    Call<Object> postPointageArticles(@Body PointagePostBody pointagePostBody, @Header("Authorization")String auth);
 
 }

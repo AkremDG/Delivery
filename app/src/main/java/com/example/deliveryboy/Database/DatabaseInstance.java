@@ -13,7 +13,7 @@ import com.example.deliveryboy.Model.Produit;
 import com.example.deliveryboy.Model.Responses.CmdLigne;
 import com.example.deliveryboy.Model.Responses.GETDemandeChargementRes;
 
-@Database(entities = {Mission.class, Client.class, Produit.class, ProduitCondition.class, GETDemandeChargementRes.class, CmdLigne.class}, version = 19,exportSchema = false)
+@Database(entities = {Mission.class, Client.class, Produit.class, ProduitCondition.class, GETDemandeChargementRes.class, CmdLigne.class}, version = 20,exportSchema = false)
 public abstract class DatabaseInstance extends RoomDatabase {
 
     public static DatabaseInstance instance;

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.utils.Utils;
 import com.example.deliveryboy.Adapters.CmdLigneAdapter.CmdLigneRvAdapter;
 import com.example.deliveryboy.Adapters.PanierRvAdapter;
 import com.example.deliveryboy.Model.Mission;
@@ -22,10 +24,13 @@ import com.example.deliveryboy.Model.Responses.CmdLigne;
 import com.example.deliveryboy.Model.Responses.GETDemandeChargementRes;
 import com.example.deliveryboy.Model.SelectedProduit;
 import com.example.deliveryboy.R;
+import com.example.deliveryboy.Utils.InternetChecker;
 import com.example.deliveryboy.Utils.UiUtils;
 import com.example.deliveryboy.View.BottomNagContainerActivity;
+import com.example.deliveryboy.View.BottomNavFragments.DemandeFragment;
 import com.example.deliveryboy.View.PanierActivity;
 import com.example.deliveryboy.ViewModel.DemandeChargViewModel;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 
 import java.text.DecimalFormat;
@@ -33,6 +38,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DemandeDetails extends AppCompatActivity {
+
+    private boolean isModifiedDemande=false;
+
 
     private TextView dateTv, numCmdTv, statytTv, nbArticleTv, totalVal_Tv;
     private GETDemandeChargementRes intentedDemande;
@@ -42,13 +50,17 @@ public class DemandeDetails extends AppCompatActivity {
 
     private ProgressBar progressBar;
 
+    private View rootView;
+
     private Double totalPanier ;
 
-    private MaterialButton valid_btn;
+    private MaterialButton valid_btn,annuler_btn;
     private List<CmdLigne> cmdLignesList ;
 
     private List<CmdLigne> modifiedCmdLignes ;
     private DemandeChargViewModel demandeChargViewModel;
+
+    private MaterialToolbar detailsDemande_mt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,10 +69,18 @@ public class DemandeDetails extends AppCompatActivity {
         bindViews();
         DisplayData();
 
+
         uiListeners();
     }
 
     private void uiListeners() {
+        detailsDemande_mt.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DemandeDetails.this, BottomNagContainerActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -70,6 +90,10 @@ public class DemandeDetails extends AppCompatActivity {
         numCmdTv.setText(intentedDemande.getNumCmd());
         statytTv.setText(intentedDemande.getStatut());
         totalVal_Tv.setText(String.valueOf(intentedDemande.getDO_TotalHT()));
+
+        if(!intentedDemande.getStatut().equals("Cloturée")){
+            valid_btn.setVisibility(View.GONE);
+        }
 
         demandeChargViewModel.getLocalCmdLignes(getApplicationContext(), intentedDemande.getBoId()).observe(DemandeDetails.this, new Observer<List<CmdLigne>>() {
             @Override
@@ -82,7 +106,7 @@ public class DemandeDetails extends AppCompatActivity {
 
 
 
-                    cmdLigneRvAdapter   = new CmdLigneRvAdapter(
+                    cmdLigneRvAdapter   = new CmdLigneRvAdapter(intentedDemande.getStatut(),
                             DemandeDetails.this,
                             getApplicationContext(),
                             cmdLigneList,null,null);
@@ -95,13 +119,22 @@ public class DemandeDetails extends AppCompatActivity {
                         @Override
                         public void onChanged(List<CmdLigne> cmdLigneList) {
                             try {
+
+
+                                nbArticleTv.setText(String.valueOf(cmdLigneList.size()));
+
+                                isModifiedDemande = true;
+
                                 modifiedCmdLignes = cmdLigneList;
+
 
 
                                 totalPanier = 0.0;
 
                                 for(CmdLigne selectedProduit : cmdLigneList){
                                     totalPanier = totalPanier+selectedProduit.getDemandedTotalPrice();
+
+                                    Log.i("MODIFIIIIIED", selectedProduit.getArticleDesignation());
                                 }
 
                                 DecimalFormat df = new DecimalFormat("#.###");
@@ -122,10 +155,14 @@ public class DemandeDetails extends AppCompatActivity {
                         @Override
                         public void onChanged(Boolean aBoolean) {
                             if(aBoolean){
-                                valid_btn.setVisibility(View.GONE);
+                                if(intentedDemande.getStatut().equals("Cloturée")){
+                                    valid_btn.setVisibility(View.GONE);
+                                }
 
                             }else {
-                                valid_btn.setVisibility(View.VISIBLE);
+                                if(intentedDemande.getStatut().equals("Cloturée")){
+                                    valid_btn.setVisibility(View.VISIBLE);
+                                }
 
                             }
                         }
@@ -142,28 +179,90 @@ public class DemandeDetails extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                List<PointageItems> pointageItems = new ArrayList<>();
+                progressBar.setVisibility(View.VISIBLE);
 
-                for(CmdLigne cmdLigne : cmdLignesList){
-                    pointageItems.add(new PointageItems(1022, cmdLigne.getStock(), cmdLigne.getDemandedTotalPrice()));
+
+                if(InternetChecker.isConnectedToInternet(DemandeDetails.this)){
+                    if(isModifiedDemande){
+
+                        List<PointageItems> pointageItems = new ArrayList<>();
+
+                        for(CmdLigne cmdLigne : modifiedCmdLignes){
+                            pointageItems.add(new PointageItems(cmdLigne.getIdart(), cmdLigne.getDemandedQuantity(), cmdLigne.getDemandedTotalPrice()));
+                        }
+
+                        PointagePostBody pointagePostBody = new PointagePostBody(intentedDemande.getBoId(), intentedDemande.getId_car(),pointageItems);
+
+                        Log.i("CHANGEDDDDDDDDEMANDE", pointagePostBody.toString());
+
+
+
+
+                        demandeChargViewModel.sendPointageArticles(getApplicationContext(),pointagePostBody).observe(DemandeDetails.this
+                                , new Observer<Boolean>() {
+                                    @Override
+                                    public void onChanged(Boolean aBoolean) {
+                                        if(aBoolean){
+                                            progressBar.setVisibility(View.GONE);
+
+
+                                            Intent intent = new Intent(DemandeDetails.this, BottomNagContainerActivity.class);
+                                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                                            startActivity(intent);
+                                        }else {
+                                            progressBar.setVisibility(View.GONE);
+
+                                            UiUtils.showSnackbar(rootView,"Erreur : réesayer plus tard","Fermer");
+
+                                        }
+                                    }
+                                });
+
+
+
+
+
+
+                    }else {
+                        List<PointageItems> pointageItems = new ArrayList<>();
+
+                        for(CmdLigne cmdLigne : cmdLignesList){
+                            pointageItems.add(new PointageItems(cmdLigne.getIdart(), cmdLigne.getStock(), cmdLigne.getDemandedTotalPrice()));
+                        }
+
+                        PointagePostBody pointagePostBody = new PointagePostBody(intentedDemande.getBoId(), intentedDemande.getId_car(),pointageItems);
+
+                        Log.i("SAMEEEEEEEEDEMANDEEEEE", pointagePostBody.toString());
+
+                        demandeChargViewModel.sendPointageArticles(getApplicationContext(),pointagePostBody).observe(DemandeDetails.this
+                                , new Observer<Boolean>() {
+                                    @Override
+                                    public void onChanged(Boolean aBoolean) {
+                                        if(aBoolean){
+                                            progressBar.setVisibility(View.GONE);
+
+                                            Intent intent = new Intent(DemandeDetails.this, BottomNagContainerActivity.class);
+                                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
+                                            startActivity(intent);
+                                        }else {
+                                            progressBar.setVisibility(View.GONE);
+
+
+                                            Toast.makeText(DemandeDetails.this, "Error", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                    }
+
+                }else {
+                    progressBar.setVisibility(View.GONE);
+
+                    UiUtils.showSnackbar(rootView,"Erreur : Pas de connexion internet","Fermer");
                 }
 
-                PointagePostBody pointagePostBody = new PointagePostBody(intentedDemande.getBoId(), 1022,pointageItems);
 
 
-
-                demandeChargViewModel.sendPointageArticles(getApplicationContext(),pointagePostBody).observe(DemandeDetails.this
-                        , new Observer<Boolean>() {
-                            @Override
-                            public void onChanged(Boolean aBoolean) {
-                                if(aBoolean){
-                                    Intent intent = new Intent(DemandeDetails.this, BottomNagContainerActivity.class);
-                                    startActivity(intent);
-                                }else {
-                                    Intent intent = new Intent(DemandeDetails.this, BottomNagContainerActivity.class);
-                                    startActivity(intent);                                }
-                            }
-                        });
             }
         });
 
@@ -172,6 +271,7 @@ public class DemandeDetails extends AppCompatActivity {
     }
 
     private void bindViews() {
+        detailsDemande_mt = findViewById(R.id.detailsDemande_mt);
         intentedDemande = (GETDemandeChargementRes) getIntent().getSerializableExtra("demandeIntentExtra");
 
         dateTv = findViewById(R.id.dateTv);
@@ -185,6 +285,11 @@ public class DemandeDetails extends AppCompatActivity {
         totalVal_Tv = findViewById(R.id.totalVal_Tv);
 
         valid_btn = findViewById(R.id.valid_btn);
+        annuler_btn = findViewById(R.id.annuler_btn);
+        annuler_btn.setVisibility(View.GONE);
+
+        rootView = findViewById(R.id.rootView);
+
 
     }
     private void uiSetup(){

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/basket"
-            android:icon="@drawable/empty_panier_icon"
+            android:icon="@drawable/shopping_empty_icon"
             android:title="panier"
         android:contentDescription="panier"
         app:showAsAction="ifRoom"/>

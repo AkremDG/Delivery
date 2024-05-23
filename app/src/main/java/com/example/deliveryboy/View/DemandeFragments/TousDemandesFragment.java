@@ -340,7 +340,7 @@ public class TousDemandesFragment extends Fragment {
 
                     }else {
 
-                        progressBar.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.GONE);
 
                     }
 

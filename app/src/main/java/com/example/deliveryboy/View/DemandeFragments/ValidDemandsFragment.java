@@ -80,6 +80,15 @@ public class ValidDemandsFragment extends Fragment {
 
     private void uiListeners() {
 
+        adapter.getClickedChargementResMutableLiveData().observe(getViewLifecycleOwner(), new Observer<GETDemandeChargementRes>() {
+            @Override
+            public void onChanged(GETDemandeChargementRes getDemandeChargementRes) {
+                Intent intent = new Intent(getContext(), DemandeDetails.class);
+                intent.putExtra("demandeIntentExtra",getDemandeChargementRes);
+                startActivity(intent);
+            }
+        });
+
         addDemandFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -306,11 +315,13 @@ public class ValidDemandsFragment extends Fragment {
 
                         demandesList.addAll(demandeChargementResList);
 
+
+
                         adapter.notifyDataSetChanged();
 
                     }else {
 
-                        progressBar.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.GONE);
 
                     }
 

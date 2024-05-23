@@ -20,6 +20,10 @@ public class CmdLigne {
     @ColumnInfo(name = "demandedQuantity")
     private int demandedQuantity;
 
+    @SerializedName("idart")
+    @ColumnInfo(name = "idart")
+    private int idart;
+
 
     @SerializedName("AS_QteSto")
     @ColumnInfo(name = "stock")
@@ -53,10 +57,11 @@ public class CmdLigne {
 
     }
 
-    public CmdLigne(int idLocal, int demandeBoId, int demandedQuantity, int stock, Double puht, Double demandedTotalPrice, String articleConditionnement, String articleReference, String articleDesignation) {
+    public CmdLigne(int idLocal, int demandeBoId, int demandedQuantity, int idart, int stock, Double puht, Double demandedTotalPrice, String articleConditionnement, String articleReference, String articleDesignation) {
         this.idLocal = idLocal;
         this.demandeBoId = demandeBoId;
         this.demandedQuantity = demandedQuantity;
+        this.idart = idart;
         this.stock = stock;
         this.puht = puht;
         this.demandedTotalPrice = demandedTotalPrice;
@@ -87,6 +92,14 @@ public class CmdLigne {
 
     public void setDemandedQuantity(int demandedQuantity) {
         this.demandedQuantity = demandedQuantity;
+    }
+
+    public int getIdart() {
+        return idart;
+    }
+
+    public void setIdart(int idart) {
+        this.idart = idart;
     }
 
     public int getStock() {
@@ -135,6 +148,22 @@ public class CmdLigne {
 
     public void setArticleDesignation(String articleDesignation) {
         this.articleDesignation = articleDesignation;
+    }
+
+    @Override
+    public String toString() {
+        return "CmdLigne{" +
+                "idLocal=" + idLocal +
+                ", demandeBoId=" + demandeBoId +
+                ", demandedQuantity=" + demandedQuantity +
+                ", idart=" + idart +
+                ", stock=" + stock +
+                ", puht=" + puht +
+                ", demandedTotalPrice=" + demandedTotalPrice +
+                ", articleConditionnement='" + articleConditionnement + '\'' +
+                ", articleReference='" + articleReference + '\'' +
+                ", articleDesignation='" + articleDesignation + '\'' +
+                '}';
     }
 }
 

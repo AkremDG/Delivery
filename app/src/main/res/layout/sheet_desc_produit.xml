@@ -17,7 +17,7 @@
             android:id="@+id/close_descProduit_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/baseline_close_24"
+            android:src="@drawable/black_close_iv"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             />

@@ -21,6 +21,12 @@ public class GETDemandeChargementRes implements Serializable {
     @SerializedName("id")
     private int boId;
 
+
+    @SerializedName("id_car")
+    @ColumnInfo(name = "id_car")
+    private int id_car;
+
+
     @ColumnInfo(name = "NumCmd")
     @SerializedName("NumCmd")
     private String NumCmd;
@@ -54,9 +60,10 @@ public class GETDemandeChargementRes implements Serializable {
 
     }
 
-    public GETDemandeChargementRes(int localId, int boId, String numCmd, String DO_Date, String do_Time, Double DO_TotalHT, String statut, List<CmdLigne> cmdLigneList) {
+    public GETDemandeChargementRes(int localId, int boId, int id_car, String numCmd, String DO_Date, String do_Time, Double DO_TotalHT, String statut, List<CmdLigne> cmdLigneList) {
         this.localId = localId;
         this.boId = boId;
+        this.id_car = id_car;
         NumCmd = numCmd;
         this.DO_Date = DO_Date;
         Do_Time = do_Time;
@@ -79,6 +86,14 @@ public class GETDemandeChargementRes implements Serializable {
 
     public void setBoId(int boId) {
         this.boId = boId;
+    }
+
+    public int getId_car() {
+        return id_car;
+    }
+
+    public void setId_car(int id_car) {
+        this.id_car = id_car;
     }
 
     public String getNumCmd() {
@@ -134,6 +149,7 @@ public class GETDemandeChargementRes implements Serializable {
         return "GETDemandeChargementRes{" +
                 "localId=" + localId +
                 ", boId=" + boId +
+                ", id_car=" + id_car +
                 ", NumCmd='" + NumCmd + '\'' +
                 ", DO_Date='" + DO_Date + '\'' +
                 ", Do_Time='" + Do_Time + '\'' +

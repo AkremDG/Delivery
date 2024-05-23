@@ -126,6 +126,7 @@ public class PanierRvAdapter extends RecyclerView.Adapter<PanierRvAdapter.Panier
                            holder.stockValTv.setText(String.valueOf(produitCondition.getAS_QteSto()));
 
                             Double totalProductPrice = Integer.valueOf(holder.qte_Tv.getText().toString()) * Double.valueOf(newSelectedCondition.getTC_Prix());
+
                             holder.totalVal_tv.setText(String.valueOf(String.valueOf(totalProductPrice)));
 
 

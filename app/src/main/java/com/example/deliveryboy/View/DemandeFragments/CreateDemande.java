@@ -666,13 +666,16 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
 
                     }
                     String stringUnitPrice =   prixTv.getText().toString();
+                    stringUnitPrice = stringUnitPrice.replace(",", ".");
+
                     totalProductPrice = quantite * Double.valueOf(stringUnitPrice);
 
                     DecimalFormat df = new DecimalFormat("#.###");
                     String formattedTotalPrice = df.format(totalProductPrice);
+                    formattedTotalPrice = formattedTotalPrice.replace(",", ".");
 
-                    prixTotTvVal.setText(String.valueOf(String.valueOf(totalProductPrice)));
-
+                   // prixTotTvVal.setText(String.valueOf(String.valueOf(totalProductPrice)));
+                    prixTotTvVal.setText(String.valueOf(String.valueOf(formattedTotalPrice)));
 
                 }catch (Exception e){
 
@@ -781,6 +784,7 @@ public class CreateDemande extends AppCompatActivity implements RvInterface, qua
                     alpha.start();
 
 
+                    materialToolbar.getMenu().getItem(0).setIcon(getResources().getDrawable(R.drawable.filled_red_panier_icon));
 
 
 
